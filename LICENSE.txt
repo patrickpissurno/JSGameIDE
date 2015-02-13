@@ -1,3 +1,9 @@
+  This product is licensed by the GNU GENERAL PUBLIC LICENSE, version 3,
+  except for commercial usage, which is strictly prohibited. You can get
+an online copy of this license at: http://www.gnu.org/licenses/gpl-3.0.txt
+
+              COMMERCIAL USAGE IS STRICTLY FORBIDDEN!
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
