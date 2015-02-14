@@ -40,6 +40,8 @@ namespace JSGameIDE
         public static string path = "";
         public static int width = 800;
         public static int height = 600;
+        public static int viewWidth = 800;
+        public static int viewHeight = 600;
         public static bool obfuscate = true;
 
 
@@ -50,6 +52,10 @@ namespace JSGameIDE
         {
             name = "";
             path = "";
+            width = 800;
+            height = 600;
+            viewWidth = 800;
+            viewHeight = 600;
             Sprites.Reset();
             Rooms.Reset();
             Objects.Reset();

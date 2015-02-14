@@ -35,6 +35,10 @@
             this.widthTextBox = new System.Windows.Forms.TextBox();
             this.heightTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.viewHeightBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.viewWidthBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // saveButton
@@ -68,11 +72,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(333, 9);
+            this.label2.Location = new System.Drawing.Point(347, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Canvas Width:";
+            this.label2.Text = "Map Width:";
             // 
             // widthTextBox
             // 
@@ -97,17 +101,59 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(472, 9);
+            this.label3.Location = new System.Drawing.Point(485, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Canvas Height:";
+            this.label3.Text = "Map Height:";
+            // 
+            // viewHeightBox
+            // 
+            this.viewHeightBox.Location = new System.Drawing.Point(558, 28);
+            this.viewHeightBox.MaxLength = 4;
+            this.viewHeightBox.Name = "viewHeightBox";
+            this.viewHeightBox.Size = new System.Drawing.Size(50, 20);
+            this.viewHeightBox.TabIndex = 10;
+            this.viewHeightBox.Tag = "";
+            this.viewHeightBox.TextChanged += new System.EventHandler(this.Check_If_Int_On_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(484, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "View Height:";
+            // 
+            // viewWidthBox
+            // 
+            this.viewWidthBox.Location = new System.Drawing.Point(416, 28);
+            this.viewWidthBox.MaxLength = 4;
+            this.viewWidthBox.Name = "viewWidthBox";
+            this.viewWidthBox.Size = new System.Drawing.Size(50, 20);
+            this.viewWidthBox.TabIndex = 8;
+            this.viewWidthBox.Tag = "";
+            this.viewWidthBox.TextChanged += new System.EventHandler(this.Check_If_Int_On_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(346, 31);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "View Width:";
             // 
             // ProjectOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 336);
+            this.Controls.Add(this.viewHeightBox);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.viewWidthBox);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.heightTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.widthTextBox);
@@ -135,5 +181,9 @@
         private System.Windows.Forms.TextBox widthTextBox;
         private System.Windows.Forms.TextBox heightTextBox;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox viewHeightBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox viewWidthBox;
+        private System.Windows.Forms.Label label5;
     }
 }

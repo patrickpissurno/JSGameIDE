@@ -84,7 +84,7 @@ namespace JSGameIDE
             string _d = "<HTML>";
             _d += "<body>";
             _d += "<center>";
-            _d += "<canvas id='gameCanvas' width='" + GameConfig.width +  "' height='" + GameConfig.height + "' style='border:1px solid #000'>";
+            _d += "<canvas id='gameCanvas' width='" + GameConfig.viewWidth +  "' height='" + GameConfig.viewHeight + "' style='border:1px solid #000'>";
             _d += "</canvas>";
             _d += "</center>";
             _d += "<script src='game.js'>";
@@ -101,15 +101,16 @@ namespace JSGameIDE
         private static string BuildHeader()
         {
             string _d = "";
+            _d += "var map = {width:" + GameConfig.width + ", height: "+ GameConfig.height + "};";
             _d += "var canvas = document.getElementById('gameCanvas');";
             _d += "var context = canvas.getContext('2d');";
             _d += "var start = (new Date()).getTime();";
             _d += "var currentFrame=0;";
             _d += "function deltaTime(){current = (new Date()).getTime();elapsed = current - start;start = current;var delta = elapsed / 1000;return delta;};";
             _d += "function updateFrame(){if(document.hasFocus()){currentFrame += deltaTime() * 60;if(currentFrame>1){loop();currentFrame-=1;}}else deltaTime();setTimeout(updateFrame, 0);};";
-            _d += "function drawText(x,y,text,f,c,align){context.fillStyle = c;context.font = f;context.fillText(text,x,y);context.textAlign = align;};";
+            _d += "function drawText(x,y,text,f,c,align){context.fillStyle = c;context.font = f; context.textAlign = align; context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
             _d += "function drawRect(x,y,w,h,r,g,b,onlyStroke){if(!onlyStroke){context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';context.fillRect(x,y,w,h);}else {context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';context.strokeRect(x,y,w,h);}};";
-            _d += "function drawSprite(x,y,sprite,angle){context.drawImage(sprite,x,y);};";
+            _d += "function drawSprite(x,y,sprite,angle){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
             _d += "var mousePrefab = function(){this.x = 0;this.y = 0;this.pressed = false;};";
             _d += "var mousePressed = function(e){if(e.button == 0){e.preventDefault();mouse.pressed=true;}};";
             _d += "var mouseReleased = function(e){e.preventDefault();mouse.pressed=false;};";
@@ -120,6 +121,8 @@ namespace JSGameIDE
             _d += "var keyReleased = function(e){roomManager.actual.keyReleased(e);};";
             _d += "addEventListener('keydown', keyPressed, true);";
             _d += "addEventListener('keyup', keyReleased, true);";
+            _d += "var global = {};";
+            _d += "var camera = function(){this.x=0; this.y=0; this.width = "+ GameConfig.viewWidth +"; this.height = "+ GameConfig.viewHeight +";};";
             return _d;
         }
 
@@ -151,7 +154,7 @@ namespace JSGameIDE
         private static string BuildRooms()
         {
             string _d = "var rM = function(){";
-            _d += "this.last = {keyboardEnabled:false,update:function(){},draw:function(){}};";
+            _d += "this.last = {keyboardEnabled:false,update:function(){},draw:function(){}};this.camera = new camera();";
             _d += "this.actual = this.last;";
             _d += "this.change=true;";
             _d += "this.alpha = 0;";
@@ -195,8 +198,21 @@ namespace JSGameIDE
                     }
 
                     _d += "this._create_executed=false;";
-                    _d += "this.create = function(){" + replaceCode(room.onCreate) + replaceCode(_oec) + _oc + "};";
-                    _d += "this.update = function(){if(!this._create_executed){this.create();this._create_executed=true;};" + replaceCode(room.onUpdate) + _ou + "};";
+                    _d += "this.camera = new camera();";
+                    //Room create event
+                    _d += "this.create = function(){";
+                    _d +=       replaceCode(room.onCreate) + replaceCode(_oec) + _oc;
+                    _d += "};";
+
+                    //Room update event
+                    _d += "this.update = function(){";
+                    _d +=       "if(!this._create_executed){";
+                    _d +=           "this.create();";
+                    _d +=           "this._create_executed=true;";
+                    _d +=       "};";
+                    _d +=       replaceCode(room.onUpdate) + _ou;
+                    _d += "};";
+
                     _d += "this.draw = function(){" + replaceCode(room.onDraw) + _od + "};";
                     _d += "this.keyPressed = function(event){" + replaceCode(room.onKeyPressed) + _okp + "};";
                     _d += "this.keyReleased = function(event){" + replaceCode(room.onKeyReleased) + _okr + "};";
@@ -223,8 +239,16 @@ namespace JSGameIDE
                     _d += "this.toDestroy=false;";
                     _d += "this.x = 0;";
                     _d += "this.y = 0;";
-                    _d += "this.height = 0;";
-                    _d += "this.width = 0;";
+                    if (obj.sprite != -1)
+                    {
+                        _d += "this.height = sprite.sprite" + obj.sprite + ".height;";
+                        _d += "this.width = sprite.sprite" + obj.sprite + ".width;";
+                    }
+                    else
+                    {
+                        _d += "this.width = 0;";
+                        _d += "this.height = 0;";
+                    }
                     _d += "this.hspeed = 0;";
                     _d += "this.vspeed = 0;";
                     _d += "this.autoDraw = " + (obj.autoDraw.ToString()).ToLower() + ";";
@@ -268,7 +292,17 @@ namespace JSGameIDE
             string _d = "";
             _d += "instance_create = function(x,y,e){var _i = new e(); _i.x = x; _i.y=y; roomManager.actual[_i.name].push(_i);return _i;};";
             _d += "var fps = {startTime : 0,frameNumber : 0,get : function(){this.frameNumber++;var d = new Date().getTime(),currentTime = ( d - this.startTime ) / 1000, result = Math.floor( ( this.frameNumber / currentTime ) );if( currentTime > 1 ){this.startTime = new Date().getTime();this.frameNumber = 0;}return result;}};";
-            _d += "check_collision_object = function(me,other){for(i=0;i<roomManager.actual[other].length;i++){if(checkCollision(me,roomManager.actual[other][i])){return i;break;} else{return -1;};};};";
+            _d += "check_collision_object = function(me,other,todo){";
+	        _d += "o_arr = [];";
+	        _d += "for(i=0;i<roomManager.actual[other].length;i++)";
+	        _d += "{";
+		    _d += "if(checkCollision(me,roomManager.actual[other][i]))";
+		    _d += "{";
+			_d += "o_arr.push(i);";
+		    _d += "};";
+	        _d += "};";
+	        _d += "o_arr.forEach(todo);";
+            _d += "};";
             return _d;
         }
 
@@ -281,6 +315,7 @@ namespace JSGameIDE
         {
             str = str.Replace(System.Environment.NewLine, " ");
             str = str.Replace("var", " ");
+            str = str.Replace("room_goback()", "roomManager.go(roomManager.last)");
             str = str.Replace("room_actual", "roomManager.actual");
             str = str.Replace("room_goto(", "roomManager.go(new ");
             str = str.Replace("gameFPS", "fps.get()");

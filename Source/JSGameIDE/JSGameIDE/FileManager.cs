@@ -77,6 +77,8 @@ namespace JSGameIDE
                 package.name = GameConfig.name;
                 package.gameWidth = GameConfig.width;
                 package.gameHeight = GameConfig.height;
+                package.viewWidth = GameConfig.viewWidth;
+                package.viewHeight = GameConfig.viewHeight;
                 package.rooms = Rooms.rooms.ToArray();
                 package.roomAmount = Rooms.amount;
                 package.roomFirstId = Rooms.firstId;
@@ -130,6 +132,8 @@ namespace JSGameIDE
                     GameConfig.path = Path.GetDirectoryName(path);
                     GameConfig.width = (int)output2.gameWidth;
                     GameConfig.height = (int)output2.gameHeight;
+                    GameConfig.viewWidth = (int)output2.viewWidth;
+                    GameConfig.viewHeight = (int)output2.viewHeight;
                     var sprs = ((JArray)output2.sprites).ToObject<List<dynamic>>();
                     var objs = ((JArray)output2.objects).ToObject<List<dynamic>>();
                     var rms = ((JArray)output2.rooms).ToObject<List<dynamic>>();
@@ -199,6 +203,8 @@ namespace JSGameIDE
         public string name;
         public int gameWidth;
         public int gameHeight;
+        public int viewWidth;
+        public int viewHeight;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sprite[] sprites;
         public int spriteAmount;

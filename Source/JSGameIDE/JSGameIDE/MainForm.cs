@@ -303,14 +303,14 @@ namespace JSGameIDE
         //Project options menu button click event
         private void opçõesDoProjetoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height);
+            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height, GameConfig.viewWidth, GameConfig.viewHeight);
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
                 //Updates the project width
                 try
                 {
-                    GameConfig.width = int.Parse(form.lastValidWidth);
+                    GameConfig.width = int.Parse(form.lastCanvasWidth);
                 }
                 catch
                 {
@@ -320,11 +320,31 @@ namespace JSGameIDE
                 //Updates the project height
                 try
                 {
-                    GameConfig.height = int.Parse(form.lastValidHeight);
+                    GameConfig.height = int.Parse(form.lastCanvasHeight);
                 }
                 catch
                 {
                     MessageBox.Show("Error setting the canvas height");
+                }
+
+                //Updates the project view width
+                try
+                {
+                    GameConfig.viewWidth = int.Parse(form.lastViewWidth);
+                }
+                catch
+                {
+                    MessageBox.Show("Error setting the view width");
+                }
+
+                //Updates the project view height
+                try
+                {
+                    GameConfig.viewHeight = int.Parse(form.lastViewHeight);
+                }
+                catch
+                {
+                    MessageBox.Show("Error setting the view height");
                 }
 
                 //Updates the project name

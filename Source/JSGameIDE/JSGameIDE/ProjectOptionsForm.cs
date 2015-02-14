@@ -39,21 +39,27 @@ namespace JSGameIDE
 {
     public partial class ProjectOptionsForm : Form
     {
-        public string lastValidWidth = "";
-        public string lastValidHeight = "";
+        public string lastCanvasWidth = "";
+        public string lastCanvasHeight = "";
+        public string lastViewWidth = "";
+        public string lastViewHeight = "";
 
         /// <summary>
         /// Opens a Project Options Form
         /// </summary>
         /// <param name="projectName">The old project name</param>
-        /// <param name="width">The old game width</param>
-        /// <param name="height">The old game height</param>
-        public ProjectOptionsForm(string projectName, int width, int height)
+        /// <param name="canvasWidth">The old canvas width</param>
+        /// <param name="canvasHeight">The old canvas height</param>
+        /// <param name="viewWidth">The old view width</param>
+        /// <param name="viewHeight">The old view height</param>
+        public ProjectOptionsForm(string projectName, int canvasWidth, int canvasHeight, int viewWidth, int viewHeight)
         {
             InitializeComponent();
             projectNameBox.Text = projectName;
-            widthTextBox.Text = "" + width;
-            heightTextBox.Text = "" + height;
+            widthTextBox.Text = "" + canvasWidth;
+            heightTextBox.Text = "" + canvasHeight;
+            viewWidthBox.Text = "" + viewWidth;
+            viewHeightBox.Text = "" + viewHeight;
         }
 
         /// <summary>
@@ -76,16 +82,24 @@ namespace JSGameIDE
                 {
                     int.Parse(textbox.Text);
                     if(textbox == widthTextBox)
-                        lastValidWidth = textbox.Text;
+                        lastCanvasWidth = textbox.Text;
                     else if(textbox == heightTextBox)
-                        lastValidHeight = textbox.Text;
+                        lastCanvasHeight = textbox.Text;
+                    else if (textbox == viewWidthBox)
+                        lastViewWidth = textbox.Text;
+                    else if (textbox == viewHeightBox)
+                        lastViewHeight = textbox.Text;
                 }
                 catch
                 {
                     if (textbox == widthTextBox)
-                        textbox.Text = lastValidWidth;
+                        textbox.Text = lastCanvasWidth;
                     else if (textbox == heightTextBox)
-                        textbox.Text = lastValidHeight;
+                        textbox.Text = lastCanvasHeight;
+                    else if (textbox == viewWidthBox)
+                        textbox.Text = lastViewWidth;
+                    else if (textbox == viewHeightBox)
+                        textbox.Text = lastViewHeight;
                     textbox.SelectionStart = cursorPosition;
                 }
             }
@@ -93,7 +107,8 @@ namespace JSGameIDE
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (lastValidWidth.Length > 0 && lastValidHeight.Length > 0 && !string.IsNullOrWhiteSpace(projectNameBox.Text))
+            if (lastCanvasWidth.Length > 0 && lastCanvasHeight.Length > 0 && lastViewWidth.Length > 0 &&
+                lastViewHeight.Length > 0 && !string.IsNullOrWhiteSpace(projectNameBox.Text))
             {
                 DialogResult = DialogResult.OK;
                 this.Close();
