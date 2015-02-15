@@ -86,6 +86,8 @@ namespace JSGameIDE
                 package.spriteAmount = Sprites.amount;
                 package.objects = Objects.objects.ToArray();
                 package.objectAmount = Objects.amount;
+                package.scripts = Scripts.scripts.ToArray();
+                package.scriptAmount = Scripts.amount;
                 string output = JsonConvert.SerializeObject(package);
                 using (StreamWriter outfile = new StreamWriter(GameConfig.path + @"\project.JSGP"))
                 {
@@ -137,6 +139,7 @@ namespace JSGameIDE
                     var sprs = ((JArray)output2.sprites).ToObject<List<dynamic>>();
                     var objs = ((JArray)output2.objects).ToObject<List<dynamic>>();
                     var rms = ((JArray)output2.rooms).ToObject<List<dynamic>>();
+                    var scr = ((JArray)output2.scripts).ToObject<List<dynamic>>();
                     Sprites.sprites = output.sprites.ToList<Sprite>();
                     Sprites.amount = output.spriteAmount;
                     Objects.objects = output.objects.ToList<Object>();
@@ -144,6 +147,8 @@ namespace JSGameIDE
                     Rooms.rooms = output.rooms.ToList<Room>();
                     Rooms.firstId = output.roomFirstId;
                     Rooms.amount = output.roomAmount;
+                    Scripts.scripts = output.scripts.ToList<Script>();
+                    Scripts.amount = output.scriptAmount;
 
                     //Loads all the sprites
                     foreach (Sprite spr in Sprites.sprites)
@@ -169,6 +174,19 @@ namespace JSGameIDE
                             _node.Name = "" + room.id;
                             room.node = _node;
                             mainForm.AddViewNodeChild("Rooms", _node);
+                        }
+                    }
+
+                    //Loads all the scripts
+                    foreach (Script script in Scripts.scripts)
+                    {
+                        if (script != null)
+                        {
+                            script.name = (string)scr[script.id].name;
+                            TreeNode _node = new TreeNode(script.name);
+                            _node.Name = "" + script.id;
+                            script.node = _node;
+                            mainForm.AddViewNodeChild("Scripts", _node);
                         }
                     }
 
@@ -215,5 +233,8 @@ namespace JSGameIDE
         public Room[] rooms;
         public int roomAmount;
         public int roomFirstId;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Script[] scripts;
+        public int scriptAmount;
     }
 }

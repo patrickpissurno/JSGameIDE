@@ -56,6 +56,7 @@ namespace JSGameIDE
                 data = "";
                 data += BuildHeader();
                 data += BuildSprites();
+                data += BuildScripts();
                 data += BuildObjects();
                 data += BuildRooms();
                 data += BuildNativeFunctions();
@@ -145,6 +146,23 @@ namespace JSGameIDE
                 }
             }
             _d += "};";
+            return _d;
+        }
+
+        /// <summary>
+        /// This method is used to build the scripts of the JS game. 
+        /// </summary>
+        /// <returns>Returns them as a string.</returns>
+        private static string BuildScripts()
+        {
+            string _d = "";
+            foreach (Script script in Scripts.scripts)
+            {
+                if (script != null)
+                {
+                    _d += replaceCode(script.data);
+                }
+            }
             return _d;
         }
 

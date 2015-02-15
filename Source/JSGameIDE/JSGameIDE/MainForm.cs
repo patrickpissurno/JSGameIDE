@@ -184,6 +184,24 @@ namespace JSGameIDE
                             form.Close();
                         }
                         break;
+                    case "Scripts":
+                        //Opens the Script Form and loads it with the given script data
+                        using (var form = new ScriptForm())
+                        {
+                            form.Text = "Properties of " + e.Node.Text;
+                            form.SetNameBoxText(e.Node.Text);
+                            form.data = Scripts.scripts[int.Parse(e.Node.Name)].data;
+                            var result = form.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                //Updates the data of the given script
+                                Scripts.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
+                                Scripts.scripts[int.Parse(e.Node.Name)].data = form.data;
+                                FileManager.UnsavedChanges = true;
+                            }
+                            form.Close();
+                        }
+                        break;
                 }
             }
         }
@@ -284,6 +302,10 @@ namespace JSGameIDE
                         //Deletes the given room
                         Rooms.rooms[int.Parse(componentsTree.SelectedNode.Name)] = null;
                         break;
+                    case "Scripts":
+                        //Deletes the given user-defined function
+                        Scripts.scripts[int.Parse(componentsTree.SelectedNode.Name)] = null;
+                        break;
 
                 }
                 componentsTree.SelectedNode.Remove();
@@ -375,6 +397,11 @@ namespace JSGameIDE
                 }
                 FileManager.UnsavedChanges = true;
             }
+        }
+
+        private void scriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Scripts.scripts.Add(new Script("script", this));
         }
     }
 }

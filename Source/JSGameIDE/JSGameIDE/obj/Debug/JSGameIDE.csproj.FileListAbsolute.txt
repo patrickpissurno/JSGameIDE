@@ -40,3 +40,4 @@ C:\Users\patrickpissurno\Documents\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debu
 C:\Users\patrickpissurno\Documents\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.SpriteForm.resources
 C:\Users\patrickpissurno\Documents\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.StartScreen.resources
 C:\Users\patrickpissurno\Documents\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.csproj.GenerateResource.Cache
+C:\Users\patrickpissurno\Documents\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.ScriptForm.resources

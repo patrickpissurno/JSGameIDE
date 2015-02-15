@@ -27,39 +27,58 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JSGameIDE
 {
-    public static class GameConfig
+    public partial class ScriptForm : Form
     {
-        //Game Configuration data
-        public static string name = "";
-        public static string path = "";
-        public static int width = 800;
-        public static int height = 600;
-        public static int viewWidth = 800;
-        public static int viewHeight = 600;
-        public static bool obfuscate = true;
+        public string data;
 
+        public ScriptForm()
+        {
+            InitializeComponent();
+        }
 
         /// <summary>
-        /// Resets all the data of the game
+        /// Sets the temporary script name text
         /// </summary>
-        public static void Reset()
+        /// <param name="_txt">A string containing the new name</param>
+        public void SetNameBoxText(string _txt)
         {
-            name = "";
-            path = "";
-            width = 800;
-            height = 600;
-            viewWidth = 800;
-            viewHeight = 600;
-            Sprites.Reset();
-            Rooms.Reset();
-            Objects.Reset();
-            Scripts.Reset();
+            nameBox.Text = _txt;
+        }
+
+        /// <summary>
+        /// Returns the current temporary name of this script
+        /// </summary>
+        /// <returns>A string containing the name</returns>
+        public string GetNameBoxText()
+        {
+            return nameBox.Text;
+        }
+
+        //Edit button click
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            //Opens this script data in the Code Editor
+            using (var form = new CodeEditor())
+            {
+                form.Text = "Code Editor: " + nameBox.Text;
+                form.SetData(this.data);
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    this.data = form.GetData();
+                }
+                form.Close();
+            }
         }
     }
 }

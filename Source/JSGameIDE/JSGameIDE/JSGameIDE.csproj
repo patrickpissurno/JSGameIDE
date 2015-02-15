@@ -76,6 +76,7 @@
       <DependentUpon>CodeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="FileManager.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +118,12 @@
     </Compile>
     <Compile Include="RoomForm.Designer.cs">
       <DependentUpon>RoomForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptForm.Designer.cs">
+      <DependentUpon>ScriptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Sprite.cs" />
     <Compile Include="SpriteForm.cs">
@@ -163,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoomForm.resx">
       <DependentUpon>RoomForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptForm.resx">
+      <DependentUpon>ScriptForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpriteForm.resx">
       <DependentUpon>SpriteForm.cs</DependentUpon>
