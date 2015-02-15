@@ -42,12 +42,14 @@
             this.spriteBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.autoDrawBox = new System.Windows.Forms.CheckBox();
+            this.mousereleasedButton = new System.Windows.Forms.Button();
+            this.mousepressedButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(257, 171);
+            this.saveButton.Location = new System.Drawing.Point(257, 215);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 22;
@@ -57,7 +59,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(138, 171);
+            this.cancelButton.Location = new System.Drawing.Point(138, 215);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 21;
@@ -187,11 +189,35 @@
             this.autoDrawBox.Text = "Auto-Draw";
             this.autoDrawBox.UseVisualStyleBackColor = true;
             // 
+            // mousereleasedButton
+            // 
+            this.mousereleasedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mousereleasedButton.Location = new System.Drawing.Point(188, 155);
+            this.mousereleasedButton.Name = "mousereleasedButton";
+            this.mousereleasedButton.Size = new System.Drawing.Size(93, 38);
+            this.mousereleasedButton.TabIndex = 28;
+            this.mousereleasedButton.Text = "Mouse Released";
+            this.mousereleasedButton.UseVisualStyleBackColor = true;
+            this.mousereleasedButton.Click += new System.EventHandler(this.mousereleasedButton_Click);
+            // 
+            // mousepressedButton
+            // 
+            this.mousepressedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mousepressedButton.Location = new System.Drawing.Point(12, 155);
+            this.mousepressedButton.Name = "mousepressedButton";
+            this.mousepressedButton.Size = new System.Drawing.Size(93, 38);
+            this.mousepressedButton.TabIndex = 27;
+            this.mousepressedButton.Text = "Mouse Pressed";
+            this.mousepressedButton.UseVisualStyleBackColor = true;
+            this.mousepressedButton.Click += new System.EventHandler(this.mousepressedButton_Click);
+            // 
             // ObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 201);
+            this.ClientSize = new System.Drawing.Size(470, 243);
+            this.Controls.Add(this.mousereleasedButton);
+            this.Controls.Add(this.mousepressedButton);
             this.Controls.Add(this.autoDrawBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.spriteBox);
@@ -233,6 +259,8 @@
         private System.Windows.Forms.ComboBox spriteBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox autoDrawBox;
+        private System.Windows.Forms.Button mousereleasedButton;
+        private System.Windows.Forms.Button mousepressedButton;
 
     }
 }

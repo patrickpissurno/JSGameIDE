@@ -161,6 +161,8 @@ namespace JSGameIDE
                             form.onDraw = Objects.objects[int.Parse(e.Node.Name)].onDraw;
                             form.onKeyPressed = Objects.objects[int.Parse(e.Node.Name)].onKeyPressed;
                             form.onKeyReleased = Objects.objects[int.Parse(e.Node.Name)].onKeyReleased;
+                            form.onMousePressed = Objects.objects[int.Parse(e.Node.Name)].onMousePressed;
+                            form.onMouseReleased = Objects.objects[int.Parse(e.Node.Name)].onMouseReleased;
                             form.onDestroy = Objects.objects[int.Parse(e.Node.Name)].onDestroy;
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
@@ -172,6 +174,8 @@ namespace JSGameIDE
                                 Objects.objects[int.Parse(e.Node.Name)].onDraw = form.onDraw;
                                 Objects.objects[int.Parse(e.Node.Name)].onKeyPressed = form.onKeyPressed;
                                 Objects.objects[int.Parse(e.Node.Name)].onKeyReleased = form.onKeyReleased;
+                                Objects.objects[int.Parse(e.Node.Name)].onMousePressed = form.onMousePressed;
+                                Objects.objects[int.Parse(e.Node.Name)].onMouseReleased = form.onMouseReleased;
                                 Objects.objects[int.Parse(e.Node.Name)].onDestroy = form.onDestroy;
                                 Objects.objects[int.Parse(e.Node.Name)].autoDraw = form.GetAutoDrawBox();
                                 Objects.objects[int.Parse(e.Node.Name)].sprite = form.GetSpriteBox();

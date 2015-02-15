@@ -110,7 +110,8 @@ namespace JSGameIDE
             _d += "function updateFrame(){if(document.hasFocus()){currentFrame += deltaTime() * 60;if(currentFrame>1){loop();currentFrame-=1;}}else deltaTime();setTimeout(updateFrame, 0);};";
             _d += "function drawText(x,y,text,f,c,align){context.fillStyle = c;context.font = f; context.textAlign = align; context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
             _d += "function drawRect(x,y,w,h,r,g,b,onlyStroke){if(!onlyStroke){context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';context.fillRect(x,y,w,h);}else {context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';context.strokeRect(x,y,w,h);}};";
-            _d += "function drawSprite(x,y,sprite,angle){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
+            _d += "function drawSprite(x,y,sprite){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
+            _d += "function drawSpriteExt(x,y,w,h,sprite,angle){context.save();context.translate(-roomManager.actual.camera.x+x+w/2, -roomManager.actual.camera.y+y+h/2);context.rotate(angle * Math.PI/180);context.drawImage(sprite,-w/2,-h/2);context.restore();};";
             _d += "var mousePrefab = function(){this.x = 0;this.y = 0;this.pressed = false;};";
             _d += "var mousePressed = function(e){if(e.button == 0){e.preventDefault();mouse.pressed=true;}};";
             _d += "var mouseReleased = function(e){e.preventDefault();mouse.pressed=false;};";
@@ -239,6 +240,9 @@ namespace JSGameIDE
                     _d += "this.toDestroy=false;";
                     _d += "this.x = 0;";
                     _d += "this.y = 0;";
+                    _d += "this.pressed = false;";
+                    _d += "this.alpha = 1;";
+                    _d += "this.angle = 0;";
                     if (obj.sprite != -1)
                     {
                         _d += "this.height = sprite.sprite" + obj.sprite + ".height;";
@@ -258,11 +262,14 @@ namespace JSGameIDE
                         _d += "this.sprite = null;";
                     _d += "this._create_executed=false;";
                     _d += "this.create = function(){" + replaceCode(obj.onCreate) + "};";
-                    _d += "this.update = function(){if(!this._create_executed){this.create();this._create_executed=true;};if(this.toDestroy){this.destroy();};" + replaceCode(obj.onUpdate) + "this.x+=this.hspeed;this.y+=this.vspeed;};";
-                    _d += "this.draw = function(){if(this.sprite!=null&&this.autoDraw){drawSprite(this.x,this.y,this.sprite);};" + replaceCode(obj.onDraw) + "};";
+                    _d += "this.update = function(){if(!this._create_executed){this.create();this._create_executed=true;};if(this.pressed && !mouse.pressed){this.pressed=false;"+ replaceCode(obj.onMouseReleased) +"};if(mouse.pressed && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height){this.pressed=true;"+ replaceCode(obj.onMousePressed) +"};if(this.toDestroy){this.destroy();};" + replaceCode(obj.onUpdate) + "this.x+=this.hspeed;this.y+=this.vspeed;};";
+                    _d += "this.draw = function(){this.fixData();if(this.sprite!=null&&this.autoDraw){context.globalAlpha = this.alpha; drawSpriteExt(this.x,this.y,this.width,this.height,this.sprite,this.angle); context.globalAlpha=1;};" + replaceCode(obj.onDraw) + "};";
                     _d += "this.keyPressed = function(event){" + replaceCode(obj.onKeyPressed) + "};";
                     _d += "this.keyReleased = function(event){" + replaceCode(obj.onKeyReleased) + "};";
+                    _d += "this.mousePressed = function(){" + replaceCode(obj.onMousePressed) + "};";
+                    _d += "this.mouseReleased = function(){" + replaceCode(obj.onMouseReleased) + "};";
                     _d += "this.destroy = function(){if(!this.toDestroy){this.toDestroy=true;} else{" + replaceCode(obj.onDestroy) + "for(var i=0; i<roomManager.actual['obj" + obj.id + "'].length; i++){if(roomManager.actual['obj" + obj.id + "'][i] == this){roomManager.actual['obj" + obj.id + "'].splice(i,1);break;};};};};";
+                    _d += "this.fixData = function(){if(this.alpha>1)this.alpha=1;if(this.alpha<0)this.alpha=0;while(this.angle>360)this.angle-=360;while(this.angle<0)this.angle+=360;};";
                     _d += "};";
                 }
             }

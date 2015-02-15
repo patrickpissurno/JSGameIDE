@@ -121,6 +121,8 @@ namespace JSGameIDE
         public string onDraw = "";
         public string onKeyPressed = "";
         public string onKeyReleased = "";
+        public string onMousePressed = "";
+        public string onMouseReleased = "";
         public string onDestroy = "";
 
         /// <summary>

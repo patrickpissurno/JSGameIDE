@@ -45,6 +45,8 @@ namespace JSGameIDE
         public string onDraw = "";
         public string onKeyPressed = "";
         public string onKeyReleased = "";
+        public string onMousePressed = "";
+        public string onMouseReleased = "";
         public string onDestroy = "";
 
         public ObjectForm()
@@ -195,6 +197,40 @@ namespace JSGameIDE
                 if (result == DialogResult.OK)
                 {
                     this.onKeyReleased = form.GetData();
+                }
+                form.Close();
+            }
+        }
+
+        //Mouse Pressed button click event
+        private void mousepressedButton_Click(object sender, EventArgs e)
+        {
+            //Opens the Object Mouse Pressed Event data in the Code Editor
+            using (var form = new CodeEditor())
+            {
+                form.Text = "Code Editor: " + nameBox.Text + " - Mouse Pressed";
+                form.SetData(this.onMousePressed);
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    this.onMousePressed = form.GetData();
+                }
+                form.Close();
+            }
+        }
+
+        //Mouse Released button click event
+        private void mousereleasedButton_Click(object sender, EventArgs e)
+        {
+            //Opens the Object Mouse Released Event data in the Code Editor
+            using (var form = new CodeEditor())
+            {
+                form.Text = "Code Editor: " + nameBox.Text + " - Mouse Released";
+                form.SetData(this.onMouseReleased);
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    this.onMouseReleased = form.GetData();
                 }
                 form.Close();
             }
