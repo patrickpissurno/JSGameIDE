@@ -92,19 +92,33 @@ namespace JSGameIDE
                 _form = this.form;
             if (this.path != "" && GetName() != "")
             {
-                //Resets the project data (for sure)
-                GameConfig.Reset();
-                //Creates directories and updates the IDE with the new project's data
-                GameConfig.name = GetName();
-                GameConfig.path = this.path + @"\" + GameConfig.name;
-                if (!Directory.Exists(GameConfig.path + @"\Resources\IMG"))
-                    Directory.CreateDirectory(GameConfig.path + @"\Resources\IMG");
-                if (!Directory.Exists(GameConfig.path + @"\Build"))
-                    Directory.CreateDirectory(GameConfig.path + @"\Build");
-                _form.SetTitle(GameConfig.name);
-                _form.Show();
-                this.created = true;
-                this.Close();
+                //Quit confirmation due to Unsaved Changes
+                bool run = false;
+                if (FileManager.UnsavedChanges)
+                {
+                    DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel);
+                    if (_res == DialogResult.Yes)
+                        FileManager.Save(true);
+                    run = _res == DialogResult.Yes || _res == DialogResult.No;
+                }
+                else
+                    run = true;
+                if (run)
+                {
+                    //Resets the project data (for sure)
+                    GameConfig.Reset();
+                    //Creates directories and updates the IDE with the new project's data
+                    GameConfig.name = GetName();
+                    GameConfig.path = this.path + @"\" + GameConfig.name;
+                    if (!Directory.Exists(GameConfig.path + @"\Resources\IMG"))
+                        Directory.CreateDirectory(GameConfig.path + @"\Resources\IMG");
+                    if (!Directory.Exists(GameConfig.path + @"\Build"))
+                        Directory.CreateDirectory(GameConfig.path + @"\Build");
+                    _form.SetTitle(GameConfig.name);
+                    _form.Show();
+                    this.created = true;
+                    this.Close();
+                }
             }
         }
 

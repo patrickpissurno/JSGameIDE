@@ -247,8 +247,13 @@ namespace JSGameIDE
         {
             //Quit confirmation due to Unsaved Changes
             bool run = false;
-            if(FileManager.UnsavedChanges)
-                run = (MessageBox.Show("Are you sure? (Any unsaved data will be lost)", "JSGameIDE", MessageBoxButtons.YesNo) == DialogResult.Yes);
+            if (FileManager.UnsavedChanges)
+            {
+                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel);
+                if (_res == DialogResult.Yes)
+                    FileManager.Save(true);
+                run = _res == DialogResult.Yes || _res == DialogResult.No;
+            }
             else
                 run = true;
             if (run)

@@ -112,10 +112,16 @@ namespace JSGameIDE
         public static void Load(string path,bool quiet = false)
         {
             bool run;
-            if(!quiet)
-                run = MessageBox.Show("Are you sure? (Any unsaved data will be lost)", "JSGameIDE", MessageBoxButtons.YesNo) == DialogResult.Yes;
+            if (!quiet)
+            {
+                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel);
+                if (_res == DialogResult.Yes)
+                    Save(true);
+                run =  _res== DialogResult.Yes || _res == DialogResult.No;
+            
+            }
             else
-                run=true;
+                run = true;
             if (run)
             {
                 try
