@@ -108,7 +108,7 @@ namespace JSGameIDE
             _d += "var start = (new Date()).getTime();";
             _d += "var currentFrame=0;";
             _d += "function deltaTime(){current = (new Date()).getTime();elapsed = current - start;start = current;var delta = elapsed / 1000;return delta;};";
-            _d += "function updateFrame(){if(document.hasFocus()){currentFrame += deltaTime() * 60;if(currentFrame>1){loop();currentFrame-=1;}}else deltaTime();setTimeout(updateFrame, 0);};";
+            _d += "function updateFrame(){if(document.hasFocus()){currentFrame += deltaTime() * 60;if(currentFrame>1){loop();currentFrame-=1;};if(currentFrame>5)currentFrame=5;}else deltaTime();setTimeout(updateFrame, 0);};";
             _d += "function drawText(x,y,text,f,c,align){context.fillStyle = c;context.font = f; context.textAlign = align; context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
             _d += "function drawRect(x,y,w,h,r,g,b,onlyStroke){if(!onlyStroke){context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';context.fillRect(x,y,w,h);}else {context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';context.strokeRect(x,y,w,h);}};";
             _d += "function drawSprite(x,y,sprite){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
@@ -139,10 +139,16 @@ namespace JSGameIDE
             {
                 if (sprite != null)
                 {
-                    _d += "this.sprite" + sprite.id + " = new Image();";
-                    string _sprpath = GameConfig.path + @"\" + sprite.path;
-                    File.Copy(_sprpath, GameConfig.path + @"\Build\IMG\" + Path.GetFileName(_sprpath), true);
-                    _d += "this.sprite" + sprite.id + ".src = 'IMG/" + Path.GetFileName(_sprpath) + "';";
+                    if(sprite.path!=null)
+                    {
+                        _d += "this.sprite" + sprite.id + " = [];";
+                        DirectoryExtension.Copy(GameConfig.path + @"\Resources\IMG\spr" + sprite.id, GameConfig.path + @"\Build\IMG\spr" + sprite.id, false);
+                        for(int i=0; i<sprite.path.Length; i++)
+                        {
+                            _d += "this.sprite" + sprite.id + "[" + i + "] = new Image();";
+                            _d += "this.sprite" + sprite.id + "[" + i + "].src = 'IMG/spr" + sprite.id +"/"+i+Path.GetExtension(sprite.path[i])+"';";
+                        }
+                    }
                 }
             }
             _d += "};";
@@ -261,10 +267,12 @@ namespace JSGameIDE
                     _d += "this.pressed = false;";
                     _d += "this.alpha = 1;";
                     _d += "this.angle = 0;";
+                    _d += "this.imageIndex = 0;";
+                    _d += "this.imageSpeed = 1;";
                     if (obj.sprite != -1)
                     {
-                        _d += "this.height = sprite.sprite" + obj.sprite + ".height;";
-                        _d += "this.width = sprite.sprite" + obj.sprite + ".width;";
+                        _d += "this.height = sprite.sprite" + obj.sprite + "[this.imageIndex].height;";
+                        _d += "this.width = sprite.sprite" + obj.sprite + "[this.imageIndex].width;";
                     }
                     else
                     {
@@ -281,13 +289,14 @@ namespace JSGameIDE
                     _d += "this._create_executed=false;";
                     _d += "this.create = function(){" + replaceCode(obj.onCreate) + "};";
                     _d += "this.update = function(){if(!this._create_executed){this.create();this._create_executed=true;};if(this.pressed && !mouse.pressed){this.pressed=false;"+ replaceCode(obj.onMouseReleased) +"};if(mouse.pressed && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height){this.pressed=true;"+ replaceCode(obj.onMousePressed) +"};if(this.toDestroy){this.destroy();};" + replaceCode(obj.onUpdate) + "this.x+=this.hspeed;this.y+=this.vspeed;};";
-                    _d += "this.draw = function(){this.fixData();if(this.sprite!=null&&this.autoDraw){context.globalAlpha = this.alpha; drawSpriteExt(this.x,this.y,this.width,this.height,this.sprite,this.angle); context.globalAlpha=1;};" + replaceCode(obj.onDraw) + "};";
+                    _d += "this.draw = function(){this.fixData();this.animator();if(this.sprite!=null&&this.autoDraw){context.globalAlpha = this.alpha; drawSpriteExt(this.x,this.y,this.width,this.height,this.sprite[Math.round(this.imageIndex)],this.angle); context.globalAlpha=1;};" + replaceCode(obj.onDraw) + "};";
                     _d += "this.keyPressed = function(event){" + replaceCode(obj.onKeyPressed) + "};";
                     _d += "this.keyReleased = function(event){" + replaceCode(obj.onKeyReleased) + "};";
                     _d += "this.mousePressed = function(){" + replaceCode(obj.onMousePressed) + "};";
                     _d += "this.mouseReleased = function(){" + replaceCode(obj.onMouseReleased) + "};";
                     _d += "this.destroy = function(){if(!this.toDestroy){this.toDestroy=true;} else{" + replaceCode(obj.onDestroy) + "for(var i=0; i<roomManager.actual['obj" + obj.id + "'].length; i++){if(roomManager.actual['obj" + obj.id + "'][i] == this){roomManager.actual['obj" + obj.id + "'].splice(i,1);break;};};};};";
-                    _d += "this.fixData = function(){if(this.alpha>1)this.alpha=1;if(this.alpha<0)this.alpha=0;while(this.angle>360)this.angle-=360;while(this.angle<0)this.angle+=360;};";
+                    _d += "this.fixData = function(){while(this.imageIndex<0)this.imageIndex+=this.sprite.length-1;while(this.imageIndex > this.sprite.length-1)this.imageIndex -= this.sprite.length-1;if(this.alpha>1)this.alpha=1;if(this.alpha<0)this.alpha=0;while(this.angle>360)this.angle-=360;while(this.angle<0)this.angle+=360;};";
+                    _d += "this.animator = function(){if(this.imageIndex<this.sprite.length-1)this.imageIndex+=this.imageSpeed/10;else this.imageIndex=0;};";
                     _d += "};";
                 }
             }

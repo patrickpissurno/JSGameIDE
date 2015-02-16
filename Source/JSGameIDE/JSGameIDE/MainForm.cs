@@ -50,7 +50,8 @@ namespace JSGameIDE
         //Add new sprite click event
         private void spriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Sprites.sprites.Add(new Sprite("","sprite",this));
+            string[] _n = new string[]{""};
+            Sprites.sprites.Add(new Sprite(_n,"sprite",this));
         }
 
         /// <summary>
@@ -96,21 +97,36 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
+                            form.id = int.Parse(e.Node.Name);
                             form.SetPathBoxText(Sprites.sprites[int.Parse(e.Node.Name)].path);
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
                             {
                                 //Updates the data of the given sprite
                                 Sprites.SetName(int.Parse(e.Node.Name),form.GetNameBoxText());
-                                if (!string.IsNullOrWhiteSpace(form.path))
+                                if (!string.IsNullOrWhiteSpace(form.path[0]))
                                 {
-                                    string _path = @"Resources\IMG\" + Path.GetFileName(form.path);
-                                    try
+                                    DirectoryInfo _dir = new DirectoryInfo(form.path[0]);
+                                    if (!string.IsNullOrWhiteSpace(_dir.Parent.ToString()) && _dir.Parent.ToString() != "IMG")
                                     {
-                                        File.Copy(form.path, GameConfig.path + @"\" + _path, true);
+                                        //Creates a new folder named "spr"+id(of the sprite) inside the resources directory and copies
+                                        //every image into it, adding each path to the array of paths of the Sprites.sprites variable.
+                                        Directory.CreateDirectory(GameConfig.path + @"\Resources\IMG\spr" + int.Parse(e.Node.Name));
+                                        int i = 0;
+                                        List<string> _tempPath = new List<string>();
+                                        foreach (string _p in form.path)
+                                        {
+                                            string _path = @"Resources\IMG\spr" + int.Parse(e.Node.Name) + @"\" + i + Path.GetExtension(_p);
+                                            try
+                                            {
+                                                File.Copy(_p, GameConfig.path + @"\" + _path, true);
+                                            }
+                                            catch { }
+                                            i++;
+                                            _tempPath.Add(_path);
+                                        }
+                                        Sprites.SetPath(int.Parse(e.Node.Name), _tempPath.ToArray<string>());
                                     }
-                                    catch { }
-                                    Sprites.SetPath(int.Parse(e.Node.Name), _path);
                                 }
                                 FileManager.UnsavedChanges = true;
                             }

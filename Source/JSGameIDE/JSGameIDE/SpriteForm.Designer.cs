@@ -37,6 +37,9 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pathBox = new System.Windows.Forms.TextBox();
             this.previewBox = new System.Windows.Forms.PictureBox();
+            this.framesLabel = new System.Windows.Forms.Label();
+            this.nextFrameButton = new System.Windows.Forms.Button();
+            this.previousFrameButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,6 +105,7 @@
             // 
             this.openFileDialog1.Filter = "JPEG|*.jpg|PNG|*.png|Todos os arquivos|*.*";
             this.openFileDialog1.FilterIndex = 2;
+            this.openFileDialog1.Multiselect = true;
             this.openFileDialog1.Title = "Please select the sprite file to be loaded";
             // 
             // pathBox
@@ -124,11 +128,48 @@
             this.previewBox.TabIndex = 7;
             this.previewBox.TabStop = false;
             // 
+            // framesLabel
+            // 
+            this.framesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.framesLabel.AutoSize = true;
+            this.framesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.framesLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.framesLabel.Location = new System.Drawing.Point(337, 9);
+            this.framesLabel.Name = "framesLabel";
+            this.framesLabel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.framesLabel.Size = new System.Drawing.Size(75, 18);
+            this.framesLabel.TabIndex = 8;
+            this.framesLabel.Text = "Frames: 0";
+            this.framesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // nextFrameButton
+            // 
+            this.nextFrameButton.Location = new System.Drawing.Point(292, 131);
+            this.nextFrameButton.Name = "nextFrameButton";
+            this.nextFrameButton.Size = new System.Drawing.Size(28, 28);
+            this.nextFrameButton.TabIndex = 9;
+            this.nextFrameButton.Text = ">>";
+            this.nextFrameButton.UseVisualStyleBackColor = true;
+            this.nextFrameButton.Click += new System.EventHandler(this.nextFrameButton_Click);
+            // 
+            // previousFrameButton
+            // 
+            this.previousFrameButton.Location = new System.Drawing.Point(101, 131);
+            this.previousFrameButton.Name = "previousFrameButton";
+            this.previousFrameButton.Size = new System.Drawing.Size(28, 28);
+            this.previousFrameButton.TabIndex = 10;
+            this.previousFrameButton.Text = "<<";
+            this.previousFrameButton.UseVisualStyleBackColor = true;
+            this.previousFrameButton.Click += new System.EventHandler(this.previousFrameButton_Click);
+            // 
             // SpriteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 261);
+            this.Controls.Add(this.previousFrameButton);
+            this.Controls.Add(this.nextFrameButton);
+            this.Controls.Add(this.framesLabel);
             this.Controls.Add(this.previewBox);
             this.Controls.Add(this.pathBox);
             this.Controls.Add(this.saveButton);
@@ -141,6 +182,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SpriteForm";
+            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sprite properties";
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).EndInit();
@@ -160,5 +202,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox pathBox;
         private System.Windows.Forms.PictureBox previewBox;
+        private System.Windows.Forms.Label framesLabel;
+        private System.Windows.Forms.Button nextFrameButton;
+        private System.Windows.Forms.Button previousFrameButton;
     }
 }

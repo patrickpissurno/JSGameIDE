@@ -41,7 +41,9 @@ namespace JSGameIDE
     public partial class SpriteForm : Form
     {
         //Temporary sprite path variable
-        public string path;
+        public int id;
+        public string[] path = new string[0];
+        private int currentDisplay = 0;
 
         public SpriteForm()
         {
@@ -61,24 +63,28 @@ namespace JSGameIDE
         /// Sets the temporary path of a sprite
         /// </summary>
         /// <param name="_txt">The path to be set</param>
-        public void SetPathBoxText(string _txt)
+        public void SetPathBoxText(string[] _txt)
         {
-            pathBox.Text = _txt;
-            path = _txt;
-
-            //Makes the PictureBox display the sprite correctly
-            try
+            if (_txt != null)
             {
-                if (Path.GetDirectoryName(_txt)==@"Resources\IMG")
-                    previewBox.Image = Image.FromFile(GameConfig.path + @"\" + _txt);
-                else
-                    previewBox.Image = Image.FromFile(_txt);
-                if (previewBox.Image.Width > previewBox.Width || previewBox.Image.Height > previewBox.Height)
-                    previewBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                else
-                    previewBox.SizeMode = PictureBoxSizeMode.CenterImage;
+                framesLabel.Text = "Frames: " + _txt.Length;
+                pathBox.Text = _txt[currentDisplay];
+                path = _txt;
+
+                //Makes the PictureBox display the sprite correctly
+                try
+                {
+                    if (Path.GetDirectoryName(_txt[currentDisplay]) == @"Resources\IMG\spr" + id)
+                        previewBox.Image = Image.FromFile(GameConfig.path + @"\" + _txt[currentDisplay]);
+                    else
+                        previewBox.Image = Image.FromFile(_txt[currentDisplay]);
+                    if (previewBox.Image.Width > previewBox.Width || previewBox.Image.Height > previewBox.Height)
+                        previewBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    else
+                        previewBox.SizeMode = PictureBoxSizeMode.CenterImage;
+                }
+                catch { }
             }
-            catch { }
         }
 
         /// <summary>
@@ -95,7 +101,32 @@ namespace JSGameIDE
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SetPathBoxText(openFileDialog1.FileName);
+                currentDisplay = 0;
+                SetPathBoxText(openFileDialog1.FileNames);
+            }
+        }
+
+        private void nextFrameButton_Click(object sender, EventArgs e)
+        {
+            if (path.Length > 0)
+            {
+                if (currentDisplay < path.Length-1)
+                    currentDisplay++;
+                else
+                    currentDisplay = 0;
+                SetPathBoxText(path);
+            }
+        }
+
+        private void previousFrameButton_Click(object sender, EventArgs e)
+        {
+            if (path.Length > 0)
+            {
+                if (currentDisplay > 0)
+                    currentDisplay--;
+                else
+                    currentDisplay = path.Length-1;
+                SetPathBoxText(path);
             }
         }
     }

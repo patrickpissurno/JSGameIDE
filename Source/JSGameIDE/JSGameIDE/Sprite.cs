@@ -60,7 +60,7 @@ namespace JSGameIDE
         /// </summary>
         /// <param name="id">The id of the sprite</param>
         /// <param name="path">The new path</param>
-        public static void SetPath(int id, string path)
+        public static void SetPath(int id, string[] path)
         {
             if (sprites[id] != null)
             {
@@ -121,7 +121,7 @@ namespace JSGameIDE
     public class Sprite
     {
         //Sprite Data
-        public string path;
+        public string[] path;
         public int id;
         public string name;
         [JsonIgnore]
@@ -133,7 +133,7 @@ namespace JSGameIDE
         /// <param name="path">The path of the new sprite</param>
         /// <param name="name">The name of the new sprite</param>
         /// <param name="form">A reference to the main form of the application</param>
-        public Sprite(string path=null,string name=null,MainForm form=null)
+        public Sprite(string[] path=null,string name=null,MainForm form=null)
         {
             if (path != null && name != null && form != null)
             {

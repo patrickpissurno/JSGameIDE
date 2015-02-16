@@ -127,36 +127,40 @@ namespace JSGameIDE
                         input += sr.ReadToEnd();
                     }
                     //Parses the file (JSON)
-                    JSGP output = JsonConvert.DeserializeObject<JSGP>(input);
                     var output2 = JsonConvert.DeserializeObject<dynamic>(input);
                     //Updates all the project data
-                    GameConfig.name = output.name;
+                    GameConfig.name = (string)output2.name;
                     GameConfig.path = Path.GetDirectoryName(path);
                     GameConfig.width = (int)output2.gameWidth;
                     GameConfig.height = (int)output2.gameHeight;
                     GameConfig.viewWidth = (int)output2.viewWidth;
                     GameConfig.viewHeight = (int)output2.viewHeight;
-                    var sprs = ((JArray)output2.sprites).ToObject<List<dynamic>>();
-                    var objs = ((JArray)output2.objects).ToObject<List<dynamic>>();
-                    var rms = ((JArray)output2.rooms).ToObject<List<dynamic>>();
-                    var scr = ((JArray)output2.scripts).ToObject<List<dynamic>>();
-                    Sprites.sprites = output.sprites.ToList<Sprite>();
-                    Sprites.amount = output.spriteAmount;
-                    Objects.objects = output.objects.ToList<Object>();
-                    Objects.amount = output.objectAmount;
-                    Rooms.rooms = output.rooms.ToList<Room>();
-                    Rooms.firstId = output.roomFirstId;
-                    Rooms.amount = output.roomAmount;
-                    Scripts.scripts = output.scripts.ToList<Script>();
-                    Scripts.amount = output.scriptAmount;
+                    Sprites.amount = (int)output2.spriteAmount;
+                    Objects.amount = (int)output2.objectAmount;
+                    Rooms.amount = (int)output2.roomAmount;
+                    Rooms.firstId = (int)output2.roomFirstId;
+                    Scripts.amount = (int)output2.scriptAmount;
 
-                    //Loads all the sprites
-                    foreach (Sprite spr in Sprites.sprites)
+                    //Loads the sprites
+                    var _a = ((JArray)output2.sprites).ToObject<List<dynamic>>();
+                    for (int i = 0; i < Sprites.amount; i++) { Sprites.sprites.Add(null); }
+                    foreach (var _b in _a)
                     {
-                        if (spr != null)
+                        if (_b != null)
                         {
-                            spr.name = (string)sprs[spr.id].name;
-                            spr.path = (string)sprs[spr.id].path;
+                            Sprite spr = new Sprite();
+                            spr.name = (string)_b.name;
+                            spr.id = (int)_b.id;
+                            if (_b.path != null)
+                            {
+                                List<string> _path = new List<string>();
+                                foreach (var _c in _b.path)
+                                {
+                                    _path.Add((string)_c);
+                                }
+                                spr.path = _path.ToArray<string>();
+                            }
+                            Sprites.sprites[spr.id] = spr;
                             TreeNode _node = new TreeNode(spr.name);
                             _node.Name = "" + spr.id;
                             spr.node = _node;
@@ -164,12 +168,60 @@ namespace JSGameIDE
                         }
                     }
 
-                    //Loads all the rooms
-                    foreach (Room room in Rooms.rooms)
+                    //Loads the objects
+                    _a = ((JArray)output2.objects).ToObject<List<dynamic>>();
+                    for (int i = 0; i < Objects.amount; i++) { Objects.objects.Add(null); }
+                    foreach (var _b in _a)
                     {
-                        if (room != null)
+                        if (_b != null)
                         {
-                            room.name = (string)rms[room.id].name;
+                            Object obj = new Object();
+                            obj.id = (int)_b.id;
+                            obj.name = (string)_b.name;
+                            obj.sprite = (int)_b.sprite;
+                            obj.autoDraw = (bool)_b.autoDraw;
+                            obj.onCreate = (string)_b.onCreate;
+                            obj.onUpdate = (string)_b.onUpdate;
+                            obj.onDraw = (string)_b.onDraw;
+                            obj.onKeyPressed = (string)_b.onKeyPressed;
+                            obj.onKeyReleased = (string)_b.onKeyReleased;
+                            obj.onDestroy = (string)_b.onDestroy;
+                            obj.onMousePressed = (string)_b.onMousePressed;
+                            obj.onMouseReleased = (string)_b.onMouseReleased;
+                            Objects.objects[obj.id]=obj;
+                            TreeNode _node = new TreeNode(obj.name);
+                            _node.Name = "" + obj.id;
+                            obj.node = _node;
+                            mainForm.AddViewNodeChild("Objects", _node);
+                        }
+                    }
+
+                    //Loads the rooms
+                    for (int i = 0; i < Rooms.amount; i++) { Rooms.rooms.Add(null); }
+                    _a = ((JArray)output2.rooms).ToObject<List<dynamic>>();
+                    foreach (var _b in _a)
+                    {
+                        if (_b != null)
+                        {
+                            Room room = new Room();
+                            room.id = (int)_b.id;
+                            room.name = (string)_b.name;
+                            room.onCreate = (string)_b.onCreate;
+                            room.onUpdate = (string)_b.onUpdate;
+                            room.onDraw = (string)_b.onDraw;
+                            room.onKeyPressed = (string)_b.onKeyPressed;
+                            room.onKeyReleased = (string)_b.onKeyReleased;
+                            if (_b.editorCreate != null)
+                            {
+                                List<EditorObject> _editorCreate = new List<EditorObject>();
+                                foreach (var _c in _b.editorCreate)
+                                {
+                                    EditorObject _obj = new EditorObject((float)_c.x, (float)_c.y, (int)_c.id);
+                                    _editorCreate.Add(_obj);
+                                }
+                                room.editorCreate = _editorCreate.ToArray<EditorObject>();
+                            }
+                            Rooms.rooms[room.id] = room;
                             TreeNode _node = new TreeNode(room.name);
                             _node.Name = "" + room.id;
                             room.node = _node;
@@ -177,34 +229,24 @@ namespace JSGameIDE
                         }
                     }
 
-                    //Loads all the scripts
-                    foreach (Script script in Scripts.scripts)
+                    //Loads the scripts
+                    _a = ((JArray)output2.scripts).ToObject<List<dynamic>>();
+                    for (int i = 0; i < Scripts.amount; i++) { Scripts.scripts.Add(null); }
+                    foreach (var _b in _a)
                     {
-                        if (script != null)
+                        if (_b != null)
                         {
-                            script.name = (string)scr[script.id].name;
+                            Script script = new Script();
+                            script.id = (int)_b.id;
+                            script.name = (string)_b.name;
+                            script.data = (string)_b.data;
+                            Scripts.scripts[script.id] = script;
                             TreeNode _node = new TreeNode(script.name);
                             _node.Name = "" + script.id;
                             script.node = _node;
                             mainForm.AddViewNodeChild("Scripts", _node);
                         }
                     }
-
-                    //Loads all the objects
-                    foreach (Object obj in Objects.objects)
-                    {
-                        if (obj != null)
-                        {
-                            obj.name = (string)objs[obj.id].name;
-                            TreeNode _node = new TreeNode(obj.name);
-                            _node.Name = "" + obj.id;
-                            obj.node = _node;
-                            mainForm.AddViewNodeChild("Objects", _node);
-                        }
-                    }
-                    //Sets the title of the Main Form with the project title
-                    mainForm.SetTitle(GameConfig.name);
-                    //MessageBox.Show("Project opened successfully.");
                     FileManager.UnsavedChanges = false;
                 }
                 catch
@@ -236,5 +278,48 @@ namespace JSGameIDE
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Script[] scripts;
         public int scriptAmount;
+    }
+
+
+    public static class DirectoryExtension
+    {
+        //Directory copy extension
+        public static void Copy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            // If the destination directory doesn't exist, create it. 
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(temppath, true);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location. 
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    Copy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+        }
     }
 }

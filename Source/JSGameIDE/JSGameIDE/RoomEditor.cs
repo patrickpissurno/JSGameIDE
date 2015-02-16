@@ -204,7 +204,7 @@ namespace JSGameIDE
             {
                 PictureBox _t = new PictureBox();
                 _t.Location = new Point(_x, _y);
-                _t.Image = Image.FromFile(GameConfig.path + @"\" +Sprites.sprites[Objects.objects[_id].sprite].path);
+                _t.Image = Image.FromFile(GameConfig.path + @"\" +Sprites.sprites[Objects.objects[_id].sprite].path[0]);
                 _t.Size = _t.Image.Size;
                 _t.Name = ""+_id;
                 roomSpace.Controls.Add(_t);
