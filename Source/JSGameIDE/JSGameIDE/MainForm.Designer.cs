@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Sprites");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Objects");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Rooms");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Scripts");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Sprites");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Objects");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Rooms");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Scripts");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,13 +46,13 @@
             this.spriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ajudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.componentsTree = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -146,23 +146,30 @@
             // spriteToolStripMenuItem
             // 
             this.spriteToolStripMenuItem.Name = "spriteToolStripMenuItem";
-            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.spriteToolStripMenuItem.Text = "Sprite";
             this.spriteToolStripMenuItem.Click += new System.EventHandler(this.spriteToolStripMenuItem_Click);
             // 
             // ObjectToolStripMenuItem
             // 
             this.ObjectToolStripMenuItem.Name = "ObjectToolStripMenuItem";
-            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.ObjectToolStripMenuItem.Text = "Object";
             this.ObjectToolStripMenuItem.Click += new System.EventHandler(this.ObjectToolStripMenuItem_Click);
             // 
             // RoomToolStripMenuItem
             // 
             this.RoomToolStripMenuItem.Name = "RoomToolStripMenuItem";
-            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.RoomToolStripMenuItem.Text = "Room";
             this.RoomToolStripMenuItem.Click += new System.EventHandler(this.RoomToolStripMenuItem_Click);
+            // 
+            // scriptToolStripMenuItem
+            // 
+            this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
+            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.scriptToolStripMenuItem.Text = "Script";
+            this.scriptToolStripMenuItem.Click += new System.EventHandler(this.scriptToolStripMenuItem_Click);
             // 
             // ajudaToolStripMenuItem
             // 
@@ -183,23 +190,23 @@
             // 
             this.componentsTree.Location = new System.Drawing.Point(0, 27);
             this.componentsTree.Name = "componentsTree";
-            treeNode9.Name = "Sprites";
-            treeNode9.Text = "Sprites";
-            treeNode9.ToolTipText = "All game sprites";
-            treeNode10.Name = "Objects";
-            treeNode10.Text = "Objects";
-            treeNode10.ToolTipText = "All game objects";
-            treeNode11.Name = "Rooms";
-            treeNode11.Text = "Rooms";
-            treeNode11.ToolTipText = "All game rooms";
-            treeNode12.Name = "Scripts";
-            treeNode12.Text = "Scripts";
-            treeNode12.ToolTipText = "All the Scripts of the game";
+            treeNode1.Name = "Sprites";
+            treeNode1.Text = "Sprites";
+            treeNode1.ToolTipText = "All game sprites";
+            treeNode2.Name = "Objects";
+            treeNode2.Text = "Objects";
+            treeNode2.ToolTipText = "All game objects";
+            treeNode3.Name = "Rooms";
+            treeNode3.Text = "Rooms";
+            treeNode3.ToolTipText = "All game rooms";
+            treeNode4.Name = "Scripts";
+            treeNode4.Text = "Scripts";
+            treeNode4.ToolTipText = "All the Scripts of the game";
             this.componentsTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
             this.componentsTree.Size = new System.Drawing.Size(121, 551);
             this.componentsTree.TabIndex = 1;
             this.componentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.componentsTree_NodeMouseDoubleClick);
@@ -224,13 +231,6 @@
             this.deletarToolStripMenuItem.Text = "Deletar";
             this.deletarToolStripMenuItem.Click += new System.EventHandler(this.deletarToolStripMenuItem_Click);
             // 
-            // scriptToolStripMenuItem
-            // 
-            this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
-            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.scriptToolStripMenuItem.Text = "Script";
-            this.scriptToolStripMenuItem.Click += new System.EventHandler(this.scriptToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -245,6 +245,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JSGameIDE";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.childMenu.ResumeLayout(false);

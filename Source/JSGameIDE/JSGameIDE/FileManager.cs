@@ -96,8 +96,8 @@ namespace JSGameIDE
                 if (!quiet)
                 {
                     MessageBox.Show("Project saved successfully.");
-                    FileManager.UnsavedChanges = false;
                 }
+                FileManager.UnsavedChanges = false;
             }
             catch {
                 if(!quiet)

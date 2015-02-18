@@ -45,6 +45,7 @@ namespace JSGameIDE
             //Updates this form reference on the File Manager
             FileManager.mainForm = this;
             InitializeComponent();
+            this.KeyPreview = true;
         }
 
         //Add new sprite click event
@@ -423,6 +424,27 @@ namespace JSGameIDE
         private void scriptToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Scripts.scripts.Add(new Script("script", this));
+        }
+
+        //Key shortcuts handling
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.S:
+                        //Saves the project
+                        FileManager.Save(true);
+                        break;
+                    case Keys.B:
+                        //Export and run the project
+                        if (Builder.Build(true))
+                            System.Diagnostics.Process.Start(GameConfig.path + @"\Build\index.html");
+                        break;
+
+                }
+            }
         }
     }
 }
