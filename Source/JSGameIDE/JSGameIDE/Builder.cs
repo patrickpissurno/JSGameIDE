@@ -102,14 +102,42 @@ namespace JSGameIDE
         private static string BuildHeader()
         {
             string _d = "";
+            //Some basic variable definition
             _d += "var map = {width:" + GameConfig.width + ", height: "+ GameConfig.height + "};";
             _d += "var canvas = document.getElementById('gameCanvas');";
             _d += "var context = canvas.getContext('2d');";
             _d += "var start = (new Date()).getTime();";
             _d += "var currentFrame=0;";
-            _d += "function deltaTime(){current = (new Date()).getTime();elapsed = current - start;start = current;var delta = elapsed / 1000;return delta;};";
-            _d += "function updateFrame(){if(document.hasFocus()){currentFrame += deltaTime() * 60;if(currentFrame>1){loop();currentFrame-=1;};if(currentFrame>5)currentFrame=5;}else deltaTime();setTimeout(updateFrame, 0);};";
-            _d += "function drawText(x,y,text,f,c,align){context.fillStyle = c;context.font = f; context.textAlign = align; context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
+            //Delta Time Function
+            _d += "function deltaTime(){";
+            _d += "current = (new Date()).getTime();";
+            _d += "elapsed = current - start;";
+            _d += "start = current;";
+            _d += "var delta = elapsed / 1000;";
+            _d += "return delta;";
+            _d += "};";
+            //Update Frame Function
+            _d += "function updateFrame(){";
+            _d += "if(document.hasFocus()){";
+            _d += "currentFrame += deltaTime() * 60;";
+            _d += "if(currentFrame>1){";
+            _d += "loop();";
+            _d += "currentFrame-=1;";
+            _d += "};";
+            _d += "if(currentFrame>5)";
+            _d += "currentFrame=5;";
+            _d += "}";
+            _d += "else deltaTime();";
+            _d += "setTimeout(updateFrame, 0);";
+            _d += "};";
+            //Draw Text Function
+            _d += "function drawText(x,y,text,f,c,align){";
+            _d += "context.fillStyle = c;";
+            _d += "context.font = f;";
+            _d += "context.textAlign = align;";
+            _d += "context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);";
+            _d += "};";
+            //Draw Rect Function
             _d += "function drawRect(x,y,w,h,r,g,b,onlyStroke){if(!onlyStroke){context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';context.fillRect(x,y,w,h);}else {context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';context.strokeRect(x,y,w,h);}};";
             _d += "function drawSprite(x,y,sprite){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
             _d += "function drawSpriteExt(x,y,w,h,sprite,angle){context.save();context.translate(-roomManager.actual.camera.x+x+w/2, -roomManager.actual.camera.y+y+h/2);context.rotate(angle * Math.PI/180);context.drawImage(sprite,-w/2,-h/2);context.restore();};";

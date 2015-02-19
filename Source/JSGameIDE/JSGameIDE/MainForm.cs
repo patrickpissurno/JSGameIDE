@@ -426,7 +426,7 @@ namespace JSGameIDE
             Scripts.scripts.Add(new Script("script", this));
         }
 
-        //Key shortcuts handling
+        //Hotkeys handling
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Modifiers == Keys.Control)
