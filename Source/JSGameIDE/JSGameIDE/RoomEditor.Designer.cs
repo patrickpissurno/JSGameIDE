@@ -34,6 +34,8 @@
             this.instanceMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.roomSpace = new System.Windows.Forms.GroupBox();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.instanceMenu.SuspendLayout();
             this.SuspendLayout();
@@ -41,7 +43,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.adicionarToolStripMenuItem});
+            this.adicionarToolStripMenuItem,
+            this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -77,6 +80,21 @@
             this.roomSpace.TabIndex = 2;
             this.roomSpace.TabStop = false;
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridOptionsToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // gridOptionsToolStripMenuItem
+            // 
+            this.gridOptionsToolStripMenuItem.Name = "gridOptionsToolStripMenuItem";
+            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gridOptionsToolStripMenuItem.Text = "Grid settings";
+            this.gridOptionsToolStripMenuItem.Click += new System.EventHandler(this.gridOptionsToolStripMenuItem_Click);
+            // 
             // RoomEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,5 +125,7 @@
         private System.Windows.Forms.ContextMenuStrip instanceMenu;
         private System.Windows.Forms.ToolStripMenuItem deletarToolStripMenuItem;
         private System.Windows.Forms.GroupBox roomSpace;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gridOptionsToolStripMenuItem;
     }
 }

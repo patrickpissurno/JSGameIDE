@@ -243,5 +243,14 @@ namespace JSGameIDE
             mouseLabel.Width = this.Width;
         }
 
+        private void gridOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new GridOptionsForm();
+            form.ShowDialog();
+            if (form.DialogResult == DialogResult.OK)
+            {
+            }
+        }
+
     }
 }

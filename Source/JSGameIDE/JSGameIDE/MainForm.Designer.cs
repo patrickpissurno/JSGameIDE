@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Sprites");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Objects");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Rooms");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Scripts");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Sprites");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Objects");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Rooms");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Scripts");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,22 +83,22 @@
             // novoToolStripMenuItem1
             // 
             this.novoToolStripMenuItem1.Name = "novoToolStripMenuItem1";
-            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
+            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.novoToolStripMenuItem1.Text = "New";
             this.novoToolStripMenuItem1.Click += new System.EventHandler(this.novoToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem
             // 
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.salvarToolStripMenuItem.Text = "Open";
             this.salvarToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem1
             // 
             this.salvarToolStripMenuItem1.Name = "salvarToolStripMenuItem1";
-            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
-            this.salvarToolStripMenuItem1.Text = "Save";
+            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.salvarToolStripMenuItem1.Text = "Save (CTRL+S)";
             this.salvarToolStripMenuItem1.Click += new System.EventHandler(this.salvarToolStripMenuItem1_Click);
             // 
             // projetoToolStripMenuItem
@@ -114,21 +114,21 @@
             // exportarToolStripMenuItem
             // 
             this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
-            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.exportarToolStripMenuItem.Text = "Export";
             this.exportarToolStripMenuItem.Click += new System.EventHandler(this.exportarToolStripMenuItem_Click);
             // 
             // testarToolStripMenuItem
             // 
             this.testarToolStripMenuItem.Name = "testarToolStripMenuItem";
-            this.testarToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.testarToolStripMenuItem.Text = "Export and run";
+            this.testarToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.testarToolStripMenuItem.Text = "Export and run (CTRL+B)";
             this.testarToolStripMenuItem.Click += new System.EventHandler(this.testarToolStripMenuItem_Click);
             // 
             // opçõesDoProjetoToolStripMenuItem
             // 
             this.opçõesDoProjetoToolStripMenuItem.Name = "opçõesDoProjetoToolStripMenuItem";
-            this.opçõesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.opçõesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.opçõesDoProjetoToolStripMenuItem.Text = "Project options";
             this.opçõesDoProjetoToolStripMenuItem.Click += new System.EventHandler(this.opçõesDoProjetoToolStripMenuItem_Click);
             // 
@@ -146,28 +146,28 @@
             // spriteToolStripMenuItem
             // 
             this.spriteToolStripMenuItem.Name = "spriteToolStripMenuItem";
-            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.spriteToolStripMenuItem.Text = "Sprite";
             this.spriteToolStripMenuItem.Click += new System.EventHandler(this.spriteToolStripMenuItem_Click);
             // 
             // ObjectToolStripMenuItem
             // 
             this.ObjectToolStripMenuItem.Name = "ObjectToolStripMenuItem";
-            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ObjectToolStripMenuItem.Text = "Object";
             this.ObjectToolStripMenuItem.Click += new System.EventHandler(this.ObjectToolStripMenuItem_Click);
             // 
             // RoomToolStripMenuItem
             // 
             this.RoomToolStripMenuItem.Name = "RoomToolStripMenuItem";
-            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.RoomToolStripMenuItem.Text = "Room";
             this.RoomToolStripMenuItem.Click += new System.EventHandler(this.RoomToolStripMenuItem_Click);
             // 
             // scriptToolStripMenuItem
             // 
             this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
-            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.scriptToolStripMenuItem.Text = "Script";
             this.scriptToolStripMenuItem.Click += new System.EventHandler(this.scriptToolStripMenuItem_Click);
             // 
@@ -190,23 +190,23 @@
             // 
             this.componentsTree.Location = new System.Drawing.Point(0, 27);
             this.componentsTree.Name = "componentsTree";
-            treeNode1.Name = "Sprites";
-            treeNode1.Text = "Sprites";
-            treeNode1.ToolTipText = "All game sprites";
-            treeNode2.Name = "Objects";
-            treeNode2.Text = "Objects";
-            treeNode2.ToolTipText = "All game objects";
-            treeNode3.Name = "Rooms";
-            treeNode3.Text = "Rooms";
-            treeNode3.ToolTipText = "All game rooms";
-            treeNode4.Name = "Scripts";
-            treeNode4.Text = "Scripts";
-            treeNode4.ToolTipText = "All the Scripts of the game";
+            treeNode13.Name = "Sprites";
+            treeNode13.Text = "Sprites";
+            treeNode13.ToolTipText = "All game sprites";
+            treeNode14.Name = "Objects";
+            treeNode14.Text = "Objects";
+            treeNode14.ToolTipText = "All game objects";
+            treeNode15.Name = "Rooms";
+            treeNode15.Text = "Rooms";
+            treeNode15.ToolTipText = "All game rooms";
+            treeNode16.Name = "Scripts";
+            treeNode16.Text = "Scripts";
+            treeNode16.ToolTipText = "All the Scripts of the game";
             this.componentsTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            treeNode13,
+            treeNode14,
+            treeNode15,
+            treeNode16});
             this.componentsTree.Size = new System.Drawing.Size(121, 551);
             this.componentsTree.TabIndex = 1;
             this.componentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.componentsTree_NodeMouseDoubleClick);

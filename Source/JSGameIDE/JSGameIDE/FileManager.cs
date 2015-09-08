@@ -88,6 +88,12 @@ namespace JSGameIDE
                 package.objectAmount = Objects.amount;
                 package.scripts = Scripts.scripts.ToArray();
                 package.scriptAmount = Scripts.amount;
+
+                //Save the editor preferences
+                package.gridWidth = GameConfig.gridWidth;
+                package.gridHeight = GameConfig.gridHeight;
+                package.gridEnabled = GameConfig.gridEnabled;
+
                 string output = JsonConvert.SerializeObject(package);
                 using (StreamWriter outfile = new StreamWriter(GameConfig.path + @"\project.JSGP"))
                 {
@@ -146,6 +152,11 @@ namespace JSGameIDE
                     Rooms.amount = (int)output2.roomAmount;
                     Rooms.firstId = (int)output2.roomFirstId;
                     Scripts.amount = (int)output2.scriptAmount;
+
+                    //Load all the preferences
+                    GameConfig.gridWidth = (int)output2.gridWidth;
+                    GameConfig.gridHeight = (int)output2.gridHeight;
+                    GameConfig.gridEnabled = (bool)output2.gridEnabled;
 
                     //Loads the sprites
                     var _a = ((JArray)output2.sprites).ToObject<List<dynamic>>();
@@ -284,6 +295,11 @@ namespace JSGameIDE
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Script[] scripts;
         public int scriptAmount;
+
+        //Room Editor Settings
+        public int gridWidth;
+        public int gridHeight;
+        public bool gridEnabled;
     }
 
 

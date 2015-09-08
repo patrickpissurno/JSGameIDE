@@ -44,6 +44,11 @@ namespace JSGameIDE
         public static int viewHeight = 600;
         public static bool obfuscate = true;
 
+        //Room Editor Preferences
+        public static int gridWidth = 32;
+        public static int gridHeight = 32;
+        public static bool gridEnabled = false;
+
 
         /// <summary>
         /// Resets all the data of the game
@@ -56,6 +61,9 @@ namespace JSGameIDE
             height = 600;
             viewWidth = 800;
             viewHeight = 600;
+            gridEnabled = false;
+            gridWidth = 32;
+            gridHeight = 32;
             Sprites.Reset();
             Rooms.Reset();
             Objects.Reset();
