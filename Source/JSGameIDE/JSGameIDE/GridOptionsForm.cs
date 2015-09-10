@@ -55,6 +55,10 @@ namespace JSGameIDE
             this.lastGridWidth = gridWidth.ToString();
             this.lastGridHeight = gridHeight.ToString();
             this.lastGridEnabled = gridEnabled;
+
+            widthTextBox.Text = this.lastGridWidth;
+            heightTextBox.Text = this.lastGridHeight;
+            enabledCheckBox.Checked = this.lastGridEnabled;
         }
 
         //Make some textboxes only accept integers
@@ -87,6 +91,7 @@ namespace JSGameIDE
         {
             if (lastGridWidth.Length > 0 && lastGridHeight.Length > 0)
             {
+                lastGridEnabled = enabledCheckBox.Checked;
                 DialogResult = DialogResult.OK;
                 this.Close();
             }

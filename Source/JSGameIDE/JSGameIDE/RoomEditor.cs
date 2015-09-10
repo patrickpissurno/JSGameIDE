@@ -245,10 +245,13 @@ namespace JSGameIDE
 
         private void gridOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new GridOptionsForm();
+            var form = new GridOptionsForm(GameConfig.gridWidth, GameConfig.gridHeight, GameConfig.gridEnabled);
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
+                GameConfig.gridEnabled = form.lastGridEnabled;
+                GameConfig.gridWidth = int.Parse(form.lastGridWidth);
+                GameConfig.gridHeight = int.Parse(form.lastGridHeight);
             }
         }
 
