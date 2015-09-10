@@ -174,7 +174,13 @@ namespace JSGameIDE
             PictureBox _pic = ((PictureBox)sender);
             if (e.Button == MouseButtons.Left)
             {
-                _pic.Location = roomSpace.PointToClient(Cursor.Position);
+                Point pos = roomSpace.PointToClient(Cursor.Position);
+                if (GameConfig.gridEnabled)
+                {
+                    int newX = Math.Round(oldX / gridCubeWidth) * gridCubeWidth;
+                    int newY = Math.Round(oldY / gridCubeHeight) * gridCubeHeight;
+                }
+                _pic.Location = pos;
             }
             //Updates the mouseLabel with the position of the object and with its name
             mouseLabel.Text = "  X: " + _pic.Location.X + " | Y: " + _pic.Location.Y + "        " + Objects.GetNameById(int.Parse(_pic.Name));
