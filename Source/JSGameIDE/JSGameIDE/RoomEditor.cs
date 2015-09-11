@@ -51,6 +51,8 @@ namespace JSGameIDE
 
         public RoomEditor()
         {
+            Color col = Color.FromArgb(255,34,34,34);
+            this.BackColor = col;
             InitializeComponent();
 
             #region Initialize the Editor
@@ -82,6 +84,9 @@ namespace JSGameIDE
                 mouseLabel.Width = this.Width;
                 mouseLabel.TextAlign = ContentAlignment.MiddleLeft;
                 mouseLabel.BringToFront();
+
+                //Draw Grid
+                RedrawGrid();
             #endregion
         }
 
@@ -238,6 +243,7 @@ namespace JSGameIDE
                     _t.Image = Image.FromFile(GameConfig.path + @"\" +Sprites.sprites[Objects.objects[_id].sprite].path[0]);
                     _t.Size = _t.Image.Size;
                     _t.Name = ""+_id;
+                    _t.BackColor = Color.Transparent;
                     roomSpace.Controls.Add(_t);
                     this.sprites.Add(_t);
                     this.objects.Add(new EditorObject(_x, _y, _id, _t));
@@ -246,6 +252,17 @@ namespace JSGameIDE
                 }
             }
 
+            /// <summary>
+            /// Forces the grid to be redrawn
+            /// </summary>
+            void RedrawGrid()
+            {
+                if (GameConfig.gridEnabled)
+                    roomSpace.GridSize = new Size(GameConfig.gridWidth, GameConfig.gridHeight);
+                else
+                    roomSpace.GridSize = new Size(1, 1);
+                roomSpace.Invalidate();
+            }
         #endregion
 
         #region Toolbar Events
@@ -278,6 +295,7 @@ namespace JSGameIDE
                     GameConfig.gridEnabled = form.lastGridEnabled;
                     GameConfig.gridWidth = int.Parse(form.lastGridWidth);
                     GameConfig.gridHeight = int.Parse(form.lastGridHeight);
+                    RedrawGrid();
                 }
             }
         #endregion

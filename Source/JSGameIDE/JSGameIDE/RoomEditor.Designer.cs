@@ -35,7 +35,7 @@
             this.gridOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.instanceMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.roomSpace = new System.Windows.Forms.GroupBox();
+            this.roomSpace = new JSGameIDE.RoomGroupBox();
             this.menuStrip1.SuspendLayout();
             this.instanceMenu.SuspendLayout();
             this.SuspendLayout();
@@ -123,7 +123,8 @@
         private System.Windows.Forms.ToolStripMenuItem adicionarToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip instanceMenu;
         private System.Windows.Forms.ToolStripMenuItem deletarToolStripMenuItem;
-        private System.Windows.Forms.GroupBox roomSpace;
+        //private System.Windows.Forms.GroupBox roomSpace;
+        private RoomGroupBox roomSpace;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridOptionsToolStripMenuItem;
     }
