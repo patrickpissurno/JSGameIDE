@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.adicionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.instanceMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.roomSpace = new System.Windows.Forms.GroupBox();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gridOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.instanceMenu.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +56,21 @@
             this.adicionarToolStripMenuItem.Name = "adicionarToolStripMenuItem";
             this.adicionarToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.adicionarToolStripMenuItem.Text = "Add";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridOptionsToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // gridOptionsToolStripMenuItem
+            // 
+            this.gridOptionsToolStripMenuItem.Name = "gridOptionsToolStripMenuItem";
+            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.gridOptionsToolStripMenuItem.Text = "Grid settings";
+            this.gridOptionsToolStripMenuItem.Click += new System.EventHandler(this.gridOptionsToolStripMenuItem_Click);
             // 
             // instanceMenu
             // 
@@ -80,21 +95,6 @@
             this.roomSpace.TabIndex = 2;
             this.roomSpace.TabStop = false;
             // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridOptionsToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // gridOptionsToolStripMenuItem
-            // 
-            this.gridOptionsToolStripMenuItem.Name = "gridOptionsToolStripMenuItem";
-            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.gridOptionsToolStripMenuItem.Text = "Grid settings";
-            this.gridOptionsToolStripMenuItem.Click += new System.EventHandler(this.gridOptionsToolStripMenuItem_Click);
-            // 
             // RoomEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,7 +102,6 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.roomSpace);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "RoomEditor";
