@@ -8,6 +8,13 @@ namespace JSGameIDE
     public class RoomGroupBox : GroupBox
     {
         public Size GridSize = new Size(1, 1);
+
+        public RoomGroupBox()
+        {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            Invalidate();
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);

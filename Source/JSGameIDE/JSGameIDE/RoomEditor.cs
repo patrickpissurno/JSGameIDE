@@ -53,6 +53,8 @@ namespace JSGameIDE
         {
             Color col = Color.FromArgb(255,34,34,34);
             this.BackColor = col;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             InitializeComponent();
 
             #region Initialize the Editor
@@ -206,6 +208,7 @@ namespace JSGameIDE
                         int newY = (int)Math.Round((double)(pos.Y / GameConfig.gridHeight)) * GameConfig.gridHeight;
                         pos = new Point(newX, newY);
                     }
+                    _pic.BringToFront();
                     _pic.Location = pos;
                 }
                 //Updates the mouseLabel with the position of the object and with its name
@@ -238,7 +241,7 @@ namespace JSGameIDE
                 int _id = Objects.GetIdByName(objName);
                 if (_id >= 0)
                 {
-                    PictureBox _t = new PictureBox();
+                    RoomEditorPicture _t = new RoomEditorPicture();
                     _t.Location = new Point(_x, _y);
                     _t.Image = Image.FromFile(GameConfig.path + @"\" +Sprites.sprites[Objects.objects[_id].sprite].path[0]);
                     _t.Size = _t.Image.Size;
