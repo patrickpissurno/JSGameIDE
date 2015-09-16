@@ -1,9 +1,9 @@
 # JSGameIDE
-An open-source IDE+Library for Javascript Game Development.
+An open-source IDE+Framework for Javascript Game Development.
 
 Good looking version: http://patrickpissurno.github.io/JSGameIDE/
 
-Welcome. JSGameIDE is both an IDE and a library, made to help you to create fabulous games in Javascript. Our objective is to provide you a reliable tool with a fast workflow and the possibility to create a high quality final product, for free.
+Welcome. JSGameIDE is both an IDE and a framework, made to help you to create fabulous games in Javascript. Our objective is to provide you a reliable tool with a fast workflow and the possibility to create a high quality final product, for free.
 
 Documentation:
 The documentation can be accessed by the Wiki page: https://github.com/patrickpissurno/JSGameIDE/wiki.
