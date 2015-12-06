@@ -1,4 +1,4 @@
-﻿/*
+/*
     <JSGameIDE - An open-source IDE+Library to Javascript Game Development>
     Copyright (C) 2015  Patrick Pissurno
 
@@ -357,17 +357,7 @@ namespace JSGameIDE
             //Fps
             _d += "var fps = {startTime : 0,frameNumber : 0,get : function(){this.frameNumber++;var d = new Date().getTime(),currentTime = ( d - this.startTime ) / 1000, result = Math.floor( ( this.frameNumber / currentTime ) );if( currentTime > 1 ){this.startTime = new Date().getTime();this.frameNumber = 0;}return result;}};";
             //Check Collision
-            _d += "check_collision_object = function(me,other,todo){";
-	        _d += "o_arr = [];";
-	        _d += "for(i=0;i<roomManager.actual[other].length;i++)";
-	        _d += "{";
-		    _d += "if(checkCollision(me,roomManager.actual[other][i]))";
-		    _d += "{";
-			_d += "o_arr.push(i);";
-		    _d += "};";
-	        _d += "};";
-	        _d += "o_arr.forEach(todo.bind(me));";
-            _d += "};";
+            _d += "check_collision_object = function(me,other,todo){for(i=0;i<roomManager.actual[other].length;i++){if(checkCollision(me,roomManager.actual[other][i])){todo.bind(me)(roomManager.actual[other][i]);};};};";
             //Draw Set Alpha
             _d += "draw_set_alpha = function(alpha){if(alpha>1)alpha=1;else if(alpha<0)alpha=0;context.globalAlpha = alpha;};";
             return _d;
