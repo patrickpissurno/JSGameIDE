@@ -82,7 +82,7 @@
     <Compile Include="GridOptionsForm.Designer.cs">
       <DependentUpon>GridOptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyGroupBox.cs">
+    <Compile Include="RoomGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RoomEditorPicture.cs">
