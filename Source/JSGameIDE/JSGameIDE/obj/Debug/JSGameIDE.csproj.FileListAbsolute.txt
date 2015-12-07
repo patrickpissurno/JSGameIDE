@@ -87,3 +87,4 @@ C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\o
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.SpriteForm.resources
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.StartScreen.resources
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.csproj.GenerateResource.Cache
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.EditorOptionsForm.resources

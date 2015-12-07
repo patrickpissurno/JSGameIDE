@@ -82,6 +82,12 @@
     <Compile Include="GridOptionsForm.Designer.cs">
       <DependentUpon>GridOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditorOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditorOptionsForm.Designer.cs">
+      <DependentUpon>EditorOptionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RoomGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -167,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GridOptionsForm.resx">
       <DependentUpon>GridOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditorOptionsForm.resx">
+      <DependentUpon>EditorOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectOptionsForm.resx">
       <DependentUpon>ProjectOptionsForm.cs</DependentUpon>

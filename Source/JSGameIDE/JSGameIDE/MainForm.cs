@@ -451,5 +451,14 @@ namespace JSGameIDE
         {
             System.Diagnostics.Process.Start("https://github.com/patrickpissurno/JSGameIDE/wiki");
         }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new EditorOptionsForm();
+            form.ShowDialog();
+            if (form.DialogResult == DialogResult.OK)
+            {
+            }
+        }
     }
 }
