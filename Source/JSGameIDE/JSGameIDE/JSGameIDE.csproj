@@ -88,6 +88,7 @@
     <Compile Include="EditorOptionsForm.Designer.cs">
       <DependentUpon>EditorOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDEConfig.cs" />
     <Compile Include="RoomGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>

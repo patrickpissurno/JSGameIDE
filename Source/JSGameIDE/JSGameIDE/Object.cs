@@ -116,13 +116,21 @@ namespace JSGameIDE
         public TreeNode node;
 
         //Object Data
+        [JsonIgnore]
         public string onCreate = "";
+        [JsonIgnore]
         public string onUpdate = "";
+        [JsonIgnore]
         public string onDraw = "";
+        [JsonIgnore]
         public string onKeyPressed = "";
+        [JsonIgnore]
         public string onKeyReleased = "";
+        [JsonIgnore]
         public string onMousePressed = "";
+        [JsonIgnore]
         public string onMouseReleased = "";
+        [JsonIgnore]
         public string onDestroy = "";
 
         /// <summary>

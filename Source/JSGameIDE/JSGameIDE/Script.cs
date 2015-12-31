@@ -74,6 +74,7 @@ namespace JSGameIDE
     {
         public int id;
         public string name;
+        [JsonIgnore]
         public string data = "";
         [JsonIgnore]
         public TreeNode node;

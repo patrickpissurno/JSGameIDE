@@ -74,6 +74,7 @@ namespace JSGameIDE
             try
             {
                 JSGP package = new JSGP();
+                package.projectVersion = GameConfig.projectVersion;
                 package.name = GameConfig.name;
                 package.gameWidth = GameConfig.width;
                 package.gameHeight = GameConfig.height;
@@ -88,6 +89,85 @@ namespace JSGameIDE
                 package.objectAmount = Objects.amount;
                 package.scripts = Scripts.scripts.ToArray();
                 package.scriptAmount = Scripts.amount;
+
+                //SAVE CODING DATA
+                string targetPath = null;
+
+                //Objects
+                foreach (Object obj in Objects.objects)
+                {
+                    targetPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                    Directory.CreateDirectory(targetPath);
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                    {
+                        w.Write(obj.onCreate);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
+                    {
+                        w.Write(obj.onUpdate);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
+                    {
+                        w.Write(obj.onDraw);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
+                    {
+                        w.Write(obj.onKeyPressed);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
+                    {
+                        w.Write(obj.onKeyReleased);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\destroy.js"))
+                    {
+                        w.Write(obj.onDestroy);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\mousePressed.js"))
+                    {
+                        w.Write(obj.onMousePressed);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\mouseReleased.js"))
+                    {
+                        w.Write(obj.onMouseReleased);
+                    }
+                }
+
+                //Rooms
+                foreach (Room rm in Rooms.rooms)
+                {
+                    targetPath = GameConfig.path + @"\Codes\Rooms\room" + rm.id;
+                    Directory.CreateDirectory(targetPath);
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                    {
+                        w.Write(rm.onCreate);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
+                    {
+                        w.Write(rm.onUpdate);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
+                    {
+                        w.Write(rm.onDraw);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
+                    {
+                        w.Write(rm.onKeyPressed);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
+                    {
+                        w.Write(rm.onKeyReleased);
+                    }
+                }
+
+                foreach (Script s in Scripts.scripts)
+                {
+                    targetPath = GameConfig.path + @"\Codes\Scripts";
+                    Directory.CreateDirectory(targetPath);
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\script" + s.id + ".js"))
+                    {
+                        w.Write(s.data);
+                    }
+                }
 
                 //Save the editor preferences
                 package.gridWidth = GameConfig.gridWidth;
@@ -142,7 +222,15 @@ namespace JSGameIDE
                     var output2 = JsonConvert.DeserializeObject<dynamic>(input);
                     //Updates all the project data
                     GameConfig.name = (string)output2.name;
-                    GameConfig.projectVersion = (int)output2.projectVersion;
+                    try
+                    {
+                        GameConfig.projectVersion = (int)output2.projectVersion;
+                    }
+                    catch
+                    {
+                        //LEGACY SUPPORT
+                        GameConfig.projectVersion = 0;
+                    }
                     GameConfig.path = Path.GetDirectoryName(path);
                     GameConfig.width = (int)output2.gameWidth;
                     GameConfig.height = (int)output2.gameHeight;
@@ -198,14 +286,31 @@ namespace JSGameIDE
                             obj.name = (string)_b.name;
                             obj.sprite = (int)_b.sprite;
                             obj.autoDraw = (bool)_b.autoDraw;
-                            obj.onCreate = (string)_b.onCreate;
-                            obj.onUpdate = (string)_b.onUpdate;
-                            obj.onDraw = (string)_b.onDraw;
-                            obj.onKeyPressed = (string)_b.onKeyPressed;
-                            obj.onKeyReleased = (string)_b.onKeyReleased;
-                            obj.onDestroy = (string)_b.onDestroy;
-                            obj.onMousePressed = (string)_b.onMousePressed;
-                            obj.onMouseReleased = (string)_b.onMouseReleased;
+                            string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                            //LEGACY PROJECT IMPORTER
+                            if (GameConfig.projectVersion < 1)
+                            {
+                                obj.onCreate = (string)_b.onCreate;
+                                obj.onUpdate = (string)_b.onUpdate;
+                                obj.onDraw = (string)_b.onDraw;
+                                obj.onKeyPressed = (string)_b.onKeyPressed;
+                                obj.onKeyReleased = (string)_b.onKeyReleased;
+                                obj.onDestroy = (string)_b.onDestroy;
+                                obj.onMousePressed = (string)_b.onMousePressed;
+                                obj.onMouseReleased = (string)_b.onMouseReleased;
+                                Directory.CreateDirectory(importerPath);
+                            }
+                            else
+                            {
+                                obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                                obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                                obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                                obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                                obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                                obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                                obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
+                                obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                            }
                             Objects.objects[obj.id]=obj;
                             TreeNode _node = new TreeNode(obj.name);
                             _node.Name = "" + obj.id;
@@ -224,11 +329,28 @@ namespace JSGameIDE
                             Room room = new Room();
                             room.id = (int)_b.id;
                             room.name = (string)_b.name;
-                            room.onCreate = (string)_b.onCreate;
-                            room.onUpdate = (string)_b.onUpdate;
-                            room.onDraw = (string)_b.onDraw;
-                            room.onKeyPressed = (string)_b.onKeyPressed;
-                            room.onKeyReleased = (string)_b.onKeyReleased;
+
+                            string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
+                            //LEGACY PROJECT IMPORTER
+                            if (GameConfig.projectVersion < 1)
+                            {
+                                room.onCreate = (string)_b.onCreate;
+                                room.onUpdate = (string)_b.onUpdate;
+                                room.onDraw = (string)_b.onDraw;
+                                room.onKeyPressed = (string)_b.onKeyPressed;
+                                room.onKeyReleased = (string)_b.onKeyReleased;
+                                Directory.CreateDirectory(importerPath);
+                            }
+                            else
+                            {
+                                room.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                                room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                                room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                                room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                                room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                            }
+                            
+
                             if (_b.editorCreate != null)
                             {
                                 List<EditorObject> _editorCreate = new List<EditorObject>();
@@ -257,13 +379,30 @@ namespace JSGameIDE
                             Script script = new Script();
                             script.id = (int)_b.id;
                             script.name = (string)_b.name;
-                            script.data = (string)_b.data;
+
+                            string importerPath = GameConfig.path + @"\Codes\Scripts";
+                            //LEGACY PROJECT IMPORTER
+                            if (GameConfig.projectVersion < 1)
+                            {
+                                script.data = (string)_b.data;
+                                Directory.CreateDirectory(importerPath);
+                            }
+                            else
+                            {
+                                script.data = File.ReadAllText(importerPath + @"\script" + script.id + ".js");
+                            }
                             Scripts.scripts[script.id] = script;
                             TreeNode _node = new TreeNode(script.name);
                             _node.Name = "" + script.id;
                             script.node = _node;
                             mainForm.AddViewNodeChild("Scripts", _node);
                         }
+                    }
+                    //LEGACY PROJECT IMPORTER UPDATER
+                    if (GameConfig.projectVersion != IDEConfig.IDEVersion)
+                    {
+                        GameConfig.projectVersion = IDEConfig.IDEVersion;
+                        FileManager.Save(true);
                     }
                     FileManager.UnsavedChanges = false;
                 }
