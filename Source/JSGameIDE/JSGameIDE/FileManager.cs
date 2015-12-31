@@ -412,6 +412,41 @@ namespace JSGameIDE
                 }
             }
         }
+
+        /// <summary>
+        /// Reloads all the code from the files.
+        /// </summary>
+        public static void ReloadCode()
+        {
+            //Objects
+            foreach (Object obj in Objects.objects)
+            {
+                string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
+                obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+            }
+            //Rooms
+            foreach (Room room in Rooms.rooms)
+            {
+                string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
+                room.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+            }
+            //Scripts
+            foreach (Script script in Scripts.scripts)
+            {
+                script.data = File.ReadAllText(GameConfig.path + @"\Codes\Scripts" + @"\script" + script.id + ".js");
+            }
+        }
     }
 
     //The JSGP data package class

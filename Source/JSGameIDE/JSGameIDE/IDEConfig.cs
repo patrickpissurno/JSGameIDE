@@ -25,16 +25,35 @@
     For further  details see: http://patrickpissurno.github.io/JSGameIDE/
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace JSGameIDE
 {
     public static class IDEConfig
     {
         public const int IDEVersion = 1;
+        public static List<string> CodeEditors = new List<string>();
+        public static int CodeEditorIndex = 0;
+        public static bool IsDefaultEditor
+        {
+            get
+            {
+                return CodeEditors[CodeEditorIndex].Equals("Default");
+            }
+            set { }
+        }
+
+        public static void Reset()
+        {
+            CodeEditors.Clear();
+            CodeEditors.Add("Default");
+            CodeEditorIndex = 0;
+        }
+        public enum ComponentType
+        {
+            Object,
+            Room,
+            Script,
+            Sprite
+        }
     }
 }

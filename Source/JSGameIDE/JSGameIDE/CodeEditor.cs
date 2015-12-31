@@ -92,5 +92,46 @@ namespace JSGameIDE
             else
                 this.DialogResult = DialogResult.Cancel;
         }
+
+        public static string Open(string Title, IDEConfig.ComponentType Type, string Data, int Index, string Event)
+        {
+            string r = Data;
+            if (IDEConfig.IsDefaultEditor)
+            {
+                using (var form = new CodeEditor())
+                {
+                    form.Text = Title;
+                    form.SetData(Data);
+                    var result = form.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        r = form.GetData();
+                    }
+                    form.Close();
+                }
+            }
+            else
+            {
+                string path = GameConfig.path + @"\Codes";
+                switch (Type)
+                {
+                    case IDEConfig.ComponentType.Object:
+                        path += @"\Objects\obj";
+                        break;
+                    case IDEConfig.ComponentType.Room:
+                        path += @"\Rooms\room";
+                        break;
+                    case IDEConfig.ComponentType.Script:
+                        path += @"\Scripts\script";
+                        break;
+                }
+                path += Event == null ? Index.ToString() + ".js" : Index.ToString() + @"\" + Event + ".js";
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.FileName = IDEConfig.CodeEditors[IDEConfig.CodeEditorIndex];
+                startInfo.Arguments = path;
+                System.Diagnostics.Process.Start(startInfo);
+            }
+            return r;
+        }
     }
 }

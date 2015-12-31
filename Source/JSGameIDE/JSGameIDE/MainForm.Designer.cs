@@ -38,6 +38,7 @@
             this.novoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -104,11 +105,19 @@
             this.salvarToolStripMenuItem1.Text = "Save (CTRL+S)";
             this.salvarToolStripMenuItem1.Click += new System.EventHandler(this.salvarToolStripMenuItem1_Click);
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
             // projetoToolStripMenuItem
             // 
             this.projetoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportarToolStripMenuItem,
             this.testarToolStripMenuItem,
+            this.reloadAssetsToolStripMenuItem,
             this.opçõesDoProjetoToolStripMenuItem});
             this.projetoToolStripMenuItem.Name = "projetoToolStripMenuItem";
             this.projetoToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
@@ -186,14 +195,14 @@
             // wikiToolStripMenuItem
             // 
             this.wikiToolStripMenuItem.Name = "wikiToolStripMenuItem";
-            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.wikiToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.wikiToolStripMenuItem.Text = "Wiki";
             this.wikiToolStripMenuItem.Click += new System.EventHandler(this.wikiToolStripMenuItem_Click);
             // 
             // sobreToolStripMenuItem
             // 
             this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
-            this.sobreToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sobreToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.sobreToolStripMenuItem.Text = "About";
             this.sobreToolStripMenuItem.Click += new System.EventHandler(this.sobreToolStripMenuItem_Click);
             // 
@@ -242,12 +251,12 @@
             this.deletarToolStripMenuItem.Text = "Deletar";
             this.deletarToolStripMenuItem.Click += new System.EventHandler(this.deletarToolStripMenuItem_Click);
             // 
-            // optionsToolStripMenuItem
+            // reloadAssetsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.reloadAssetsToolStripMenuItem.Name = "reloadAssetsToolStripMenuItem";
+            this.reloadAssetsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.reloadAssetsToolStripMenuItem.Text = "Reload assets";
+            this.reloadAssetsToolStripMenuItem.Click += new System.EventHandler(this.reloadAssetsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -296,6 +305,7 @@
         private System.Windows.Forms.ToolStripMenuItem scriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wikiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadAssetsToolStripMenuItem;
 
     }
 }

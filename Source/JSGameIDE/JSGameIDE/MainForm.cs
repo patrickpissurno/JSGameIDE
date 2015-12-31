@@ -140,6 +140,7 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
+                            form.id = Rooms.rooms[int.Parse(e.Node.Name)].id;
                             form.SetFirstBox(int.Parse(e.Node.Name) == Rooms.firstId);
                             form.onCreate = Rooms.rooms[int.Parse(e.Node.Name)].onCreate;
                             form.onUpdate = Rooms.rooms[int.Parse(e.Node.Name)].onUpdate;
@@ -160,6 +161,8 @@ namespace JSGameIDE
                                 Rooms.rooms[int.Parse(e.Node.Name)].onKeyPressed = form.onKeyPressed;
                                 Rooms.rooms[int.Parse(e.Node.Name)].onKeyReleased = form.onKeyReleased;
                                 Rooms.rooms[int.Parse(e.Node.Name)].editorCreate = form.editorCreate;
+                                if (!IDEConfig.IsDefaultEditor)
+                                    FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;
                             }
                             form.Close();
@@ -171,6 +174,7 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
+                            form.id = Objects.objects[int.Parse(e.Node.Name)].id;
                             form.SetSpriteBox(Objects.objects[int.Parse(e.Node.Name)].sprite);
                             form.SetAutoDrawBox(Objects.objects[int.Parse(e.Node.Name)].autoDraw);
                             form.onCreate = Objects.objects[int.Parse(e.Node.Name)].onCreate;
@@ -196,6 +200,8 @@ namespace JSGameIDE
                                 Objects.objects[int.Parse(e.Node.Name)].onDestroy = form.onDestroy;
                                 Objects.objects[int.Parse(e.Node.Name)].autoDraw = form.GetAutoDrawBox();
                                 Objects.objects[int.Parse(e.Node.Name)].sprite = form.GetSpriteBox();
+                                if (!IDEConfig.IsDefaultEditor)
+                                    FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;
                             }
                             form.Close();
@@ -207,6 +213,7 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
+                            form.id = Scripts.scripts[int.Parse(e.Node.Name)].id;
                             form.data = Scripts.scripts[int.Parse(e.Node.Name)].data;
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
@@ -214,6 +221,8 @@ namespace JSGameIDE
                                 //Updates the data of the given script
                                 Scripts.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
                                 Scripts.scripts[int.Parse(e.Node.Name)].data = form.data;
+                                if (!IDEConfig.IsDefaultEditor)
+                                    FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;
                             }
                             form.Close();
@@ -458,6 +467,20 @@ namespace JSGameIDE
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
+                IDEConfig.CodeEditors = form.Paths;
+                IDEConfig.CodeEditorIndex = form.selectedIndex;
+            }
+        }
+
+        private void reloadAssetsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FileManager.ReloadCode();
+            }
+            catch 
+            {
+                MessageBox.Show("Error reloading project assets");
             }
         }
     }

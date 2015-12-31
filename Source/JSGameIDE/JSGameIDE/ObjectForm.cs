@@ -40,6 +40,7 @@ namespace JSGameIDE
     public partial class ObjectForm : Form
     {
         //Object form temporary data variables
+        public int id = -1;
         public string onCreate = "";
         public string onUpdate = "";
         public string onDraw = "";
@@ -121,136 +122,64 @@ namespace JSGameIDE
         private void createButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Create Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Create";
-                form.SetData(this.onCreate);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onCreate = form.GetData();
-                }
-                form.Close();
-            }
+            this.onCreate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Create",
+                IDEConfig.ComponentType.Object, this.onCreate, this.id, "create");
         }
 
         //Update button click event
         private void updateButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Update Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Update";
-                form.SetData(this.onUpdate);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onUpdate = form.GetData();
-                }
-                form.Close();
-            }
+            this.onUpdate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Update",
+                IDEConfig.ComponentType.Object, this.onUpdate, this.id, "update");
         }
 
         //Draw button click event
         private void drawButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Draw Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Draw";
-                form.SetData(this.onDraw);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onDraw = form.GetData();
-                }
-                form.Close();
-            }
+            this.onDraw = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Draw",
+                IDEConfig.ComponentType.Object, this.onDraw, this.id, "draw");
         }
 
         //Key Pressed button click event
         private void keypressedButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Key Pressed Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Key Pressed";
-                form.SetData(this.onKeyPressed);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onKeyPressed = form.GetData();
-                }
-                form.Close();
-            }
+            this.onKeyPressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Pressed",
+                IDEConfig.ComponentType.Object, this.onKeyPressed, this.id, "keyPressed");
         }
 
         //Key Released button click event
         private void keyreleasedButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Key Released Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Key Released";
-                form.SetData(this.onKeyReleased);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onKeyReleased = form.GetData();
-                }
-                form.Close();
-            }
+            this.onKeyReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Released",
+                IDEConfig.ComponentType.Object, this.onKeyReleased, this.id, "keyReleased");
         }
 
         //Mouse Pressed button click event
         private void mousepressedButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Mouse Pressed Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Mouse Pressed";
-                form.SetData(this.onMousePressed);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onMousePressed = form.GetData();
-                }
-                form.Close();
-            }
+            this.onMousePressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Mouse Pressed",
+                IDEConfig.ComponentType.Object, this.onMousePressed, this.id, "mousePressed");
         }
 
         //Mouse Released button click event
         private void mousereleasedButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Mouse Released Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Mouse Released";
-                form.SetData(this.onMouseReleased);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onMouseReleased = form.GetData();
-                }
-                form.Close();
-            }
+            this.onMouseReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Mouse Released",
+                IDEConfig.ComponentType.Object, this.onMouseReleased, this.id, "mouseReleased");
         }
 
         //Destroy button click event
         private void destroyButton_Click(object sender, EventArgs e)
         {
             //Opens the Object Destroy Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Destroy";
-                form.SetData(this.onDestroy);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onDestroy = form.GetData();
-                }
-                form.Close();
-            }
+            this.onDestroy = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Destroy",
+                IDEConfig.ComponentType.Object, this.onDestroy, this.id, "destroy");
         }
     }
 }

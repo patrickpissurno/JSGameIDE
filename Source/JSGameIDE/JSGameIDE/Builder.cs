@@ -44,6 +44,7 @@ namespace JSGameIDE
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
         public static bool Build(bool skipAlert = false)
         {
+            FileManager.ReloadCode();
             string data = "";
             try
             {

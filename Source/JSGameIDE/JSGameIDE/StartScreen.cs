@@ -43,6 +43,7 @@ namespace JSGameIDE
         public StartScreen()
         {
             InitializeComponent();
+            IDEConfig.Reset();
         }
 
         //Start Screen closing event

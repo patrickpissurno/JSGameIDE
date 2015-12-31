@@ -40,6 +40,7 @@ namespace JSGameIDE
     public partial class RoomForm : Form
     {
         //Room Form temporary data variables
+        public int id = -1;
         public string onCreate = "";
         public string onUpdate = "";
         public string onDraw = "";
@@ -92,85 +93,40 @@ namespace JSGameIDE
         private void createButton_Click(object sender, EventArgs e)
         {
             //Opens the Room Create Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: "+nameBox.Text+" - Create";
-                form.SetData(this.onCreate);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onCreate = form.GetData();
-                }
-                form.Close();
-            }
+            this.onCreate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Create",
+                IDEConfig.ComponentType.Room, this.onCreate, this.id, "create");
         }
 
         //"Update" button click event
         private void updateButton_Click(object sender, EventArgs e)
         {
             //Opens the Room Update Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Update";
-                form.SetData(this.onUpdate);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onUpdate = form.GetData();
-                }
-                form.Close();
-            }
+            this.onUpdate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Update",
+                IDEConfig.ComponentType.Room, this.onUpdate, this.id, "update");
         }
 
         //"Draw" button click event
         private void drawButton_Click(object sender, EventArgs e)
         {
             //Opens the Room Draw Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Draw";
-                form.SetData(this.onDraw);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onDraw = form.GetData();
-                }
-                form.Close();
-            }
+            this.onDraw = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Draw",
+                IDEConfig.ComponentType.Room, this.onDraw, this.id, "draw");
         }
 
         //"Key Pressed" button click event
         private void keypressedButton_Click(object sender, EventArgs e)
         {
             //Opens the Room Key Pressed Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Key Pressed";
-                form.SetData(this.onKeyPressed);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onKeyPressed = form.GetData();
-                }
-                form.Close();
-            }
+            this.onKeyPressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Pressed",
+                IDEConfig.ComponentType.Room, this.onKeyPressed, this.id, "keyPressed");
         }
 
         //"Key Released" button click event
         private void keyreleasedButton_Click(object sender, EventArgs e)
         {
             //Opens the Room Key Released Event data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text + " - Key Released";
-                form.SetData(this.onKeyReleased);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.onKeyReleased = form.GetData();
-                }
-                form.Close();
-            }
+            this.onKeyReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Released",
+                IDEConfig.ComponentType.Room, this.onKeyReleased, this.id, "keyReleased");
         }
 
         //"Room Editor" button click event

@@ -40,17 +40,29 @@ namespace JSGameIDE
 {
     public partial class EditorOptionsForm : Form
     {
-        public List<string> Paths = new List<string>();
+        public List<string> Paths = null;
+        public int selectedIndex = 0;
         public EditorOptionsForm()
         {
-            Paths.Add("Default");
             InitializeComponent();
-            codeEditorBox.SelectedIndex = 0;
+            Paths = IDEConfig.CodeEditors.ToArray().ToList();
+            codeEditorBox.Items.Clear();
+            foreach(string str in Paths)
+            {
+                if (str != "Default")
+                    codeEditorBox.Items.Add(Path.GetFileName(str));
+                else
+                    codeEditorBox.Items.Add("Default");
+            }
+            codeEditorBox.SelectedIndex = IDEConfig.CodeEditorIndex;
+            selectedIndex = IDEConfig.CodeEditorIndex;
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            selectedIndex = codeEditorBox.SelectedIndex;
             DialogResult = DialogResult.OK;
+            FileManager.ReloadCode();
             this.Close();
         }
 

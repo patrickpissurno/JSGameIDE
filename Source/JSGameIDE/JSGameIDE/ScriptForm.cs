@@ -39,6 +39,7 @@ namespace JSGameIDE
 {
     public partial class ScriptForm : Form
     {
+        public int id = -1;
         public string data;
 
         public ScriptForm()
@@ -68,17 +69,8 @@ namespace JSGameIDE
         private void editButton_Click(object sender, EventArgs e)
         {
             //Opens this script data in the Code Editor
-            using (var form = new CodeEditor())
-            {
-                form.Text = "Code Editor: " + nameBox.Text;
-                form.SetData(this.data);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.data = form.GetData();
-                }
-                form.Close();
-            }
+            this.data = CodeEditor.Open("Code Editor: " + nameBox.Text,
+                IDEConfig.ComponentType.Script, this.data, this.id, null);
         }
     }
 }
