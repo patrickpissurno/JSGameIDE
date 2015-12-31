@@ -142,6 +142,7 @@ namespace JSGameIDE
                     var output2 = JsonConvert.DeserializeObject<dynamic>(input);
                     //Updates all the project data
                     GameConfig.name = (string)output2.name;
+                    GameConfig.projectVersion = (int)output2.projectVersion;
                     GameConfig.path = Path.GetDirectoryName(path);
                     GameConfig.width = (int)output2.gameWidth;
                     GameConfig.height = (int)output2.gameHeight;
@@ -278,6 +279,7 @@ namespace JSGameIDE
     public class JSGP
     {
         public string name;
+        public int projectVersion;
         public int gameWidth;
         public int gameHeight;
         public int viewWidth;

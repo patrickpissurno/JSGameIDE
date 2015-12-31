@@ -33,43 +33,8 @@ using System.Threading.Tasks;
 
 namespace JSGameIDE
 {
-    public static class GameConfig
+    public static class IDEConfig
     {
-        //Game Configuration data
-        public static string name = "";
-        public static string path = "";
-        public static int width = 800;
-        public static int height = 600;
-        public static int viewWidth = 800;
-        public static int viewHeight = 600;
-        public static bool obfuscate = true;
-        public static int projectVersion = IDEConfig.IDEVersion;
-
-        //Room Editor Preferences
-        public static int gridWidth = 32;
-        public static int gridHeight = 32;
-        public static bool gridEnabled = false;
-
-
-        /// <summary>
-        /// Resets all the data of the game
-        /// </summary>
-        public static void Reset()
-        {
-            name = "";
-            path = "";
-            width = 800;
-            height = 600;
-            viewWidth = 800;
-            viewHeight = 600;
-            gridEnabled = false;
-            gridWidth = 32;
-            gridHeight = 32;
-            projectVersion = IDEConfig.IDEVersion;
-            Sprites.Reset();
-            Rooms.Reset();
-            Objects.Reset();
-            Scripts.Reset();
-        }
+        public const int IDEVersion = 1;
     }
 }
