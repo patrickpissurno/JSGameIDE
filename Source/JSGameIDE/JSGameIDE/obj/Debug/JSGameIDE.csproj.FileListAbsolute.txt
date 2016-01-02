@@ -95,3 +95,4 @@ C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\b
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\objects.js
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\footer.js
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\nativeFunctions.js
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\alias.ini

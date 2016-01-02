@@ -189,7 +189,7 @@ namespace JSGameIDE
             {
                 if (script != null)
                 {
-                    _d += replaceCode(script.data);
+                    _d += ReplaceCode(script.data);
                 }
             }
             return _d;
@@ -298,12 +298,12 @@ namespace JSGameIDE
                             "$objectKeyReleaseds"
                         }).ToArray(),
                         pValues.Concat(new string[] { 
-                            replaceCode(room.onCreate),
-                            replaceCode(room.onUpdate),
-                            replaceCode(room.onDraw),
-                            replaceCode(room.onKeyPressed),
-                            replaceCode(room.onKeyReleased),
-                            replaceCode(_oec),
+                            ReplaceCode(room.onCreate),
+                            ReplaceCode(room.onUpdate),
+                            ReplaceCode(room.onDraw),
+                            ReplaceCode(room.onKeyPressed),
+                            ReplaceCode(room.onKeyReleased),
+                            ReplaceCode(_oec),
                             _oc,
                             _ou,
                             _od,
@@ -355,14 +355,14 @@ namespace JSGameIDE
                         height,
                         autoDraw,
                         sprite,
-                        replaceCode(obj.onCreate),
-                        replaceCode(obj.onUpdate),
-                        replaceCode(obj.onDraw),
-                        replaceCode(obj.onKeyPressed),
-                        replaceCode(obj.onKeyReleased),
-                        replaceCode(obj.onDestroy),
-                        replaceCode(obj.onMousePressed),
-                        replaceCode(obj.onMouseReleased)
+                        ReplaceCode(obj.onCreate),
+                        ReplaceCode(obj.onUpdate),
+                        ReplaceCode(obj.onDraw),
+                        ReplaceCode(obj.onKeyPressed),
+                        ReplaceCode(obj.onKeyReleased),
+                        ReplaceCode(obj.onDestroy),
+                        ReplaceCode(obj.onMousePressed),
+                        ReplaceCode(obj.onMouseReleased)
                     };
                     int _fsi = _i.IndexOf("#FOREACH Object") + 15;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
@@ -398,15 +398,15 @@ namespace JSGameIDE
         /// </summary>
         /// <param name="str">The string which will have the words replaced</param>
         /// <returns>Returns the fixed string</returns>
-        private static string replaceCode(string str)
+        private static string ReplaceCode(string str)
         {
-            str = str.Replace(System.Environment.NewLine, " ");
-            str = str.Replace("var", " ");
-            str = str.Replace("room_goback()", "roomManager.go(roomManager.last)");
-            str = str.Replace("room_actual", "roomManager.actual");
-            str = str.Replace("room_goto(", "roomManager.go(new ");
-            str = str.Replace("gameFPS", "fps.get()");
-            str = str.Replace("screen_clear()", "context.clearRect(0,0,canvas.width,canvas.height)");
+            string input = File.ReadAllText(LibraryPath + @"\alias.ini");
+            string[] datas = input.Split('\n');
+            foreach (string data in datas)
+            {
+                string[] keyPair = data.Split('=');
+                str = str.Replace(keyPair[0], keyPair[1]);
+            }
             foreach (Sprite spr in Sprites.sprites)
             {
                 if(spr!=null)

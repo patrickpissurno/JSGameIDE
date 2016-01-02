@@ -79,6 +79,19 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to room_goback()=roomManager.go(roomManager.last)
+        ///room_actual=roomManager.actual
+        ///room_goto(=roomManager.go(new 
+        ///gameFPS=fps.get()
+        ///screen_clear()=context.clearRect(0,0,canvas.width,canvas.height).
+        /// </summary>
+        internal static string alias {
+            get {
+                return ResourceManager.GetString("alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to function loop()
         ///{
         ///    roomManager.update();
@@ -125,15 +138,28 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function loop()
+        ///   Looks up a localized string similar to //Instance Create
+        ///instance_create = function(x, y, e)
         ///{
-        ///    roomManager.update();
-        ///    roomManager.draw();
+        ///    var _i = new e();
+        ///    _i.x = x;
+        ///    _i.y = y;
+        ///    roomManager.actual[_i.name].push(_i);
+        ///    return _i;
         ///};
-        ///var mouse = new mousePrefab();
-        ///var roomManager = new rM();
-        ///var sprite = new sprImport();
-        ///updateFrame();.
+        ///
+        /////FPS
+        ///var fps = {
+        ///    startTime : 0,
+        ///    frameNumber : 0,
+        ///    get : function(){
+        ///        this.frameNumber++;
+        ///        var d = new Date().getTime(),
+        ///            currentTime = (d - this.startTime) / 1000,
+        ///            result = Math.floor((this.frameNumber / currentTime));
+        ///        if(currentTime &gt; 1)
+        ///        {
+        ///            this.s [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string nativeFunctions {
             get {
