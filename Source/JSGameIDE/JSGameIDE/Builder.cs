@@ -37,6 +37,40 @@ namespace JSGameIDE
 {
     public static class Builder
     {
+        public static readonly string LibraryPath = Application.StartupPath + @"\Library";
+        public static string[] PreprocessorTags;
+        public static string[] PreprocessorValues;
+
+        /// <summary>
+        /// Replaces preprocessor tags with their values
+        /// </summary>
+        /// <param name="str">The input string</param>
+        /// <param name="tags">Preprocessor tags</param>
+        /// <param name="values">Values that are going to replace the tags</param>
+        /// <returns></returns>
+        public static string PreprocessorReplacer(string str, string[] tags, string[] values)
+        {
+            for (int i = 0; i < tags.Length; i++)
+                str = str.Replace(tags[i], values[i]);
+            return str;
+        }
+
+        private static void PreprocessorDefine()
+        {
+            PreprocessorTags = new string[] {
+                "$viewWidth",
+                "$viewHeight",
+                "$gameWidth",
+                "$gameHeight"
+            };
+            PreprocessorValues = new string[]{
+                GameConfig.viewWidth.ToString(),
+                GameConfig.viewHeight.ToString(),
+                GameConfig.width.ToString(),
+                GameConfig.height.ToString()
+            };
+        }
+
         /// <summary>
         /// This method is used to export the game.
         /// </summary>
@@ -44,6 +78,7 @@ namespace JSGameIDE
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
         public static bool Build(bool skipAlert = false)
         {
+            PreprocessorDefine();
             FileManager.ReloadCode();
             string data = "";
             try
@@ -83,16 +118,8 @@ namespace JSGameIDE
         /// <returns>Returns it as a string.</returns>
         private static string BuildHTML()
         {
-            string _d = "<HTML>";
-            _d += "<body>";
-            _d += "<center>";
-            _d += "<canvas id='gameCanvas' width='" + GameConfig.viewWidth +  "' height='" + GameConfig.viewHeight + "' style='border:1px solid #000'>";
-            _d += "</canvas>";
-            _d += "</center>";
-            _d += "<script src='game.js'>";
-            _d += "</script>";
-            _d += "</body>";
-            _d += "</HTML>";
+            string _d = File.ReadAllText(LibraryPath + @"\default.html");
+            _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
             return _d;
         }
 
@@ -102,58 +129,8 @@ namespace JSGameIDE
         /// <returns>Returns it as a string.</returns>
         private static string BuildHeader()
         {
-            string _d = "";
-            //Some basic variable definition
-            _d += "var map = {width:" + GameConfig.width + ", height: "+ GameConfig.height + "};";
-            _d += "var canvas = document.getElementById('gameCanvas');";
-            _d += "var context = canvas.getContext('2d');";
-            _d += "var start = (new Date()).getTime();";
-            _d += "var currentFrame=0;";
-            //Delta Time Function
-            _d += "function deltaTime(){";
-            _d += "current = (new Date()).getTime();";
-            _d += "elapsed = current - start;";
-            _d += "start = current;";
-            _d += "var delta = elapsed / 1000;";
-            _d += "return delta;";
-            _d += "};";
-            //Update Frame Function
-            _d += "function updateFrame(){";
-            _d += "if(document.hasFocus()){";
-            _d += "currentFrame += deltaTime() * 60;";
-            _d += "if(currentFrame>1){";
-            _d += "loop();";
-            _d += "currentFrame-=1;";
-            _d += "};";
-            _d += "if(currentFrame>5)";
-            _d += "currentFrame=5;";
-            _d += "}";
-            _d += "else deltaTime();";
-            _d += "setTimeout(updateFrame, 0);";
-            _d += "};";
-            //Draw Text Function
-            _d += "function drawText(x,y,text,f,c,align){";
-            _d += "context.fillStyle = c;";
-            _d += "context.font = f;";
-            _d += "context.textAlign = align;";
-            _d += "context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);";
-            _d += "};";
-            //Draw Rect Function
-            _d += "function drawRect(x,y,w,h,r,g,b,onlyStroke){if(!onlyStroke){context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';context.fillRect(x,y,w,h);}else {context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';context.strokeRect(x,y,w,h);}};";
-            _d += "function drawSprite(x,y,sprite){context.drawImage(sprite,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);};";
-            _d += "function drawSpriteExt(x,y,w,h,sprite,angle){context.save();context.translate(-roomManager.actual.camera.x+x+w/2, -roomManager.actual.camera.y+y+h/2);context.rotate(angle * Math.PI/180);context.drawImage(sprite,-w/2,-h/2);context.restore();};";
-            _d += "var mousePrefab = function(){this.x = 0;this.y = 0;this.pressed = false;};";
-            _d += "var mousePressed = function(e){if(e.button == 0){e.preventDefault();mouse.pressed=true;}};";
-            _d += "var mouseReleased = function(e){e.preventDefault();mouse.pressed=false;};";
-            _d += "function getMouse(e){rect = canvas.getBoundingClientRect();if((Math.floor(e.clientX - rect.left) >= 0) && (Math.floor(e.clientX - rect.left) <= canvas.width) && (Math.floor(e.clientY - rect.top) >= 0) && (Math.floor(e.clientY - rect.top) <= canvas.height)){mouse.x=Math.floor(e.clientX - rect.left);mouse.y=Math.floor(e.clientY - rect.top);}};addEventListener('mousedown', mousePressed, true);addEventListener('mouseup', mouseReleased, true);addEventListener('mousemove', function(e){getMouse(e)}, false);";
-            _d += "function randomRange (min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;};";
-            _d += "function checkCollision(a,b) {return !(((a.y+a.height) < (b.y)) ||(a.y > (b.y+b.height)) ||((a.x+a.width) < b.x) ||(a.x > (b.x+b.width)));};";
-            _d += "var keyPressed = function(e){roomManager.actual.keyPressed(e);if(e.keyCode == 32)e.preventDefault();};";
-            _d += "var keyReleased = function(e){roomManager.actual.keyReleased(e);};";
-            _d += "addEventListener('keydown', keyPressed, true);";
-            _d += "addEventListener('keyup', keyReleased, true);";
-            _d += "var global = {};";
-            _d += "var camera = function(){this.x=0; this.y=0; this.width = "+ GameConfig.viewWidth +"; this.height = "+ GameConfig.viewHeight +";};";
+            string _d = File.ReadAllText(LibraryPath + @"\header.js");
+            _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
             return _d;
         }
 
@@ -253,6 +230,7 @@ namespace JSGameIDE
 
                     _d += "this._create_executed=false;";
                     _d += "this.camera = new camera();";
+                    
                     //Room create event
                     _d += "this.create = function(){";
                     _d +=       replaceCode(room.onCreate) + replaceCode(_oec) + _oc;
