@@ -30,7 +30,7 @@ namespace JSGameIDE
 {
     public static class IDEConfig
     {
-        public const int IDEVersion = 1;
+        public const int IDEVersion = 2;
         public static List<string> CodeEditors = new List<string>();
         public static int CodeEditorIndex = 0;
         public static bool IsDefaultEditor

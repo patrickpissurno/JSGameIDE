@@ -175,8 +175,6 @@ namespace JSGameIDE
             }
             int _le = _i.LastIndexOf("#END") + 4;
             _d += _i.Substring(_le, _i.Length - _le);
-            //_d = RemoveEmptyLines(_d);
-            //MessageBox.Show(_d);
             return _d.Trim();
         }
 
@@ -203,71 +201,115 @@ namespace JSGameIDE
         /// <returns>Returns them as a string.</returns>
         private static string BuildRooms()
         {
-            string _d = "var rM = function(){";
-            _d += "this.last = {keyboardEnabled:false,update:function(){},draw:function(){}};this.camera = new camera();";
-            _d += "this.actual = this.last;";
-            _d += "this.change=true;";
-            _d += "this.alpha = 0;";
-            if (Rooms.rooms[Rooms.firstId] != null)
-                _d += "this.room2go = new Room" + Rooms.firstId + "();";
-            else
+            if (Rooms.rooms[Rooms.firstId] == null)
+            {
                 MessageBox.Show("You need to create at least one room");
-            _d += "this.go = function(e){this.last = this.actual;this.room2go = e;this.alpha = 0;this.change=true;};";
-            _d += "this.update = function(){";
-            _d += "if(!this.change)this.actual.update();else{";
-            _d += "if(this.alpha<1 && this.actual != this.room2go)this.alpha+=0.1;";
-            _d += "else if(this.alpha>=1 && this.actual != this.room2go)this.actual = this.room2go;";
-            _d += "else if(this.alpha>0 && this.actual == this.room2go)this.alpha-=0.1;";
-            _d += "else{this.alpha=0;this.change = false;}}};";
-            _d += "this.draw = function(){this.actual.draw();if(this.change){if(this.alpha>1)this.alpha=1;else if(this.alpha<0)this.alpha=0;context.globalAlpha = this.alpha;drawRect(0,0,canvas.width,canvas.height,0,0,0,0);context.globalAlpha = 1;}}};";
+                throw new Exception();
+            }
 
+            string _i = File.ReadAllText(LibraryPath + @"\rooms.js");
+            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+            string _d = _i.Substring(0, _i.IndexOf("#FOREACH Room"));
 
             foreach (Room room in Rooms.rooms)
             {
                 if(room!=null)
                 {
-                    _d += "var Room"+room.id+" = function(){";
+                    List<string> pTags = new List<string>();
+                    List<string> pValues = new List<string>();
+
+                    pTags.AddRange(new string[] { "$roomFirstId", "$roomId" });
+                    pValues.AddRange(new string[] { Rooms.firstId.ToString(), room.id.ToString() });
+
+                    string ObjectCreates, ObjectUpdates, ObjectDraws, ObjectKeyPresseds, ObjectKeyReleaseds;
+                    int _o, _o2;
+
+                    _o = _i.IndexOf("#DEFINE ObjectCreates") + 21;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    ObjectCreates = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 21, _o2 + 21 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE ObjectUpdates") + 21;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    ObjectUpdates = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 21, _o2 + 21 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE ObjectDraws") + 19;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    ObjectDraws = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 19, _o2 + 19 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE ObjectKeyPresseds") + 25;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    ObjectKeyPresseds = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 25, _o2 + 25 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE ObjectKeyReleaseds") + 26;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    ObjectKeyReleaseds = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 26, _o2 + 26 + 4), "");
+
+                    _d = _d.TrimEnd() + Environment.NewLine;
+
+                    int _fsi = _i.IndexOf("#FOREACH Room") + 13;
+                    _d += _i.Substring(_fsi, _i.IndexOf("#FOREACH Object") - _fsi).TrimEnd() + Environment.NewLine;
+
+                    _d = PreprocessorReplacer(_d, pTags.ToArray(), pValues.ToArray());
+
                     string _oc="", _ou="", _od="", _okp="", _okr="", _oec = "";
                     foreach (Object obj in Objects.objects)
                     {
                         if (obj != null)
                         {
-                            _d += "this.obj" + obj.id + "=[];";
-                            _oc += "for(var i=0; i<this.obj" + obj.id + ".length; i++){if(this.obj" + obj.id + "[i]!=null){this.obj"+obj.id+"[i].create();};};";
-                            _ou += "for(var i=0; i<this.obj" + obj.id + ".length; i++){if(this.obj" + obj.id + "[i]!=null){this.obj" + obj.id + "[i].update();};};";
-                            _od += "for(var i=0; i<this.obj" + obj.id + ".length; i++){if(this.obj" + obj.id + "[i]!=null){this.obj" + obj.id + "[i].draw();};};";
-                            _okp += "for(var i=0; i<this.obj" + obj.id + ".length; i++){if(this.obj" + obj.id + "[i]!=null){this.obj" + obj.id + "[i].keyPressed(event);};};";
-                            _okr += "for(var i=0; i<this.obj" + obj.id + ".length; i++){if(this.obj" + obj.id + "[i]!=null){this.obj" + obj.id + "[i].keyReleased(event);};};";
+                            string[] _pTags = pTags.Concat(new string[] { "$objectId" }).ToArray();
+                            string[] _pValues = pValues.Concat(new string[] { obj.id.ToString() }).ToArray();
+                            int _ffi = _i.IndexOf("#FOREACH Object", _fsi) + 15;
+                            _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END") - _ffi),
+                                _pTags, _pValues).TrimEnd() + Environment.NewLine;
+
+                            _oc += PreprocessorReplacer(ObjectCreates, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _ou += PreprocessorReplacer(ObjectUpdates, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _od += PreprocessorReplacer(ObjectDraws, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _okp += PreprocessorReplacer(ObjectKeyPresseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _okr += PreprocessorReplacer(ObjectKeyReleaseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                         }
                     }
 
                     foreach (EditorObject obj in room.editorCreate)
                     {
                         if (obj != null)
-                            _oec += "instance_create(" + obj.x + "," + obj.y + "," + Objects.objects[obj.id].name + ");";
+                            _oec += "instance_create(" + obj.x + "," + obj.y + "," + Objects.objects[obj.id].name + ");\n\t\t\t";
                     }
 
-                    _d += "this._create_executed=false;";
-                    _d += "this.camera = new camera();";
-                    
-                    //Room create event
-                    _d += "this.create = function(){";
-                    _d +=       replaceCode(room.onCreate) + replaceCode(_oec) + _oc;
-                    _d += "};";
-
-                    //Room update event
-                    _d += "this.update = function(){";
-                    _d +=       "if(!this._create_executed){";
-                    _d +=           "this.create();";
-                    _d +=           "this._create_executed=true;";
-                    _d +=       "};";
-                    _d +=       replaceCode(room.onUpdate) + _ou;
-                    _d += "};";
-
-                    _d += "this.draw = function(){" + replaceCode(room.onDraw) + _od + "};";
-                    _d += "this.keyPressed = function(event){" + replaceCode(room.onKeyPressed) + _okp + "};";
-                    _d += "this.keyReleased = function(event){" + replaceCode(room.onKeyReleased) + _okr + "};";
-                    _d += "};";
+                    _fsi = _i.IndexOf("#END", _fsi) + 4;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END", _fsi) - _fsi),
+                        pTags.Concat(new string[] {
+                            "$roomCreate",
+                            "$roomUpdate",
+                            "$roomDraw",
+                            "$roomKeyPressed",
+                            "$roomKeyReleased",
+                            "$roomEditorCreate",
+                            "$objectCreates",
+                            "$objectUpdates",
+                            "$objectDraws",
+                            "$objectKeyPresseds",
+                            "$objectKeyReleaseds"
+                        }).ToArray(),
+                        pValues.Concat(new string[] { 
+                            replaceCode(room.onCreate),
+                            replaceCode(room.onUpdate),
+                            replaceCode(room.onDraw),
+                            replaceCode(room.onKeyPressed),
+                            replaceCode(room.onKeyReleased),
+                            replaceCode(_oec),
+                            _oc,
+                            _ou,
+                            _od,
+                            _okp,
+                            _okr
+                        }).ToArray());
                 }
             }
             return _d;
