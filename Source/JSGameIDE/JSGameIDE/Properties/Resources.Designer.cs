@@ -108,6 +108,24 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to var sprImport = function()
+        ///{
+        ///    #FOREACH Sprite
+        ///        this.sprite$spriteId = [];
+        ///        #FOREACH Frame
+        ///            this.sprite$spriteId[$frameId] = new Image();
+        ///            this.sprite$spriteId[$frameId].src = $framePath;
+        ///        #END
+        ///    #END
+        ///}.
+        /// </summary>
+        internal static string objects {
+            get {
+                return ResourceManager.GetString("objects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to //Room Manager
         ///var rM = function()
         ///{

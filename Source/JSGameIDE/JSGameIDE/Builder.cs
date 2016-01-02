@@ -321,54 +321,54 @@ namespace JSGameIDE
         /// <returns>Returns them as a string.</returns>
         private static string BuildObjects()
         {
-            string _d = "";
+            string _i = File.ReadAllText(LibraryPath + @"\objects.js");
+            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+            string _d = _i.Substring(0, _i.IndexOf("#FOREACH Object"));
             foreach (Object obj in Objects.objects)
             {
                 if (obj != null)
                 {
-                    _d += "var obj" + obj.id + " = function(){";
-                    _d += "this.name='obj" + obj.id + "';";
-                    _d += "this._this = this;";
-                    _d += "this.toDestroy=false;";
-                    _d += "this.x = 0;";
-                    _d += "this.y = 0;";
-                    _d += "this.pressed = false;";
-                    _d += "this.alpha = 1;";
-                    _d += "this.angle = 0;";
-                    _d += "this.imageIndex = 0;";
-                    _d += "this.imageSpeed = 1;";
-                    if (obj.sprite != -1)
+                    string sprite = obj.sprite != -1 ? "sprite.sprite" + obj.sprite : "null";
+                    string width = obj.sprite != -1 ? "sprite.sprite" + obj.sprite + "[this.imageIndex].width" : "0";
+                    string height = obj.sprite != -1 ? "sprite.sprite" + obj.sprite + "[this.imageIndex].height" : "0";
+                    string autoDraw = (obj.autoDraw.ToString()).ToLower();
+                    string[] pTags = new string[] {
+                        "$objectId",
+                        "$objectWidth",
+                        "$objectHeight",
+                        "$objectAutoDraw",
+                        "$objectSprite",
+                        "$objectCreate",
+                        "$objectUpdate",
+                        "$objectDraw",
+                        "$objectKeyPressed",
+                        "$objectKeyReleased",
+                        "$objectDestroy",
+                        "$objectMousePressed",
+                        "$objectMouseReleased"
+                    };
+                    string[] pValues = new string[]
                     {
-                        _d += "this.height = sprite.sprite" + obj.sprite + "[this.imageIndex].height;";
-                        _d += "this.width = sprite.sprite" + obj.sprite + "[this.imageIndex].width;";
-                    }
-                    else
-                    {
-                        _d += "this.width = 0;";
-                        _d += "this.height = 0;";
-                    }
-                    _d += "this.hspeed = 0;";
-                    _d += "this.vspeed = 0;";
-                    _d += "this.autoDraw = " + (obj.autoDraw.ToString()).ToLower() + ";";
-                    if (obj.sprite != -1)
-                        _d += "this.sprite = sprite.sprite" + obj.sprite + ";";
-                    else
-                        _d += "this.sprite = null;";
-                    _d += "this._create_executed=false;";
-                    _d += "this.create = function(){" + replaceCode(obj.onCreate) + "};";
-                    _d += "this.update = function(){if(!this._create_executed){this.create();this._create_executed=true;};if(this.pressed && !mouse.pressed){this.pressed=false;"+ replaceCode(obj.onMouseReleased) +"};if(mouse.pressed && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height){this.pressed=true;"+ replaceCode(obj.onMousePressed) +"};if(this.toDestroy){this.destroy();};" + replaceCode(obj.onUpdate) + "this.x+=this.hspeed;this.y+=this.vspeed;};";
-                    _d += "this.draw = function(){this.fixData();this.animator();if(this.sprite!=null&&this.autoDraw){context.globalAlpha = this.alpha; drawSpriteExt(this.x,this.y,this.width,this.height,this.sprite[Math.round(this.imageIndex)],this.angle); context.globalAlpha=1;};" + replaceCode(obj.onDraw) + "};";
-                    _d += "this.keyPressed = function(event){" + replaceCode(obj.onKeyPressed) + "};";
-                    _d += "this.keyReleased = function(event){" + replaceCode(obj.onKeyReleased) + "};";
-                    _d += "this.mousePressed = function(){" + replaceCode(obj.onMousePressed) + "};";
-                    _d += "this.mouseReleased = function(){" + replaceCode(obj.onMouseReleased) + "};";
-                    _d += "this.destroy = function(){if(!this.toDestroy){this.toDestroy=true;} else{" + replaceCode(obj.onDestroy) + "for(var i=0; i<roomManager.actual['obj" + obj.id + "'].length; i++){if(roomManager.actual['obj" + obj.id + "'][i] == this){roomManager.actual['obj" + obj.id + "'].splice(i,1);break;};};};};";
-                    _d += "this.fixData = function(){while(this.imageIndex<0)this.imageIndex+=this.sprite.length-1;while(this.imageIndex > this.sprite.length-1)this.imageIndex -= this.sprite.length-1;if(this.alpha>1)this.alpha=1;if(this.alpha<0)this.alpha=0;while(this.angle>360)this.angle-=360;while(this.angle<0)this.angle+=360;};";
-                    _d += "this.animator = function(){if(this.imageIndex<this.sprite.length-1)this.imageIndex+=this.imageSpeed/10;else this.imageIndex=0;};";
-                    _d += "};";
+                        obj.id.ToString(),
+                        width,
+                        height,
+                        autoDraw,
+                        sprite,
+                        replaceCode(obj.onCreate),
+                        replaceCode(obj.onUpdate),
+                        replaceCode(obj.onDraw),
+                        replaceCode(obj.onKeyPressed),
+                        replaceCode(obj.onKeyReleased),
+                        replaceCode(obj.onDestroy),
+                        replaceCode(obj.onMousePressed),
+                        replaceCode(obj.onMouseReleased)
+                    };
+                    int _fsi = _i.IndexOf("#FOREACH Object") + 15;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
                 }
             }
-            return _d;
+            return PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues).TrimEnd() + Environment.NewLine;
         }
 
         /// <summary>

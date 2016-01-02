@@ -121,6 +121,9 @@
   <data name="header" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\header.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="objects" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\objects.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="rooms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rooms.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

@@ -92,3 +92,4 @@ C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\b
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\header.js
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\rooms.js
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\sprites.js
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\objects.js
