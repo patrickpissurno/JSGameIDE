@@ -377,11 +377,8 @@ namespace JSGameIDE
         /// <returns>Returns the footer as a string.</returns>
         private static string BuildFooter()
         {
-            string _d = "function loop(){roomManager.update();roomManager.draw();};";
-            _d += "var mouse = new mousePrefab();";
-            _d += "var roomManager = new rM();";
-            _d += "var sprite = new sprImport();";
-            _d += "updateFrame();";
+            string _d = File.ReadAllText(LibraryPath + @"\footer.js");
+            _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
             return _d;
         }
 
@@ -391,15 +388,8 @@ namespace JSGameIDE
         /// <returns>Returns them as a string.</returns>
         private static string BuildNativeFunctions()
         {
-            string _d = "";
-            //Instance Create
-            _d += "instance_create = function(x,y,e){var _i = new e(); _i.x = x; _i.y=y; roomManager.actual[_i.name].push(_i);return _i;};";
-            //Fps
-            _d += "var fps = {startTime : 0,frameNumber : 0,get : function(){this.frameNumber++;var d = new Date().getTime(),currentTime = ( d - this.startTime ) / 1000, result = Math.floor( ( this.frameNumber / currentTime ) );if( currentTime > 1 ){this.startTime = new Date().getTime();this.frameNumber = 0;}return result;}};";
-            //Check Collision
-            _d += "check_collision_object = function(me,other,todo){for(i=0;i<roomManager.actual[other].length;i++){if(checkCollision(me,roomManager.actual[other][i])){todo.bind(me)(roomManager.actual[other][i]);};};};";
-            //Draw Set Alpha
-            _d += "draw_set_alpha = function(alpha){if(alpha>1)alpha=1;else if(alpha<0)alpha=0;context.globalAlpha = alpha;};";
+            string _d = File.ReadAllText(LibraryPath + @"\nativeFunctions.js");
+            _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
             return _d;
         }
 

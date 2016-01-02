@@ -79,6 +79,23 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to function loop()
+        ///{
+        ///    roomManager.update();
+        ///    roomManager.draw();
+        ///};
+        ///var mouse = new mousePrefab();
+        ///var roomManager = new rM();
+        ///var sprite = new sprImport();
+        ///updateFrame();.
+        /// </summary>
+        internal static string footer {
+            get {
+                return ResourceManager.GetString("footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to //Some basic variable definition
         ///var map = {width: $gameWidth, height: $gameHeight};
         ///var canvas = document.getElementById(&apos;gameCanvas&apos;);
@@ -108,16 +125,42 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var sprImport = function()
+        ///   Looks up a localized string similar to function loop()
         ///{
-        ///    #FOREACH Sprite
-        ///        this.sprite$spriteId = [];
-        ///        #FOREACH Frame
-        ///            this.sprite$spriteId[$frameId] = new Image();
-        ///            this.sprite$spriteId[$frameId].src = $framePath;
-        ///        #END
-        ///    #END
-        ///}.
+        ///    roomManager.update();
+        ///    roomManager.draw();
+        ///};
+        ///var mouse = new mousePrefab();
+        ///var roomManager = new rM();
+        ///var sprite = new sprImport();
+        ///updateFrame();.
+        /// </summary>
+        internal static string nativeFunctions {
+            get {
+                return ResourceManager.GetString("nativeFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #FOREACH Object
+        ///    var obj$objectId = function()
+        ///    {
+        ///        this.name = &apos;obj$objectId&apos;;
+        ///        this._this = this;
+        ///        this.toDestroy = false;
+        ///        this.x = 0;
+        ///        this.y = 0;
+        ///        this.pressed = false;
+        ///        this.alpha = 1;
+        ///        this.angle = 0;
+        ///        this.imageIndex = 0;
+        ///        this.imageSpeed = 1;
+        ///        this.width = $objectWidth;
+        ///        this.height = $objectHeight;
+        ///        this.hspeed = 0;
+        ///        this.vspeed = 0;
+        ///        this.autoDraw = $objectAutoDraw;
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string objects {
             get {
