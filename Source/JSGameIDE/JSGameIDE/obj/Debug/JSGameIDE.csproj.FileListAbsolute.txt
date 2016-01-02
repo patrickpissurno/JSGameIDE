@@ -88,3 +88,7 @@ C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\o
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.StartScreen.resources
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.csproj.GenerateResource.Cache
 C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\obj\Debug\JSGameIDE.EditorOptionsForm.resources
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\default.html
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\header.js
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\rooms.js
+C:\Users\patrickpissurno\Documents\GitHub\JSGameIDE\Source\JSGameIDE\JSGameIDE\bin\Debug\Resources\sprites.js

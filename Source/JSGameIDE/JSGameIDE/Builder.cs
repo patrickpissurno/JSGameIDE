@@ -38,7 +38,7 @@ namespace JSGameIDE
 {
     public static class Builder
     {
-        public static readonly string LibraryPath = Application.StartupPath + @"\Library";
+        public static readonly string LibraryPath = Application.StartupPath + @"\Resources";
         public static string[] PreprocessorTags;
         public static string[] PreprocessorValues;
 
