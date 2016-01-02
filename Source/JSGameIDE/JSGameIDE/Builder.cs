@@ -1,5 +1,5 @@
 /*
-    <JSGameIDE - An open-source IDE+Library to Javascript Game Development>
+    <JSGameIDE - An open-source IDE+Framework to Javascript Game Development>
     Copyright (C) 2015  Patrick Pissurno
 
     This program is free software: you can redistribute it and/or modify
