@@ -469,6 +469,7 @@ namespace JSGameIDE
             {
                 IDEConfig.CodeEditors = form.Paths;
                 IDEConfig.CodeEditorIndex = form.selectedIndex;
+                IDEConfig.Save();
             }
         }
 

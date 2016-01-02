@@ -50,7 +50,7 @@ namespace JSGameIDE
             foreach(string str in Paths)
             {
                 if (str != "Default")
-                    codeEditorBox.Items.Add(Path.GetFileName(str));
+                    codeEditorBox.Items.Add(GetTitle(str));
                 else
                     codeEditorBox.Items.Add("Default");
             }
@@ -72,9 +72,19 @@ namespace JSGameIDE
             if (!string.IsNullOrWhiteSpace(customEditorFileDialog.FileName))
             {
                 Paths.Add(customEditorFileDialog.FileName);
-                codeEditorBox.Items.Add(Path.GetFileName(customEditorFileDialog.FileName));
+                codeEditorBox.Items.Add(GetTitle(customEditorFileDialog.FileName));
                 codeEditorBox.SelectedIndex = Paths.Count - 1;
             }
+        }
+
+        public static string Capitalize(string str)
+        {
+            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+        }
+
+        public static string GetTitle(string path)
+        {
+            return System.Diagnostics.FileVersionInfo.GetVersionInfo(path).ProductName;
         }
     }
 }

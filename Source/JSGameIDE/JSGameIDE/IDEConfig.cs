@@ -25,7 +25,10 @@
     For further  details see: http://patrickpissurno.github.io/JSGameIDE/
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 namespace JSGameIDE
 {
     public static class IDEConfig
@@ -33,6 +36,9 @@ namespace JSGameIDE
         public const int IDEVersion = 2;
         public static List<string> CodeEditors = new List<string>();
         public static int CodeEditorIndex = 0;
+
+        public static readonly string ConfigPath = Application.StartupPath + @"\userprefs.ini";
+
         public static bool IsDefaultEditor
         {
             get
@@ -47,6 +53,10 @@ namespace JSGameIDE
             CodeEditors.Clear();
             CodeEditors.Add("Default");
             CodeEditorIndex = 0;
+            if (File.Exists(ConfigPath))
+                Load();
+            else
+                Save();
         }
         public enum ComponentType
         {
@@ -54,6 +64,52 @@ namespace JSGameIDE
             Room,
             Script,
             Sprite
+        }
+        public static void Save()
+        {
+            string output = "[General]" + Environment.NewLine;
+            output += "CodeEditorIndex=" + CodeEditorIndex + Environment.NewLine;
+            output += "[CodeEditor]" + Environment.NewLine;
+            for(int i=0; i<CodeEditors.Count; i++)
+                output += i + "=" + CodeEditors[i] + Environment.NewLine;
+            using (StreamWriter w = new StreamWriter(ConfigPath))
+            {
+                w.Write(output);
+            }
+        }
+        public static void Load()
+        {
+            string[] input = File.ReadAllLines(ConfigPath);
+            string group = "";
+            for (int i = 0; i < input.Length; i++)
+            {
+                switch (input[i])
+                {
+                    case "[General]":
+                        group = "General";
+                        break;
+                    case "[CodeEditor]":
+                        group = "CodeEditor";
+                        break;
+                    default:
+                        string[] keyPair = input[i].Split('=');
+                        if (group != "CodeEditor")
+                        {
+                            switch (keyPair[0])
+                            {
+                                case "CodeEditorIndex":
+                                    CodeEditorIndex = int.Parse(keyPair[1]);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            if (!keyPair[1].Equals("Default"))
+                                CodeEditors.Add(keyPair[1]);
+                        }
+                        break;
+                }
+            }
         }
     }
 }

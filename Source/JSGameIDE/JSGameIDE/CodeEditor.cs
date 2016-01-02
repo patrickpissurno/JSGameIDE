@@ -35,6 +35,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace JSGameIDE
@@ -128,7 +129,18 @@ namespace JSGameIDE
                 path += Event == null ? Index.ToString() + ".js" : Index.ToString() + @"\" + Event + ".js";
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.FileName = IDEConfig.CodeEditors[IDEConfig.CodeEditorIndex];
-                startInfo.Arguments = path;
+                switch(Path.GetFileNameWithoutExtension(startInfo.FileName).ToLower())
+                {
+                    default:
+                        startInfo.Arguments = path;
+                        break;
+                    case "brackets":
+                        foreach (var process in System.Diagnostics.Process.GetProcessesByName("Brackets"))
+                            process.Kill();
+                        startInfo.WorkingDirectory = Path.GetDirectoryName(path);
+                        startInfo.Arguments = Path.GetFileName(path);
+                        break;
+                }
                 System.Diagnostics.Process.Start(startInfo);
             }
             return r;
