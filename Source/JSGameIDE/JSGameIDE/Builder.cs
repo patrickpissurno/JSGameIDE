@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace JSGameIDE
 {
@@ -53,6 +54,11 @@ namespace JSGameIDE
             for (int i = 0; i < tags.Length; i++)
                 str = str.Replace(tags[i], values[i]);
             return str;
+        }
+
+        public static string RemoveEmptyLines(string lines)
+        {
+            return Regex.Replace(lines, @"^\s*$\n|\r", "", RegexOptions.Multiline).TrimEnd();
         }
 
         private static void PreprocessorDefine()
@@ -90,12 +96,12 @@ namespace JSGameIDE
                     outfile.Write(data);
                 }
                 data = "";
-                data += BuildHeader();
-                data += BuildSprites();
-                data += BuildScripts();
-                data += BuildObjects();
-                data += BuildRooms();
-                data += BuildNativeFunctions();
+                data += BuildHeader() + Environment.NewLine + Environment.NewLine;
+                data += BuildSprites() + Environment.NewLine + Environment.NewLine;
+                data += BuildScripts() + Environment.NewLine + Environment.NewLine;
+                data += BuildObjects() + Environment.NewLine + Environment.NewLine;
+                data += BuildRooms() + Environment.NewLine + Environment.NewLine;
+                data += BuildNativeFunctions() + Environment.NewLine + Environment.NewLine;
                 data += BuildFooter();
                 using (StreamWriter outfile = new StreamWriter(GameConfig.path + @"\Build\game.js"))
                 {
@@ -140,25 +146,38 @@ namespace JSGameIDE
         /// <returns>Returns them as a string.</returns>
         private static string BuildSprites()
         {
-            string _d = "var sprImport = function(){";
+            string _i = File.ReadAllText(LibraryPath + @"\sprites.js");
+            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+            string _d = _i.Substring(0, _i.IndexOf("#FOREACH Sprite"));
             foreach (Sprite sprite in Sprites.sprites)
             {
-                if (sprite != null)
+                if (sprite != null && sprite.path != null)
                 {
-                    if(sprite.path!=null)
+                    DirectoryExtension.Copy(GameConfig.path + @"\Resources\IMG\spr" + sprite.id, GameConfig.path + @"\Build\IMG\spr" + sprite.id, false);
+                    
+                    int _fsi = _i.IndexOf("#FOREACH Sprite") + 15;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#FOREACH Frame") - _fsi),
+                        new string[] { "$spriteId" }, new string[] { sprite.id.ToString() });
+
+                    for (int i = 0; i < sprite.path.Length; i++)
                     {
-                        _d += "this.sprite" + sprite.id + " = [];";
-                        DirectoryExtension.Copy(GameConfig.path + @"\Resources\IMG\spr" + sprite.id, GameConfig.path + @"\Build\IMG\spr" + sprite.id, false);
-                        for(int i=0; i<sprite.path.Length; i++)
-                        {
-                            _d += "this.sprite" + sprite.id + "[" + i + "] = new Image();";
-                            _d += "this.sprite" + sprite.id + "[" + i + "].src = 'IMG/spr" + sprite.id +"/"+i+Path.GetExtension(sprite.path[i])+"';";
-                        }
+                        int _ffi = _i.IndexOf("#FOREACH Frame", _fsi) + 14;
+                        _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END") - _ffi),
+                            new string[] { "$spriteId", "$frameId", "$framePath"},
+                            new string[] { sprite.id.ToString(), i.ToString(),  "'IMG/spr" + sprite.id +"/"+i+Path.GetExtension(sprite.path[i])+"'"});
                     }
+
+                    _fsi = _i.IndexOf("#END", _fsi) + 4;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END", _fsi) - _fsi),
+                        new string[] { "$spriteId" }, new string[] { sprite.id.ToString() });
                 }
             }
-            _d += "};";
-            return _d;
+            int _le = _i.LastIndexOf("#END") + 4;
+            _d += _i.Substring(_le, _i.Length - _le);
+            //_d = RemoveEmptyLines(_d);
+            //MessageBox.Show(_d);
+            return _d.Trim();
         }
 
         /// <summary>
