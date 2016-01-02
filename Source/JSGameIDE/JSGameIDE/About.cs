@@ -14,6 +14,20 @@ namespace JSGameIDE
         public About()
         {
             InitializeComponent();
+            int v = -1;
+            string msg = "";
+            try
+            {
+                v = int.Parse(new System.Net.WebClient().DownloadString("http://patrickpissurno.github.io/JSGVersion.html").Trim());
+                msg += v > IDEConfig.IDEVersion ? " (New Update Available)" : "";
+                msg += IDEConfig.IDEVersion > v ? " (Development build)" : "";
+            }
+            catch
+            {
+                msg += " (Can't check for updates)";
+            }
+
+            labelVersion.Text = "Update " + IDEConfig.IDEVersion.ToString() + msg;
         }
 
         //Ok button event
