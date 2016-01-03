@@ -253,7 +253,7 @@
             this.MinimizeBox = false;
             this.Name = "ProjectOptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Game Options";
+            this.Text = "Project Settings";
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

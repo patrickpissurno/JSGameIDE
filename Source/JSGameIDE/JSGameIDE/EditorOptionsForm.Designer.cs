@@ -93,7 +93,7 @@
             this.MinimizeBox = false;
             this.Name = "EditorOptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Editor Options";
+            this.Text = "Editor Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
 

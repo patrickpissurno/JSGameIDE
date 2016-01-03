@@ -238,10 +238,6 @@ namespace JSGameIDE
             }
         }
 
-        private void exportarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
-
         //Add new room button click event
         private void RoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -249,7 +245,7 @@ namespace JSGameIDE
         }
 
         //New project button click event
-        private void novoToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var form = new NewProject(false, this);
             form.Show();
@@ -281,20 +277,20 @@ namespace JSGameIDE
         }
 
         //Export and run button click event
-        private void testarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void buildAndRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(Builder.Build(true))
                 System.Diagnostics.Process.Start(GameConfig.path + @"\Build\HTML5\index.html");
         }
 
         //Save project button click event
-        private void salvarToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             FileManager.Save();
         }
 
         //Open project button click event
-        private void abrirToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -320,7 +316,7 @@ namespace JSGameIDE
         }
 
         //Tree view delete click event
-        private void deletarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (componentsTree.SelectedNode.Parent != null)
             {
@@ -356,7 +352,7 @@ namespace JSGameIDE
         }
 
         //About menu button click event
-        private void sobreToolStripMenuItem_Click(object sender, EventArgs e)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var aboutForm = new About();
             aboutForm.Show();

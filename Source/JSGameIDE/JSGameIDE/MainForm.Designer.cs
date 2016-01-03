@@ -39,19 +39,19 @@
             this.novoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTML5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opçõesDoProjetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hTML5ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildAndRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ajudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +62,8 @@
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreview = new System.Windows.Forms.Panel();
+            this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -72,7 +74,9 @@
             this.arquivoToolStripMenuItem,
             this.novoToolStripMenuItem,
             this.projetoToolStripMenuItem,
+            this.buildToolStripMenuItem,
             this.livePreviewToolStripMenuItem,
+            this.editorToolStripMenuItem,
             this.ajudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -85,8 +89,7 @@
             this.arquivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.novoToolStripMenuItem1,
             this.salvarToolStripMenuItem,
-            this.salvarToolStripMenuItem1,
-            this.optionsToolStripMenuItem});
+            this.salvarToolStripMenuItem1});
             this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
             this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.arquivoToolStripMenuItem.Text = "File";
@@ -94,30 +97,23 @@
             // novoToolStripMenuItem1
             // 
             this.novoToolStripMenuItem1.Name = "novoToolStripMenuItem1";
-            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.novoToolStripMenuItem1.Text = "New";
-            this.novoToolStripMenuItem1.Click += new System.EventHandler(this.novoToolStripMenuItem1_Click);
+            this.novoToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem
             // 
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.salvarToolStripMenuItem.Text = "Open";
-            this.salvarToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem1_Click);
+            this.salvarToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem1
             // 
             this.salvarToolStripMenuItem1.Name = "salvarToolStripMenuItem1";
-            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
-            this.salvarToolStripMenuItem1.Text = "Save (CTRL+S)";
-            this.salvarToolStripMenuItem1.Click += new System.EventHandler(this.salvarToolStripMenuItem1_Click);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.salvarToolStripMenuItem1.Text = "Save";
+            this.salvarToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
             // novoToolStripMenuItem
             // 
@@ -127,8 +123,8 @@
             this.RoomToolStripMenuItem,
             this.scriptToolStripMenuItem});
             this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
-            this.novoToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.novoToolStripMenuItem.Text = "New";
+            this.novoToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.novoToolStripMenuItem.Text = "Add";
             // 
             // spriteToolStripMenuItem
             // 
@@ -161,58 +157,64 @@
             // projetoToolStripMenuItem
             // 
             this.projetoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportarToolStripMenuItem,
-            this.testarToolStripMenuItem,
             this.reloadAssetsToolStripMenuItem,
             this.opçõesDoProjetoToolStripMenuItem});
             this.projetoToolStripMenuItem.Name = "projetoToolStripMenuItem";
             this.projetoToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projetoToolStripMenuItem.Text = "Project";
             // 
-            // exportarToolStripMenuItem
-            // 
-            this.exportarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hTML5ToolStripMenuItem,
-            this.windowsToolStripMenuItem});
-            this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
-            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.exportarToolStripMenuItem.Text = "Export";
-            this.exportarToolStripMenuItem.Click += new System.EventHandler(this.exportarToolStripMenuItem_Click);
-            // 
-            // hTML5ToolStripMenuItem
-            // 
-            this.hTML5ToolStripMenuItem.Name = "hTML5ToolStripMenuItem";
-            this.hTML5ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.hTML5ToolStripMenuItem.Text = "HTML5";
-            this.hTML5ToolStripMenuItem.Click += new System.EventHandler(this.hTML5ToolStripMenuItem_Click);
-            // 
-            // windowsToolStripMenuItem
-            // 
-            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.windowsToolStripMenuItem.Text = "Windows";
-            this.windowsToolStripMenuItem.Click += new System.EventHandler(this.windowsToolStripMenuItem_Click);
-            // 
-            // testarToolStripMenuItem
-            // 
-            this.testarToolStripMenuItem.Name = "testarToolStripMenuItem";
-            this.testarToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.testarToolStripMenuItem.Text = "Export and run (CTRL+B)";
-            this.testarToolStripMenuItem.Click += new System.EventHandler(this.testarToolStripMenuItem_Click);
-            // 
             // reloadAssetsToolStripMenuItem
             // 
             this.reloadAssetsToolStripMenuItem.Name = "reloadAssetsToolStripMenuItem";
-            this.reloadAssetsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.reloadAssetsToolStripMenuItem.Text = "Reload assets";
+            this.reloadAssetsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.reloadAssetsToolStripMenuItem.Text = "Reimport Assets";
             this.reloadAssetsToolStripMenuItem.Click += new System.EventHandler(this.reloadAssetsToolStripMenuItem_Click);
             // 
             // opçõesDoProjetoToolStripMenuItem
             // 
             this.opçõesDoProjetoToolStripMenuItem.Name = "opçõesDoProjetoToolStripMenuItem";
-            this.opçõesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.opçõesDoProjetoToolStripMenuItem.Text = "Project options";
+            this.opçõesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.opçõesDoProjetoToolStripMenuItem.Text = "Project Settings";
             this.opçõesDoProjetoToolStripMenuItem.Click += new System.EventHandler(this.projectOptionsToolStripMenuItem_Click);
+            // 
+            // buildToolStripMenuItem
+            // 
+            this.buildToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buildToolStripMenuItem1,
+            this.buildAndRunToolStripMenuItem});
+            this.buildToolStripMenuItem.Name = "buildToolStripMenuItem";
+            this.buildToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.buildToolStripMenuItem.Text = "Build";
+            // 
+            // buildToolStripMenuItem1
+            // 
+            this.buildToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hTML5ToolStripMenuItem1,
+            this.windowsToolStripMenuItem1});
+            this.buildToolStripMenuItem1.Name = "buildToolStripMenuItem1";
+            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(145, 22);
+            this.buildToolStripMenuItem1.Text = "Build";
+            // 
+            // hTML5ToolStripMenuItem1
+            // 
+            this.hTML5ToolStripMenuItem1.Name = "hTML5ToolStripMenuItem1";
+            this.hTML5ToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.hTML5ToolStripMenuItem1.Text = "HTML5";
+            this.hTML5ToolStripMenuItem1.Click += new System.EventHandler(this.hTML5ToolStripMenuItem_Click);
+            // 
+            // windowsToolStripMenuItem1
+            // 
+            this.windowsToolStripMenuItem1.Name = "windowsToolStripMenuItem1";
+            this.windowsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.windowsToolStripMenuItem1.Text = "Windows";
+            this.windowsToolStripMenuItem1.Click += new System.EventHandler(this.windowsToolStripMenuItem_Click);
+            // 
+            // buildAndRunToolStripMenuItem
+            // 
+            this.buildAndRunToolStripMenuItem.Name = "buildAndRunToolStripMenuItem";
+            this.buildAndRunToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.buildAndRunToolStripMenuItem.Text = "Build and run";
+            this.buildAndRunToolStripMenuItem.Click += new System.EventHandler(this.buildAndRunToolStripMenuItem_Click);
             // 
             // livePreviewToolStripMenuItem
             // 
@@ -225,7 +227,7 @@
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
@@ -250,7 +252,7 @@
             this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
             this.sobreToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.sobreToolStripMenuItem.Text = "About";
-            this.sobreToolStripMenuItem.Click += new System.EventHandler(this.sobreToolStripMenuItem_Click);
+            this.sobreToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // componentsTree
             // 
@@ -296,7 +298,7 @@
             this.deletarToolStripMenuItem.Name = "deletarToolStripMenuItem";
             this.deletarToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.deletarToolStripMenuItem.Text = "Deletar";
-            this.deletarToolStripMenuItem.Click += new System.EventHandler(this.deletarToolStripMenuItem_Click);
+            this.deletarToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // livePreview
             // 
@@ -305,6 +307,21 @@
             this.livePreview.Name = "livePreview";
             this.livePreview.Size = new System.Drawing.Size(725, 551);
             this.livePreview.TabIndex = 2;
+            // 
+            // editorToolStripMenuItem
+            // 
+            this.editorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem});
+            this.editorToolStripMenuItem.Name = "editorToolStripMenuItem";
+            this.editorToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.editorToolStripMenuItem.Text = "Editor";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -334,8 +351,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem arquivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projetoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem novoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spriteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ObjectToolStripMenuItem;
@@ -352,13 +367,17 @@
         private System.Windows.Forms.ToolStripMenuItem opçõesDoProjetoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wikiToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadAssetsToolStripMenuItem;
         private System.Windows.Forms.Panel livePreview;
         private System.Windows.Forms.ToolStripMenuItem livePreviewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hTML5ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buildToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem buildAndRunToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hTML5ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem editorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
 
     }
 }
