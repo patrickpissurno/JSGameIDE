@@ -67,6 +67,7 @@ namespace JSGameIDE
                 unsavedChanges = value;
             }
         }
+        public static bool ProjectLoaded = false;
 
         /// <summary>
         /// Saves the current project
@@ -408,6 +409,7 @@ namespace JSGameIDE
                         FileManager.Save(true);
                     }
                     FileManager.UnsavedChanges = false;
+                    FileManager.ProjectLoaded = true;
                 }
                 catch
                 {

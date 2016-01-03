@@ -138,6 +138,40 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;style&gt;
+        ///    body
+        ///    {
+        ///        background-color: #47484B;
+        ///        overflow: hidden;
+        ///        color:white;
+        ///        font-family:sans-serif;
+        ///    }
+        ///    .center, .center2
+        ///    {
+        ///        position: absolute;
+        ///        width: 100vw;
+        ///        display: flex;
+        ///        justify-content: center;
+        ///        align-items: center;
+        ///        text-shadow: .3vh .3vh .6vh #27282B;
+        ///    }
+        ///    .center
+        ///    {
+        ///        height: 94vh;
+        ///        font-size: 6vh;
+        ///    }
+        ///    .center2
+        ///    {
+        ///        height: 106vh;
+        ///        font-size: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string livePreview {
+            get {
+                return ResourceManager.GetString("livePreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to //Instance Create
         ///instance_create = function(x, y, e)
         ///{

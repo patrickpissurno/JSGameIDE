@@ -40,27 +40,51 @@ namespace JSGameIDE
     public static class LivePreview
     {
         public static ChromiumWebBrowser Browser;
-        public static readonly string BuildPath = @"\Build\index.html";
+        public static readonly string BuildPath = Application.StartupPath + @"\Temp\LivePreview";
+        public static readonly string PlaceholderPath = Application.StartupPath + @"\Resources\livePreview.html";
         private static MainForm mainForm;
         public static void Init(MainForm form, Control dock)
         {
             mainForm = form;
             Cef.Initialize(new CefSettings());
-            Browser = new ChromiumWebBrowser("");
+            Browser = new ChromiumWebBrowser(PlaceholderPath);
             dock.Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
         }
         public static void Reload()
         {
-            string path = GameConfig.path + BuildPath;
-            if (File.Exists(path))
+            if(FileManager.ProjectLoaded)
             {
-                Browser.Load(path);
+                //Cleans the temporary files from previous build
+                string dir = Path.GetDirectoryName(BuildPath);
+                try
+                {
+                    Directory.Delete(dir, true);
+                }
+                catch { }
+                Directory.CreateDirectory(dir);
+                
+                //Build the Preview
+                if (Builder.Build(true, BuildPath))
+                {
+                    //Loads the page
+                    if (File.Exists(BuildPath + @"\index.html"))
+                        Browser.Load(BuildPath + @"\index.html");
+                    else
+                        Browser.Load(PlaceholderPath);
+                }
+                else
+                    Browser.Load(PlaceholderPath);
             }
         }
 
         public static void Shutdown()
         {
+            try
+            {
+                Directory.Delete(Path.GetDirectoryName(BuildPath), true);
+            }
+            catch { }
             Cef.Shutdown();
         }
     }

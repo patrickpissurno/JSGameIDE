@@ -81,29 +81,31 @@ namespace JSGameIDE
         /// This method is used to export the game.
         /// </summary>
         /// <param name="skipAlert">If true the builder wouldn't show any alert</param>
+        /// <param name="customPath">Specifies a custom export location to the builder. Leave it null for default path</param>
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
-        public static bool Build(bool skipAlert = false)
+        public static bool Build(bool skipAlert = false, string customPath = null)
         {
+            string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build";
             PreprocessorDefine();
             FileManager.ReloadCode();
             string data = "";
             try
             {
-                Directory.CreateDirectory(GameConfig.path + @"\Build\IMG");
+                Directory.CreateDirectory(TargetPath + @"\IMG");
                 data += BuildHTML();
-                using (StreamWriter outfile = new StreamWriter(GameConfig.path + @"\Build\index.html"))
+                using (StreamWriter outfile = new StreamWriter(TargetPath + @"\index.html"))
                 {
                     outfile.Write(data);
                 }
                 data = "";
                 data += BuildHeader() + Environment.NewLine + Environment.NewLine;
-                data += BuildSprites() + Environment.NewLine + Environment.NewLine;
+                data += BuildSprites(TargetPath) + Environment.NewLine + Environment.NewLine;
                 data += BuildScripts() + Environment.NewLine + Environment.NewLine;
                 data += BuildObjects() + Environment.NewLine + Environment.NewLine;
                 data += BuildRooms() + Environment.NewLine + Environment.NewLine;
                 data += BuildNativeFunctions() + Environment.NewLine + Environment.NewLine;
                 data += BuildFooter();
-                using (StreamWriter outfile = new StreamWriter(GameConfig.path + @"\Build\game.js"))
+                using (StreamWriter outfile = new StreamWriter(TargetPath + @"\game.js"))
                 {
                     outfile.Write(data);
                 }
@@ -144,7 +146,7 @@ namespace JSGameIDE
         /// This method is used to build the sprites of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildSprites()
+        private static string BuildSprites(string TargetPath)
         {
             string _i = File.ReadAllText(LibraryPath + @"\sprites.js");
             _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
@@ -154,7 +156,7 @@ namespace JSGameIDE
             {
                 if (sprite != null && sprite.path != null)
                 {
-                    DirectoryExtension.Copy(GameConfig.path + @"\Resources\IMG\spr" + sprite.id, GameConfig.path + @"\Build\IMG\spr" + sprite.id, false);
+                    DirectoryExtension.Copy(GameConfig.path + @"\Resources\IMG\spr" + sprite.id, TargetPath + @"\IMG\spr" + sprite.id, false);
                     
                     int _fsi = _i.IndexOf("#FOREACH Sprite") + 15;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#FOREACH Frame") - _fsi),

@@ -1,7 +1,24 @@
 <html>
+    <head>
+        <style>
+            body
+            {
+                background-color: #47484B;
+                overflow: hidden;
+                color:white;
+                font-family:sans-serif;
+            }
+            canvas
+            {
+                background-color:white;
+                border-style: none;
+                box-shadow: 5px 5px 5px #333;
+            }
+        </style>
+    </head>
     <body>
         <center>
-            <canvas id='gameCanvas' width='$viewWidth' height='$viewHeight' style='border:1px solid #000'>
+            <canvas id='gameCanvas' width='$viewWidth' height='$viewHeight'>
             </canvas>
         </center>
         <script src='game.js'>
