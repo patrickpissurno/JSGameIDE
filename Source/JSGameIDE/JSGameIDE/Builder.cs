@@ -89,7 +89,8 @@ namespace JSGameIDE
         {
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             PreprocessorDefine();
-            FileManager.ReloadCode();
+            if(!IDEConfig.IsDefaultEditor)
+                FileManager.ReloadCode();
             string data = "";
             try
             {

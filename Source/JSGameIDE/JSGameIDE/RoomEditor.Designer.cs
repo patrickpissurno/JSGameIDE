@@ -68,8 +68,8 @@
             // gridOptionsToolStripMenuItem
             // 
             this.gridOptionsToolStripMenuItem.Name = "gridOptionsToolStripMenuItem";
-            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.gridOptionsToolStripMenuItem.Text = "Grid settings";
+            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gridOptionsToolStripMenuItem.Text = "Grid Settings";
             this.gridOptionsToolStripMenuItem.Click += new System.EventHandler(this.gridOptionsToolStripMenuItem_Click);
             // 
             // instanceMenu
