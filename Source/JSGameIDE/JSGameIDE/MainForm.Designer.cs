@@ -217,7 +217,8 @@
             // 
             // componentsTree
             // 
-            this.componentsTree.Location = new System.Drawing.Point(0, 27);
+            this.componentsTree.Dock = System.Windows.Forms.DockStyle.Left;
+            this.componentsTree.Location = new System.Drawing.Point(0, 24);
             this.componentsTree.Name = "componentsTree";
             treeNode1.Name = "Sprites";
             treeNode1.Text = "Sprites";
@@ -236,7 +237,7 @@
             treeNode2,
             treeNode3,
             treeNode4});
-            this.componentsTree.Size = new System.Drawing.Size(121, 551);
+            this.componentsTree.Size = new System.Drawing.Size(138, 551);
             this.componentsTree.TabIndex = 1;
             this.componentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.componentsTree_NodeMouseDoubleClick);
             this.componentsTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.componentsTree_MouseUp);
@@ -262,9 +263,10 @@
             // 
             // livePreview
             // 
-            this.livePreview.Location = new System.Drawing.Point(127, 27);
+            this.livePreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.livePreview.Location = new System.Drawing.Point(138, 24);
             this.livePreview.Name = "livePreview";
-            this.livePreview.Size = new System.Drawing.Size(736, 551);
+            this.livePreview.Size = new System.Drawing.Size(725, 551);
             this.livePreview.TabIndex = 2;
             // 
             // MainForm
@@ -275,10 +277,8 @@
             this.Controls.Add(this.livePreview);
             this.Controls.Add(this.componentsTree);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JSGameIDE";
