@@ -42,6 +42,16 @@ namespace JSGameIDE
             InitializeComponent();
             LivePreview.Init(this, livePreview);
             this.KeyPreview = true;
+            this.Activated += MainForm_Activated;
+        }
+
+        void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (!IDEConfig.IsDefaultEditor)
+            {
+                FileManager.ReloadCode();
+                LivePreview.Reload();
+            }
         }
 
         //Add new sprite click event
