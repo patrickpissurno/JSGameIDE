@@ -71,6 +71,20 @@ namespace JSGameIDE
                 if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
                 {
                     string SDKPath = Application.StartupPath + @"\SDK";
+
+                    //Meta information
+                    string temp = File.ReadAllText(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs");
+                    temp = MetaInfoChanger(temp, "[assembly: AssemblyTitle(\"", "\")]", GameConfig.name);
+                    temp = MetaInfoChanger(temp, "[assembly: AssemblyDescription(\"", "\")]", GameConfig.name);
+                    temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
+                    temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
+                    temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
+
+                    using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
+                    {
+                        w.Write(temp);
+                    }
+
                     System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
                     info.FileName = Path;
                     info.Arguments = @"/p:Platform=x86 JSGameIDE-Player.sln";
@@ -83,6 +97,12 @@ namespace JSGameIDE
                     MessageBox.Show("Built");
                 }
             }
+        }
+
+        public static string MetaInfoChanger(string text, string start, string end, string value)
+        {
+            int startPos = text.IndexOf(start);
+            return text.Replace(text.Substring(startPos, text.IndexOf(end, startPos) + end.Length - startPos), start + value + end);
         }
     }
 }

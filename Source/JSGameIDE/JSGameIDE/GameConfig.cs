@@ -45,6 +45,10 @@ namespace JSGameIDE
         public static bool obfuscate = true;
         public static int projectVersion = IDEConfig.IDEVersion;
 
+        //Meta Information data
+        public static string author = "";
+        public static string copyright = "Copyright © 2016";
+
         //Room Editor Preferences
         public static int gridWidth = 32;
         public static int gridHeight = 32;
