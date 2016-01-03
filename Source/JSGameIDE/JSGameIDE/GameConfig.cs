@@ -46,7 +46,7 @@ namespace JSGameIDE
         public static int projectVersion = IDEConfig.IDEVersion;
 
         //Meta Information data
-        public static string author = "";
+        public static string author = "Made with JSGameIDE";
         public static string copyright = "Copyright © 2016";
 
         //Room Editor Preferences

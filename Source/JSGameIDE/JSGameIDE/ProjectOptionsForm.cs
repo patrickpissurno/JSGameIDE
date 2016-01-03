@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,27 @@ namespace JSGameIDE
         public string lastCanvasHeight = "";
         public string lastViewWidth = "";
         public string lastViewHeight = "";
+        public string icon = "";
+        public string Copyright
+        {
+            get
+            {
+                return copyrightBox.Text;
+            }
+            set
+            {
+            }
+        }
+        public string Author
+        {
+            get
+            {
+                return authorBox.Text;
+            }
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Opens a Project Options Form
@@ -52,7 +74,7 @@ namespace JSGameIDE
         /// <param name="canvasHeight">The old canvas height</param>
         /// <param name="viewWidth">The old view width</param>
         /// <param name="viewHeight">The old view height</param>
-        public ProjectOptionsForm(string projectName, int canvasWidth, int canvasHeight, int viewWidth, int viewHeight)
+        public ProjectOptionsForm(string projectName, int canvasWidth, int canvasHeight, int viewWidth, int viewHeight, string author, string copyright)
         {
             InitializeComponent();
             projectNameBox.Text = projectName;
@@ -60,6 +82,10 @@ namespace JSGameIDE
             heightTextBox.Text = "" + canvasHeight;
             viewWidthBox.Text = "" + viewWidth;
             viewHeightBox.Text = "" + viewHeight;
+            authorBox.Text = author;
+            copyrightBox.Text = copyright;
+            iconBox.Image = Image.FromFile(GameConfig.path + @"\Resources\icon.ico");
+            icon = GameConfig.path + @"\Resources\icon.ico";
         }
 
         /// <summary>
@@ -68,7 +94,7 @@ namespace JSGameIDE
         /// <returns>The name as a string</returns>
         public string GetProjectName()
         {
-            return projectNameBox.Text;
+            return projectNameBox.Text.Trim();
         }
 
         //Make some textboxes only accept integers
@@ -108,10 +134,27 @@ namespace JSGameIDE
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (lastCanvasWidth.Length > 0 && lastCanvasHeight.Length > 0 && lastViewWidth.Length > 0 &&
-                lastViewHeight.Length > 0 && !string.IsNullOrWhiteSpace(projectNameBox.Text))
+                lastViewHeight.Length > 0 && !string.IsNullOrWhiteSpace(projectNameBox.Text) && !string.IsNullOrWhiteSpace(authorBox.Text)
+                && !string.IsNullOrWhiteSpace(copyrightBox.Text))
             {
                 DialogResult = DialogResult.OK;
+                iconBox.Image.Dispose();
+                if(!icon.Equals(GameConfig.path + @"\Resources\icon.ico"))
+                    File.Copy(icon, GameConfig.path + @"\Resources\icon.ico", true);
                 this.Close();
+            }
+            else
+                MessageBox.Show("Some settings are invalid. Please ensure that everything is correct and try again.");
+        }
+
+        private void selectIcon_Click(object sender, EventArgs e)
+        {
+            openIconDialog.ShowDialog();
+            if (!openIconDialog.FileName.Equals(GameConfig.path + @"\Resources\icon.ico"))
+            {
+                icon = openIconDialog.FileName;
+                iconBox.Image.Dispose();
+                iconBox.Image = Image.FromFile(icon);
             }
         }
     }

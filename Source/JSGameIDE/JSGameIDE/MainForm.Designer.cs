@@ -212,7 +212,7 @@
             this.opçõesDoProjetoToolStripMenuItem.Name = "opçõesDoProjetoToolStripMenuItem";
             this.opçõesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.opçõesDoProjetoToolStripMenuItem.Text = "Project options";
-            this.opçõesDoProjetoToolStripMenuItem.Click += new System.EventHandler(this.opçõesDoProjetoToolStripMenuItem_Click);
+            this.opçõesDoProjetoToolStripMenuItem.Click += new System.EventHandler(this.projectOptionsToolStripMenuItem_Click);
             // 
             // livePreviewToolStripMenuItem
             // 

@@ -363,9 +363,9 @@ namespace JSGameIDE
         }
 
         //Project options menu button click event
-        private void opçõesDoProjetoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void projectOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height, GameConfig.viewWidth, GameConfig.viewHeight);
+            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height, GameConfig.viewWidth, GameConfig.viewHeight, GameConfig.author, GameConfig.copyright);
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
@@ -431,6 +431,8 @@ namespace JSGameIDE
                 catch {
                     MessageBox.Show("Error setting the project name");
                 }
+                GameConfig.copyright = form.Copyright.Trim();
+                GameConfig.author = form.Author.Trim();
                 FileManager.UnsavedChanges = true;
             }
         }

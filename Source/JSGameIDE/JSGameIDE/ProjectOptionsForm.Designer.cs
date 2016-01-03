@@ -39,6 +39,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.viewWidthBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.authorBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.copyrightBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.iconBox = new System.Windows.Forms.PictureBox();
+            this.selectIcon = new System.Windows.Forms.Button();
+            this.openIconDialog = new System.Windows.Forms.OpenFileDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.SuspendLayout();
             // 
             // saveButton
@@ -53,7 +62,7 @@
             // 
             // projectNameBox
             // 
-            this.projectNameBox.Location = new System.Drawing.Point(89, 6);
+            this.projectNameBox.Location = new System.Drawing.Point(89, 18);
             this.projectNameBox.MaxLength = 20;
             this.projectNameBox.Name = "projectNameBox";
             this.projectNameBox.Size = new System.Drawing.Size(100, 20);
@@ -63,7 +72,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 2;
@@ -145,11 +154,89 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "View Width:";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 66);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Author:";
+            // 
+            // authorBox
+            // 
+            this.authorBox.Location = new System.Drawing.Point(15, 82);
+            this.authorBox.MaxLength = 40;
+            this.authorBox.Name = "authorBox";
+            this.authorBox.Size = new System.Drawing.Size(174, 20);
+            this.authorBox.TabIndex = 13;
+            this.authorBox.Tag = "";
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Location = new System.Drawing.Point(0, 55);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(620, 2);
+            this.label8.TabIndex = 15;
+            // 
+            // copyrightBox
+            // 
+            this.copyrightBox.Location = new System.Drawing.Point(209, 82);
+            this.copyrightBox.MaxLength = 40;
+            this.copyrightBox.Name = "copyrightBox";
+            this.copyrightBox.Size = new System.Drawing.Size(174, 20);
+            this.copyrightBox.TabIndex = 17;
+            this.copyrightBox.Tag = "";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(208, 66);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Copyright:";
+            // 
+            // iconBox
+            // 
+            this.iconBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.iconBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.iconBox.Location = new System.Drawing.Point(537, 66);
+            this.iconBox.Name = "iconBox";
+            this.iconBox.Size = new System.Drawing.Size(42, 42);
+            this.iconBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.iconBox.TabIndex = 18;
+            this.iconBox.TabStop = false;
+            // 
+            // selectIcon
+            // 
+            this.selectIcon.Location = new System.Drawing.Point(582, 66);
+            this.selectIcon.Name = "selectIcon";
+            this.selectIcon.Size = new System.Drawing.Size(27, 42);
+            this.selectIcon.TabIndex = 21;
+            this.selectIcon.Text = "...";
+            this.selectIcon.UseVisualStyleBackColor = true;
+            this.selectIcon.Click += new System.EventHandler(this.selectIcon_Click);
+            // 
+            // openIconDialog
+            // 
+            this.openIconDialog.DefaultExt = "ico";
+            this.openIconDialog.Filter = "Icon files|*.ico";
+            this.openIconDialog.Title = "Select an icon";
+            // 
             // ProjectOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 336);
+            this.Controls.Add(this.selectIcon);
+            this.Controls.Add(this.iconBox);
+            this.Controls.Add(this.copyrightBox);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.authorBox);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.viewHeightBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.viewWidthBox);
@@ -167,6 +254,7 @@
             this.Name = "ProjectOptionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game Options";
+            ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +273,13 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox viewWidthBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox authorBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox copyrightBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox iconBox;
+        private System.Windows.Forms.Button selectIcon;
+        private System.Windows.Forms.OpenFileDialog openIconDialog;
     }
 }

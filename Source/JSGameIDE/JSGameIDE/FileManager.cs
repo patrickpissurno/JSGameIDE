@@ -80,6 +80,8 @@ namespace JSGameIDE
                 JSGP package = new JSGP();
                 package.projectVersion = GameConfig.projectVersion;
                 package.name = GameConfig.name;
+                package.author = GameConfig.author;
+                package.copyright = GameConfig.copyright;
                 package.gameWidth = GameConfig.width;
                 package.gameHeight = GameConfig.height;
                 package.viewWidth = GameConfig.viewWidth;
@@ -245,6 +247,10 @@ namespace JSGameIDE
                     Rooms.amount = (int)output2.roomAmount;
                     Rooms.firstId = (int)output2.roomFirstId;
                     Scripts.amount = (int)output2.scriptAmount;
+                    if (output2.author != null)
+                        GameConfig.author = output2.author;
+                    if (output2.copyright != null)
+                        GameConfig.copyright = output2.copyright;
 
                     //Load all the preferences
                     GameConfig.gridWidth = (int)output2.gridWidth;
@@ -462,6 +468,8 @@ namespace JSGameIDE
     {
         public string name;
         public int projectVersion;
+        public string author;
+        public string copyright;
         public int gameWidth;
         public int gameHeight;
         public int viewWidth;
