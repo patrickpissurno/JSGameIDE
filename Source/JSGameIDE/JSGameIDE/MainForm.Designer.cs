@@ -33,6 +33,7 @@
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Objects");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Rooms");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Scripts");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +43,7 @@
             this.projetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opçõesDoProjetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +57,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -87,28 +88,28 @@
             // novoToolStripMenuItem1
             // 
             this.novoToolStripMenuItem1.Name = "novoToolStripMenuItem1";
-            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.novoToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
             this.novoToolStripMenuItem1.Text = "New";
             this.novoToolStripMenuItem1.Click += new System.EventHandler(this.novoToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem
             // 
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.salvarToolStripMenuItem.Text = "Open";
             this.salvarToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem1_Click);
             // 
             // salvarToolStripMenuItem1
             // 
             this.salvarToolStripMenuItem1.Name = "salvarToolStripMenuItem1";
-            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.salvarToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
             this.salvarToolStripMenuItem1.Text = "Save (CTRL+S)";
             this.salvarToolStripMenuItem1.Click += new System.EventHandler(this.salvarToolStripMenuItem1_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -136,6 +137,13 @@
             this.testarToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.testarToolStripMenuItem.Text = "Export and run (CTRL+B)";
             this.testarToolStripMenuItem.Click += new System.EventHandler(this.testarToolStripMenuItem_Click);
+            // 
+            // reloadAssetsToolStripMenuItem
+            // 
+            this.reloadAssetsToolStripMenuItem.Name = "reloadAssetsToolStripMenuItem";
+            this.reloadAssetsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.reloadAssetsToolStripMenuItem.Text = "Reload assets";
+            this.reloadAssetsToolStripMenuItem.Click += new System.EventHandler(this.reloadAssetsToolStripMenuItem_Click);
             // 
             // opçõesDoProjetoToolStripMenuItem
             // 
@@ -251,13 +259,6 @@
             this.deletarToolStripMenuItem.Text = "Deletar";
             this.deletarToolStripMenuItem.Click += new System.EventHandler(this.deletarToolStripMenuItem_Click);
             // 
-            // reloadAssetsToolStripMenuItem
-            // 
-            this.reloadAssetsToolStripMenuItem.Name = "reloadAssetsToolStripMenuItem";
-            this.reloadAssetsToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.reloadAssetsToolStripMenuItem.Text = "Reload assets";
-            this.reloadAssetsToolStripMenuItem.Click += new System.EventHandler(this.reloadAssetsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,6 +267,7 @@
             this.Controls.Add(this.componentsTree);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainForm";
