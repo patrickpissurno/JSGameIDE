@@ -67,13 +67,15 @@ namespace JSGameIDE
                 "$viewWidth",
                 "$viewHeight",
                 "$gameWidth",
-                "$gameHeight"
+                "$gameHeight",
+                "$gameTitle"
             };
             PreprocessorValues = new string[]{
                 GameConfig.viewWidth.ToString(),
                 GameConfig.viewHeight.ToString(),
                 GameConfig.width.ToString(),
-                GameConfig.height.ToString()
+                GameConfig.height.ToString(),
+                GameConfig.name
             };
         }
 
@@ -85,7 +87,7 @@ namespace JSGameIDE
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
         public static bool Build(bool skipAlert = false, string customPath = null)
         {
-            string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build";
+            string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             PreprocessorDefine();
             FileManager.ReloadCode();
             string data = "";

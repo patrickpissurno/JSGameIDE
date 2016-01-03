@@ -276,7 +276,7 @@ namespace JSGameIDE
         private void testarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(Builder.Build(true))
-                System.Diagnostics.Process.Start(GameConfig.path+@"\Build\index.html");
+                System.Diagnostics.Process.Start(GameConfig.path + @"\Build\HTML5\index.html");
         }
 
         //Save project button click event
@@ -485,6 +485,11 @@ namespace JSGameIDE
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LivePreview.Reload();
+        }
+
+        private void windowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WindowsExport.Build();
         }
     }
 }

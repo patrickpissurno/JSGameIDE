@@ -1,4 +1,4 @@
-﻿/*
+/*
     <JSGameIDE - An open-source IDE+Framework to Javascript Game Development>
     Copyright (C) 2015  Patrick Pissurno
 
@@ -34,6 +34,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
 
 namespace JSGameIDE
 {
@@ -50,6 +51,7 @@ namespace JSGameIDE
             Browser = new ChromiumWebBrowser(PlaceholderPath);
             dock.Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
+            Browser.BrowserSettings.BackgroundColor = ColorExt.ToUint(Color.FromArgb(255,71,72,75));
         }
         public static void Reload()
         {
@@ -86,6 +88,21 @@ namespace JSGameIDE
             }
             catch { }
             Cef.Shutdown();
+        } 
+        
+    }
+    public static class ColorExt
+    {
+        public static uint ToUint(this Color c)
+        {
+            return (uint)(((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B) & 0xffffffffL);
+        }
+        public static Color ToColor(this uint value)
+        {
+            return Color.FromArgb((byte)((value >> 24) & 0xFF),
+                   (byte)((value >> 16) & 0xFF),
+                   (byte)((value >> 8) & 0xFF),
+                   (byte)(value & 0xFF));
         }
     }
 }
