@@ -111,6 +111,11 @@ namespace JSGameIDE
                 {
                     outfile.Write(data);
                 }
+                try
+                {
+                    File.Copy(GameConfig.path + @"\Resources\icon.ico", TargetPath + @"\favicon.ico", true);
+                }
+                catch { }
                 if (!skipAlert)
                     MessageBox.Show("Exported successfully!");
                 return true;

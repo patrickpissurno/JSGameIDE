@@ -402,6 +402,9 @@ namespace JSGameIDE
                             mainForm.AddViewNodeChild("Scripts", _node);
                         }
                     }
+                    //Fixes Projects without icon
+                    if(!File.Exists(GameConfig.path + @"\Resources\icon.ico"))
+                        File.Copy(Application.StartupPath + @"\Resources\player.ico", GameConfig.path + @"\Resources\icon.ico");
                     //LEGACY PROJECT IMPORTER UPDATER
                     if (GameConfig.projectVersion != IDEConfig.IDEVersion)
                     {

@@ -62,15 +62,27 @@ namespace JSGameIDE.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;$gameTitle&lt;/title&gt;
+        ///        &lt;style&gt;
+        ///            body
+        ///            {
+        ///                background-color: #47484B;
+        ///                overflow: hidden;
+        ///                color:white;
+        ///                font-family:sans-serif;
+        ///            }
+        ///            canvas
+        ///            {
+        ///                background-color:white;
+        ///                border-style: none;
+        ///                box-shadow: 5px 5px 5px #333;
+        ///            }
+        ///        &lt;/style&gt;
+        ///    &lt;/head&gt;
         ///    &lt;body&gt;
         ///        &lt;center&gt;
-        ///            &lt;canvas id=&apos;gameCanvas&apos; width=&apos;$viewWidth&apos; height=&apos;$viewHeight&apos; style=&apos;border:1px solid #000&apos;&gt;
-        ///            &lt;/canvas&gt;
-        ///        &lt;/center&gt;
-        ///        &lt;script src=&apos;game.js&apos;&gt;
-        ///        &lt;/script&gt;
-        ///    &lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string _default {
             get {
@@ -129,7 +141,9 @@ namespace JSGameIDE.Properties {
         /////Update Frame Function
         ///function updateFrame()
         ///{
-        ///    if(document.hasFo [rest of string was truncated]&quot;;.
+        ///    if(true)
+        ///    {
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string header {
             get {
@@ -225,6 +239,16 @@ namespace JSGameIDE.Properties {
         internal static string objects {
             get {
                 return ResourceManager.GetString("objects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon player {
+            get {
+                object obj = ResourceManager.GetObject("player", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

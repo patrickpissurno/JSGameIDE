@@ -324,6 +324,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\player.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="JSGameIDE64x64.ico" />
     <None Include="Resources\livePreview.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

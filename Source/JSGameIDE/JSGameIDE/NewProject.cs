@@ -114,6 +114,7 @@ namespace JSGameIDE
                         Directory.CreateDirectory(GameConfig.path + @"\Resources\IMG");
                     if (!Directory.Exists(GameConfig.path + @"\Build"))
                         Directory.CreateDirectory(GameConfig.path + @"\Build");
+                    File.Copy(Application.StartupPath + @"\Resources\player.ico", GameConfig.path + @"\Resources\icon.ico");
                     _form.SetTitle(GameConfig.name);
                     _form.Show();
                     this.created = true;
