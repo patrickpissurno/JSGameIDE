@@ -65,37 +65,64 @@ namespace JSGameIDE
         }
         public static void Build()
         {
-            Find();
-            if (Path != null)
+            try
             {
-                if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
+                Find();
+                if (Path != null)
                 {
-                    string SDKPath = Application.StartupPath + @"\SDK";
-
-                    //Meta information
-                    string temp = File.ReadAllText(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs");
-                    temp = MetaInfoChanger(temp, "[assembly: AssemblyTitle(\"", "\")]", GameConfig.name);
-                    temp = MetaInfoChanger(temp, "[assembly: AssemblyDescription(\"", "\")]", GameConfig.name);
-                    temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
-                    temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
-                    temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
-
-                    using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
+                    if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
                     {
-                        w.Write(temp);
-                    }
+                        string SDKPath = Application.StartupPath + @"\SDK";
 
-                    System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
-                    info.FileName = Path;
-                    info.Arguments = @"/p:Platform=x86 JSGameIDE-Player.sln";
-                    info.WorkingDirectory = SDKPath;
-                    info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                    System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
-                    process.WaitForExit();
-                    DirectoryExtension.Copy(SDKPath + @"\JSGameIDE-Player\bin\x86\Debug", GameConfig.path + @"\Build\Win", true);
-                    Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
-                    MessageBox.Show("Built");
+                        //Meta information
+                        string temp = File.ReadAllText(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs");
+                        temp = MetaInfoChanger(temp, "[assembly: AssemblyTitle(\"", "\")]", GameConfig.name);
+                        temp = MetaInfoChanger(temp, "[assembly: AssemblyDescription(\"", "\")]", GameConfig.name);
+                        temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
+                        temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
+                        temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
+
+                        //Copy the icon
+                        try
+                        {
+                            File.Copy(GameConfig.path + @"\Resources\icon.ico", SDKPath + @"\JSGameIDE-Player\icon.ico", true);
+                        }
+                        catch { }
+
+                        using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
+                        {
+                            w.Write(temp);
+                        }
+
+                        System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
+                        info.FileName = Path;
+                        info.Arguments = @"/p:Platform=x86 JSGameIDE-Player.sln";
+                        info.WorkingDirectory = SDKPath;
+                        info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                        System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
+                        process.WaitForExit();
+                        DirectoryExtension.Copy(SDKPath + @"\JSGameIDE-Player\bin\x86\Debug", GameConfig.path + @"\Build\Win", true);
+
+                        //Cleans some trash
+                        File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe.config");
+                        File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.pdb");
+                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.Core.xml");
+                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.WinForms.xml");
+                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.xml");
+                        File.Delete(GameConfig.path + @"\Build\Win\devtools_resources.pak");
+                        try
+                        {
+                            File.Move(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe", GameConfig.path + @"\Build\Win\" + GameConfig.name.Replace(' ', '-') + ".exe");
+                        }
+                        catch { }
+                        Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
+                        MessageBox.Show("Built");
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Build failure. Please ensure the SDK is properly installed.");
             }
         }
 
