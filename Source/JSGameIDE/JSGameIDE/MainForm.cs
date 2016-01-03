@@ -228,10 +228,8 @@ namespace JSGameIDE
             }
         }
 
-        //Export button click event
         private void exportarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Builder.Build();
         }
 
         //Add new room button click event
@@ -490,6 +488,11 @@ namespace JSGameIDE
         private void windowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WindowsExport.Build();
+        }
+
+        private void hTML5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Builder.Build();
         }
     }
 }

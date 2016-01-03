@@ -35,6 +35,7 @@ using CefSharp.WinForms;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
+using System.Threading;
 
 namespace JSGameIDE
 {
@@ -52,6 +53,15 @@ namespace JSGameIDE
             dock.Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
             Browser.BrowserSettings.BackgroundColor = ColorExt.ToUint(Color.FromArgb(255,71,72,75));
+            Browser.LoadingStateChanged += Browser_LoadingStateChanged;
+        }
+
+        static void Browser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        {
+            if (!e.IsLoading && Browser.Address.Replace("file:///", "").Replace('/', '\\').Equals(PlaceholderPath))
+            {
+                Reload();
+            }
         }
         public static void Reload()
         {

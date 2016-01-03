@@ -18,7 +18,7 @@ function deltaTime()
 //Update Frame Function
 function updateFrame()
 {
-    if(document.hasFocus())
+    if(true)
     {
         currentFrame += deltaTime() * 60;
         if(currentFrame>1)
