@@ -58,6 +58,8 @@
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreview = new System.Windows.Forms.Panel();
+            this.livePreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -66,8 +68,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.arquivoToolStripMenuItem,
-            this.projetoToolStripMenuItem,
             this.novoToolStripMenuItem,
+            this.projetoToolStripMenuItem,
+            this.livePreviewToolStripMenuItem,
             this.ajudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -167,28 +170,28 @@
             // spriteToolStripMenuItem
             // 
             this.spriteToolStripMenuItem.Name = "spriteToolStripMenuItem";
-            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.spriteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.spriteToolStripMenuItem.Text = "Sprite";
             this.spriteToolStripMenuItem.Click += new System.EventHandler(this.spriteToolStripMenuItem_Click);
             // 
             // ObjectToolStripMenuItem
             // 
             this.ObjectToolStripMenuItem.Name = "ObjectToolStripMenuItem";
-            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.ObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ObjectToolStripMenuItem.Text = "Object";
             this.ObjectToolStripMenuItem.Click += new System.EventHandler(this.ObjectToolStripMenuItem_Click);
             // 
             // RoomToolStripMenuItem
             // 
             this.RoomToolStripMenuItem.Name = "RoomToolStripMenuItem";
-            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.RoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.RoomToolStripMenuItem.Text = "Room";
             this.RoomToolStripMenuItem.Click += new System.EventHandler(this.RoomToolStripMenuItem_Click);
             // 
             // scriptToolStripMenuItem
             // 
             this.scriptToolStripMenuItem.Name = "scriptToolStripMenuItem";
-            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.scriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.scriptToolStripMenuItem.Text = "Script";
             this.scriptToolStripMenuItem.Click += new System.EventHandler(this.scriptToolStripMenuItem_Click);
             // 
@@ -269,6 +272,21 @@
             this.livePreview.Size = new System.Drawing.Size(725, 551);
             this.livePreview.TabIndex = 2;
             // 
+            // livePreviewToolStripMenuItem
+            // 
+            this.livePreviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reloadToolStripMenuItem});
+            this.livePreviewToolStripMenuItem.Name = "livePreviewToolStripMenuItem";
+            this.livePreviewToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.livePreviewToolStripMenuItem.Text = "Live Preview";
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,6 +336,8 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadAssetsToolStripMenuItem;
         private System.Windows.Forms.Panel livePreview;
+        private System.Windows.Forms.ToolStripMenuItem livePreviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
 
     }
 }

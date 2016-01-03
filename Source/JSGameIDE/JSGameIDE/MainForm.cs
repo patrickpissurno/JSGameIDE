@@ -481,5 +481,10 @@ namespace JSGameIDE
                 MessageBox.Show("Error reloading project assets");
             }
         }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LivePreview.Reload();
+        }
     }
 }
