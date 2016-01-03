@@ -58,7 +58,11 @@ namespace JSGameIDE
             set
             {
                 if (value)
+                {
                     mainForm.SetTitle(GameConfig.name + "*");
+                    if(unsavedChanges != value)
+                        LivePreview.Reload();
+                }
                 else
                     mainForm.SetTitle(GameConfig.name);
                 unsavedChanges = value;

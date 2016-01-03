@@ -28,12 +28,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JSGameIDE
@@ -45,6 +40,7 @@ namespace JSGameIDE
             //Updates this form reference on the File Manager
             FileManager.mainForm = this;
             InitializeComponent();
+            LivePreview.Init(this, livePreview);
             this.KeyPreview = true;
         }
 
@@ -269,6 +265,7 @@ namespace JSGameIDE
             if (run)
             {
                 FileManager.UnsavedChanges = false;
+                LivePreview.Shutdown();
                 Application.Exit();
             }
             else
