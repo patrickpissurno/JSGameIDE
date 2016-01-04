@@ -54,6 +54,7 @@
             this.buildAndRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ajudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,10 +65,11 @@
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreview = new System.Windows.Forms.Panel();
-            this.toggleDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developerTab = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -230,9 +232,16 @@
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
+            // toggleDebugToolStripMenuItem
+            // 
+            this.toggleDebugToolStripMenuItem.Name = "toggleDebugToolStripMenuItem";
+            this.toggleDebugToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.toggleDebugToolStripMenuItem.Text = "Show debug";
+            this.toggleDebugToolStripMenuItem.Click += new System.EventHandler(this.toggleDebugToolStripMenuItem_Click);
             // 
             // editorToolStripMenuItem
             // 
@@ -321,33 +330,40 @@
             // livePreview
             // 
             this.livePreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.livePreview.Location = new System.Drawing.Point(138, 24);
+            this.livePreview.Location = new System.Drawing.Point(3, 3);
             this.livePreview.Name = "livePreview";
-            this.livePreview.Size = new System.Drawing.Size(725, 551);
+            this.livePreview.Size = new System.Drawing.Size(719, 434);
             this.livePreview.TabIndex = 2;
-            // 
-            // toggleDebugToolStripMenuItem
-            // 
-            this.toggleDebugToolStripMenuItem.Name = "toggleDebugToolStripMenuItem";
-            this.toggleDebugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.toggleDebugToolStripMenuItem.Text = "Show debug";
-            this.toggleDebugToolStripMenuItem.Click += new System.EventHandler(this.toggleDebugToolStripMenuItem_Click);
             // 
             // developerTab
             // 
-            this.developerTab.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.developerTab.Location = new System.Drawing.Point(138, 376);
+            this.developerTab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.developerTab.Location = new System.Drawing.Point(3, 443);
             this.developerTab.Name = "developerTab";
-            this.developerTab.Size = new System.Drawing.Size(725, 199);
+            this.developerTab.Size = new System.Drawing.Size(719, 105);
             this.developerTab.TabIndex = 3;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.livePreview, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.developerTab, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(138, 24);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(725, 551);
+            this.tableLayoutPanel1.TabIndex = 4;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 575);
-            this.Controls.Add(this.developerTab);
-            this.Controls.Add(this.livePreview);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.componentsTree);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -360,6 +376,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.childMenu.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -399,6 +416,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toggleDebugToolStripMenuItem;
         private System.Windows.Forms.Panel developerTab;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
     }
 }

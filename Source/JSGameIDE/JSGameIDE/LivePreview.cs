@@ -48,9 +48,10 @@ namespace JSGameIDE
         public static bool ConsoleOpen = false;
         public static ChromiumWebBrowser DebugBrowser;
         private static Control DebugDock;
+        private static TableLayoutPanel MainDock;
         private const int RPORT = 8698;
 
-        public static void Init(MainForm form, Control dock, Control debugDock)
+        public static void Init(MainForm form, Control dock, Control debugDock, TableLayoutPanel mainDock)
         {
             mainForm = form;
             CefSettings settings = new CefSettings { RemoteDebuggingPort = RPORT };
@@ -67,6 +68,7 @@ namespace JSGameIDE
             debugDock.Controls.Add(DebugBrowser);
             DebugBrowser.Dock = DockStyle.Fill;
             DebugDock = debugDock;
+            MainDock = mainDock;
         }
 
         static void DebugBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
@@ -90,9 +92,17 @@ namespace JSGameIDE
             else
             {
                 if (bl)
+                {
                     DebugDock.Show();
+                    MainDock.RowStyles[0] = new RowStyle(SizeType.Percent, .75f);
+                    MainDock.RowStyles[1] = new RowStyle(SizeType.Percent, .25f);
+                }
                 else
+                {
                     DebugDock.Hide();
+                    MainDock.RowStyles[0] = new RowStyle(SizeType.Percent, 1f);
+                    MainDock.RowStyles[1] = new RowStyle(SizeType.Percent, 0f);
+                }
             }
         }
 

@@ -41,7 +41,7 @@ namespace JSGameIDE
             //Updates this form reference on the File Manager
             FileManager.mainForm = this;
             InitializeComponent();
-            LivePreview.Init(this, livePreview, developerTab);
+            LivePreview.Init(this, livePreview, developerTab, tableLayoutPanel1);
             this.KeyPreview = true;
             this.Activated += MainForm_Activated;
             this.Deactivate += MainForm_Deactivated;
