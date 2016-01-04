@@ -47,6 +47,8 @@
             this.iconBox = new System.Windows.Forms.PictureBox();
             this.selectIcon = new System.Windows.Forms.Button();
             this.openIconDialog = new System.Windows.Forms.OpenFileDialog();
+            this.windowStyleBox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(347, 9);
+            this.label2.Location = new System.Drawing.Point(260, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 3;
@@ -89,7 +91,7 @@
             // 
             // widthTextBox
             // 
-            this.widthTextBox.Location = new System.Drawing.Point(416, 6);
+            this.widthTextBox.Location = new System.Drawing.Point(329, 6);
             this.widthTextBox.MaxLength = 4;
             this.widthTextBox.Name = "widthTextBox";
             this.widthTextBox.Size = new System.Drawing.Size(50, 20);
@@ -99,7 +101,7 @@
             // 
             // heightTextBox
             // 
-            this.heightTextBox.Location = new System.Drawing.Point(558, 6);
+            this.heightTextBox.Location = new System.Drawing.Point(468, 6);
             this.heightTextBox.MaxLength = 4;
             this.heightTextBox.Name = "heightTextBox";
             this.heightTextBox.Size = new System.Drawing.Size(50, 20);
@@ -110,7 +112,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(485, 9);
+            this.label3.Location = new System.Drawing.Point(395, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 5;
@@ -118,7 +120,7 @@
             // 
             // viewHeightBox
             // 
-            this.viewHeightBox.Location = new System.Drawing.Point(558, 28);
+            this.viewHeightBox.Location = new System.Drawing.Point(468, 28);
             this.viewHeightBox.MaxLength = 4;
             this.viewHeightBox.Name = "viewHeightBox";
             this.viewHeightBox.Size = new System.Drawing.Size(50, 20);
@@ -129,7 +131,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(484, 31);
+            this.label4.Location = new System.Drawing.Point(394, 31);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 13);
             this.label4.TabIndex = 9;
@@ -137,7 +139,7 @@
             // 
             // viewWidthBox
             // 
-            this.viewWidthBox.Location = new System.Drawing.Point(416, 28);
+            this.viewWidthBox.Location = new System.Drawing.Point(329, 28);
             this.viewWidthBox.MaxLength = 4;
             this.viewWidthBox.Name = "viewWidthBox";
             this.viewWidthBox.Size = new System.Drawing.Size(50, 20);
@@ -148,7 +150,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(346, 31);
+            this.label5.Location = new System.Drawing.Point(259, 31);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 7;
@@ -225,11 +227,34 @@
             this.openIconDialog.Filter = "Icon files|*.ico";
             this.openIconDialog.Title = "Select an icon";
             // 
+            // windowStyleBox
+            // 
+            this.windowStyleBox.FormattingEnabled = true;
+            this.windowStyleBox.Items.AddRange(new object[] {
+            "Auto",
+            "Fixed",
+            "Fullscreen"});
+            this.windowStyleBox.Location = new System.Drawing.Point(535, 26);
+            this.windowStyleBox.Name = "windowStyleBox";
+            this.windowStyleBox.Size = new System.Drawing.Size(73, 21);
+            this.windowStyleBox.TabIndex = 22;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(534, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(75, 13);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "Window Style:";
+            // 
             // ProjectOptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 336);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.windowStyleBox);
             this.Controls.Add(this.selectIcon);
             this.Controls.Add(this.iconBox);
             this.Controls.Add(this.copyrightBox);
@@ -281,5 +306,7 @@
         private System.Windows.Forms.PictureBox iconBox;
         private System.Windows.Forms.Button selectIcon;
         private System.Windows.Forms.OpenFileDialog openIconDialog;
+        private System.Windows.Forms.ComboBox windowStyleBox;
+        private System.Windows.Forms.Label label9;
     }
 }

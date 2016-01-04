@@ -70,6 +70,11 @@ namespace JSGameIDE
                 Find();
                 if (Path != null)
                 {
+                    try
+                    {
+                        Directory.Delete(GameConfig.path + @"\Build\Win", true);
+                    }
+                    catch { }
                     if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
                     {
                         string SDKPath = Application.StartupPath + @"\SDK";
@@ -116,7 +121,7 @@ namespace JSGameIDE
                         }
                         catch { }
                         Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
-                        MessageBox.Show("Built");
+                        MessageBox.Show("Build success.");
                     }
                 }
             }

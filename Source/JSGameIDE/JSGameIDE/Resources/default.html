@@ -16,12 +16,24 @@
                 border-style: none;
                 box-shadow: 5px 5px 5px #333;
             }
+			.center
+			{
+				position: absolute;
+				width: 100vw;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-shadow: .3vh .3vh .6vh #27282B;
+				height: 100vh;
+			}
         </style>
     </head>
     <body>
         <center>
-            <canvas id='gameCanvas' width='$viewWidth' height='$viewHeight'>
-            </canvas>
+			<div class="center">
+				<canvas id='gameCanvas' width='$viewWidth' height='$viewHeight' windowStyle='$windowStyle'>
+				</canvas>
+			</div>
         </center>
         <script src='game.js'>
         </script>

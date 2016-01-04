@@ -86,6 +86,7 @@ namespace JSGameIDE
                 package.gameHeight = GameConfig.height;
                 package.viewWidth = GameConfig.viewWidth;
                 package.viewHeight = GameConfig.viewHeight;
+                package.windowStyle = GameConfig.windowStyle;
                 package.rooms = Rooms.rooms.ToArray();
                 package.roomAmount = Rooms.amount;
                 package.roomFirstId = Rooms.firstId;
@@ -242,6 +243,8 @@ namespace JSGameIDE
                     GameConfig.height = (int)output2.gameHeight;
                     GameConfig.viewWidth = (int)output2.viewWidth;
                     GameConfig.viewHeight = (int)output2.viewHeight;
+                    if (output2.windowStyle != null)
+                        GameConfig.windowStyle = (string)output2.windowStyle;
                     Sprites.amount = (int)output2.spriteAmount;
                     Objects.amount = (int)output2.objectAmount;
                     Rooms.amount = (int)output2.roomAmount;
@@ -474,6 +477,7 @@ namespace JSGameIDE
         public int gameHeight;
         public int viewWidth;
         public int viewHeight;
+        public string windowStyle;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sprite[] sprites;
         public int spriteAmount;

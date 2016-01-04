@@ -42,6 +42,7 @@ namespace JSGameIDE
         public static int height = 600;
         public static int viewWidth = 800;
         public static int viewHeight = 600;
+        public static string windowStyle = "fixed";
         public static bool obfuscate = true;
         public static int projectVersion = IDEConfig.IDEVersion;
 
@@ -66,6 +67,9 @@ namespace JSGameIDE
             height = 600;
             viewWidth = 800;
             viewHeight = 600;
+            author = "Made with JSGameIDE"; ;
+            copyright = "Copyright © 2016";
+            windowStyle = "fixed";
             gridEnabled = false;
             gridWidth = 32;
             gridHeight = 32;

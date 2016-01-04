@@ -66,6 +66,17 @@ namespace JSGameIDE
             }
         }
 
+        public string WindowStyle
+        {
+            get
+            {
+                return windowStyleBox.Items[windowStyleBox.SelectedIndex].ToString().ToLower();
+            }
+            set
+            {
+            }
+        }
+
         /// <summary>
         /// Opens a Project Options Form
         /// </summary>
@@ -74,7 +85,8 @@ namespace JSGameIDE
         /// <param name="canvasHeight">The old canvas height</param>
         /// <param name="viewWidth">The old view width</param>
         /// <param name="viewHeight">The old view height</param>
-        public ProjectOptionsForm(string projectName, int canvasWidth, int canvasHeight, int viewWidth, int viewHeight, string author, string copyright)
+        public ProjectOptionsForm(string projectName, int canvasWidth, int canvasHeight, int viewWidth, int viewHeight, string author, string copyright,
+            string windowStyle)
         {
             InitializeComponent();
             projectNameBox.Text = projectName;
@@ -86,6 +98,14 @@ namespace JSGameIDE
             copyrightBox.Text = copyright;
             iconBox.Image = Image.FromFile(GameConfig.path + @"\Resources\icon.ico");
             icon = GameConfig.path + @"\Resources\icon.ico";
+            for (int i = 0; i < windowStyleBox.Items.Count; i++)
+            {
+                if (windowStyleBox.Items[i].ToString().ToLower().Equals(windowStyle))
+                {
+                    windowStyleBox.SelectedIndex = i;
+                    break;
+                }
+            }
         }
 
         /// <summary>

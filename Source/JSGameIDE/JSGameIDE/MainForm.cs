@@ -361,7 +361,8 @@ namespace JSGameIDE
         //Project options menu button click event
         private void projectOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height, GameConfig.viewWidth, GameConfig.viewHeight, GameConfig.author, GameConfig.copyright);
+            var form = new ProjectOptionsForm(GameConfig.name, GameConfig.width, GameConfig.height, GameConfig.viewWidth,
+                GameConfig.viewHeight, GameConfig.author, GameConfig.copyright, GameConfig.windowStyle);
             form.ShowDialog();
             if (form.DialogResult == DialogResult.OK)
             {
@@ -429,6 +430,7 @@ namespace JSGameIDE
                 }
                 GameConfig.copyright = form.Copyright.Trim();
                 GameConfig.author = form.Author.Trim();
+                GameConfig.windowStyle = form.WindowStyle.Trim();
                 FileManager.UnsavedChanges = true;
             }
         }

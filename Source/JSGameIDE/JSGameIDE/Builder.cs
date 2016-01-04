@@ -68,6 +68,7 @@ namespace JSGameIDE
                 "$viewHeight",
                 "$gameWidth",
                 "$gameHeight",
+                "$windowStyle",
                 "$gameTitle"
             };
             PreprocessorValues = new string[]{
@@ -75,6 +76,7 @@ namespace JSGameIDE
                 GameConfig.viewHeight.ToString(),
                 GameConfig.width.ToString(),
                 GameConfig.height.ToString(),
+                GameConfig.windowStyle,
                 GameConfig.name
             };
         }
@@ -88,6 +90,11 @@ namespace JSGameIDE
         public static bool Build(bool skipAlert = false, string customPath = null)
         {
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
+            try
+            {
+                Directory.Delete(TargetPath, true);
+            }
+            catch { }
             PreprocessorDefine();
             if(!IDEConfig.IsDefaultEditor)
                 FileManager.ReloadCode();
