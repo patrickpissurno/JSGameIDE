@@ -35,6 +35,7 @@ namespace JSGameIDE
 {
     public partial class MainForm : Form
     {
+        private bool Focused = false;
         public MainForm()
         {
             //Updates this form reference on the File Manager
@@ -43,15 +44,21 @@ namespace JSGameIDE
             LivePreview.Init(this, livePreview);
             this.KeyPreview = true;
             this.Activated += MainForm_Activated;
+            this.Deactivate += MainForm_Deactivated;
         }
 
         void MainForm_Activated(object sender, EventArgs e)
         {
+            Focused = true;
             if (!IDEConfig.IsDefaultEditor)
             {
                 FileManager.ReloadCode();
                 LivePreview.Reload();
             }
+        }
+        void MainForm_Deactivated(object sender, EventArgs e)
+        {
+            Focused = false;
         }
 
         //Add new sprite click event
@@ -440,27 +447,6 @@ namespace JSGameIDE
             Scripts.scripts.Add(new Script("script", this));
         }
 
-        //Hotkeys handling
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Modifiers == Keys.Control)
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.S:
-                        //Saves the project
-                        FileManager.Save(true);
-                        break;
-                    case Keys.B:
-                        //Export and run the project
-                        if (Builder.Build(true))
-                            System.Diagnostics.Process.Start(GameConfig.path + @"\Build\index.html");
-                        break;
-
-                }
-            }
-        }
-
         private void wikiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/patrickpissurno/JSGameIDE/wiki");
@@ -503,6 +489,29 @@ namespace JSGameIDE
         private void hTML5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Builder.Build();
+        }
+
+        public static void HotkeysDown(Keys key, bool control)
+        {
+            if (FileManager.mainForm != null && FileManager.mainForm.Focused)
+            {
+                if (control)
+                {
+                    switch (key)
+                    {
+                        case Keys.S:
+                            //Saves the project
+                            FileManager.Save(true);
+                            break;
+                        case Keys.B:
+                            //Export and run the project
+                            if (Builder.Build(true))
+                                System.Diagnostics.Process.Start(GameConfig.path + @"\Build\HTML5\index.html");
+                            break;
+
+                    }
+                }
+            }
         }
     }
 }
