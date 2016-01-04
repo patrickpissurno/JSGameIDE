@@ -422,6 +422,7 @@ namespace JSGameIDE
                     }
                     FileManager.UnsavedChanges = false;
                     FileManager.ProjectLoaded = true;
+                    IDEConfig.RecentProjectAdd(GameConfig.name, GameConfig.path + @"\project.JSGP");
                 }
                 catch
                 {
