@@ -40,10 +40,12 @@ namespace JSGameIDE
     public partial class StartScreen : Form
     {
         public bool quit = true;
-        public StartScreen()
+        private string autoLoadPath;
+        public StartScreen(string autoLoadPath = null)
         {
             InitializeComponent();
             IDEConfig.Reset();
+            this.autoLoadPath = autoLoadPath;
         }
 
         //Start Screen closing event
@@ -66,13 +68,24 @@ namespace JSGameIDE
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.quit = false;
-                var form = new MainForm();
-                form.Show();
-                FileManager.mainForm = form;
-                FileManager.Load(openFileDialog1.FileName,true);
-                this.Close();
+                Open(openFileDialog1.FileName);
             }
+        }
+
+        private void Open(string path)
+        {
+            this.quit = false;
+            var form = new MainForm();
+            form.Show();
+            FileManager.mainForm = form;
+            FileManager.Load(path, true);
+            this.Close();
+        }
+
+        private void StartScreen_Load(object sender, EventArgs e)
+        {
+            if(autoLoadPath != null)
+                Open(autoLoadPath);
         }
     }
 }

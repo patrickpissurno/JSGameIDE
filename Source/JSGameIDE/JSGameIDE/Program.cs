@@ -39,12 +39,12 @@ namespace JSGameIDE
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Opens the start screen form
-            var newForm = new StartScreen();
+            var newForm = new StartScreen(args.Length > 0 ? args[0] : null);
             newForm.Show();
             Application.Run();
         }
