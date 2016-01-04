@@ -64,6 +64,8 @@
             this.childMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deletarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.livePreview = new System.Windows.Forms.Panel();
+            this.toggleDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developerTab = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.SuspendLayout();
@@ -219,7 +221,8 @@
             // livePreviewToolStripMenuItem
             // 
             this.livePreviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reloadToolStripMenuItem});
+            this.reloadToolStripMenuItem,
+            this.toggleDebugToolStripMenuItem});
             this.livePreviewToolStripMenuItem.Name = "livePreviewToolStripMenuItem";
             this.livePreviewToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
             this.livePreviewToolStripMenuItem.Text = "Live Preview";
@@ -227,7 +230,7 @@
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
@@ -323,11 +326,27 @@
             this.livePreview.Size = new System.Drawing.Size(725, 551);
             this.livePreview.TabIndex = 2;
             // 
+            // toggleDebugToolStripMenuItem
+            // 
+            this.toggleDebugToolStripMenuItem.Name = "toggleDebugToolStripMenuItem";
+            this.toggleDebugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.toggleDebugToolStripMenuItem.Text = "Show debug";
+            this.toggleDebugToolStripMenuItem.Click += new System.EventHandler(this.toggleDebugToolStripMenuItem_Click);
+            // 
+            // developerTab
+            // 
+            this.developerTab.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.developerTab.Location = new System.Drawing.Point(138, 376);
+            this.developerTab.Name = "developerTab";
+            this.developerTab.Size = new System.Drawing.Size(725, 199);
+            this.developerTab.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 575);
+            this.Controls.Add(this.developerTab);
             this.Controls.Add(this.livePreview);
             this.Controls.Add(this.componentsTree);
             this.Controls.Add(this.menuStrip1);
@@ -337,6 +356,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JSGameIDE";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.childMenu.ResumeLayout(false);
@@ -377,6 +397,8 @@
         private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem editorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleDebugToolStripMenuItem;
+        private System.Windows.Forms.Panel developerTab;
 
     }
 }

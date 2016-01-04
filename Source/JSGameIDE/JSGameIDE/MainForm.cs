@@ -41,7 +41,7 @@ namespace JSGameIDE
             //Updates this form reference on the File Manager
             FileManager.mainForm = this;
             InitializeComponent();
-            LivePreview.Init(this, livePreview);
+            LivePreview.Init(this, livePreview, developerTab);
             this.KeyPreview = true;
             this.Activated += MainForm_Activated;
             this.Deactivate += MainForm_Deactivated;
@@ -512,6 +512,18 @@ namespace JSGameIDE
                     }
                 }
             }
+        }
+
+        private void toggleDebugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toggleDebugToolStripMenuItem.Text = LivePreview.ConsoleOpen ? "Show debug" : "Hide debug";
+            LivePreview.ConsoleOpen = !LivePreview.ConsoleOpen;
+            LivePreview.ShowDebug(LivePreview.ConsoleOpen);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            LivePreview.ShowDebug(false);
         }
     }
 }

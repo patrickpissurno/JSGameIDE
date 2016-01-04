@@ -45,15 +45,55 @@ namespace JSGameIDE
         public static readonly string BuildPath = Application.StartupPath + @"\Temp\LivePreview";
         public static readonly string PlaceholderPath = Application.StartupPath + @"\Resources\livePreview.html";
         private static MainForm mainForm;
-        public static void Init(MainForm form, Control dock)
+        public static bool ConsoleOpen = false;
+        public static ChromiumWebBrowser DebugBrowser;
+        private static Control DebugDock;
+        private const int RPORT = 8698;
+
+        public static void Init(MainForm form, Control dock, Control debugDock)
         {
             mainForm = form;
-            Cef.Initialize(new CefSettings());
+            CefSettings settings = new CefSettings { RemoteDebuggingPort = RPORT };
+            Cef.Initialize(settings);
+
             Browser = new ChromiumWebBrowser(PlaceholderPath);
             dock.Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
             Browser.BrowserSettings.BackgroundColor = ColorExt.ToUint(Color.FromArgb(255,71,72,75));
             Browser.LoadingStateChanged += Browser_LoadingStateChanged;
+
+            DebugBrowser = new ChromiumWebBrowser("http://localhost:" + RPORT);
+            DebugBrowser.LoadingStateChanged += DebugBrowser_LoadingStateChanged;
+            debugDock.Controls.Add(DebugBrowser);
+            DebugBrowser.Dock = DockStyle.Fill;
+            DebugDock = debugDock;
+        }
+
+        static void DebugBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        {
+            if (!e.IsLoading && DebugBrowser.Address.IndexOf(":" + RPORT) != -1)
+            {
+                string str = "var a = document.getElementsByTagName('A'); for(var i=0; i<a.length; i++){if(a[i].title=='" + GameConfig.name + "'){location.href=a[i].href;}}";
+                DebugBrowser.EvaluateScriptAsync(str);
+                Thread t = new Thread(() => { Thread.Sleep(100); DebugBrowser.EvaluateScriptAsync(str); });
+                t.IsBackground = true;
+                t.Start();
+            }
+        }
+
+        public static void ShowDebug(bool bl)
+        {
+            if (DebugDock.InvokeRequired)
+            {
+                DebugDock.Invoke(new MethodInvoker(() => { ShowDebug(bl); }));
+            }
+            else
+            {
+                if (bl)
+                    DebugDock.Show();
+                else
+                    DebugDock.Hide();
+            }
         }
 
         static void Browser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
