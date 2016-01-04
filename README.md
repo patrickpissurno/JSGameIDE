@@ -1,8 +1,7 @@
 # JSGameIDE
 An open-source IDE+Framework for Javascript Game Development.
 ###JSGameIDE requires Microsoft .NET Framework 4.0 in order to run.
-####Please ensure that it is properly installed, otherwise many bugs and crashes may appear.
-Download link: https://www.microsoft.com/pt-br/download/details.aspx?id=17851
+####Please ensure that it is properly installed, otherwise many bugs and crashes may appear. Download link: https://www.microsoft.com/pt-br/download/details.aspx?id=17851
 
 Good looking version: http://patrickpissurno.github.io/JSGameIDE/
 
