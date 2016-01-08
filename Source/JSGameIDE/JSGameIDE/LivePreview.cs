@@ -77,9 +77,9 @@ namespace JSGameIDE
             {
                 string str = "var a = document.getElementsByTagName('A'); for(var i=0; i<a.length; i++){if(a[i].title=='" + GameConfig.name + "'){location.href=a[i].href;}}";
                 DebugBrowser.EvaluateScriptAsync(str);
-                Thread t = new Thread(() => { Thread.Sleep(100); DebugBrowser.EvaluateScriptAsync(str); });
-                t.IsBackground = true;
-                t.Start();
+                //Thread t = new Thread(() => { Thread.Sleep(100); DebugBrowser.EvaluateScriptAsync(str); });
+                //t.IsBackground = true;
+                //t.Start();
             }
         }
 
@@ -121,7 +121,8 @@ namespace JSGameIDE
                 string dir = Path.GetDirectoryName(BuildPath);
                 try
                 {
-                    Directory.Delete(dir, true);
+                    if(Directory.Exists(dir))
+                        Directory.Delete(dir, true);
                 }
                 catch { }
                 Directory.CreateDirectory(dir);

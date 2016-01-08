@@ -30,12 +30,13 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Media;
 
 namespace JSGameIDE
 {
     public partial class MainForm : Form
     {
-        private bool Focused = false;
+        private new bool Focused = false;
         public MainForm()
         {
             //Updates this form reference on the File Manager
@@ -140,6 +141,40 @@ namespace JSGameIDE
                                             _tempPath.Add(_path);
                                         }
                                         Sprites.SetPath(int.Parse(e.Node.Name), _tempPath.ToArray<string>());
+                                    }
+                                }
+                                FileManager.UnsavedChanges = true;
+                            }
+                            form.Close();
+                        }
+                        break;
+                    case "Sounds":
+                        //Opens the Sound Form and loads it with the given sprite data
+                        using (var form = new SoundForm())
+                        {
+                            form.Text = "Properties of " + e.Node.Text;
+                            form.SetNameBoxText(e.Node.Text);
+                            form.id = int.Parse(e.Node.Name);
+                            form.SetPathBoxText(Sounds.sounds[int.Parse(e.Node.Name)].path);
+                            var result = form.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                //Updates the data of the given sound
+                                Sounds.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
+                                if (!string.IsNullOrWhiteSpace(form.path))
+                                {
+                                    DirectoryInfo _dir = new DirectoryInfo(form.path);
+                                    if (!string.IsNullOrWhiteSpace(_dir.Parent.ToString()) && _dir.Parent.ToString() != "SND")
+                                    {
+                                        //Copies the sound to the resources folder
+                                        Directory.CreateDirectory(GameConfig.path + @"\Resources\SND");
+                                        string _path = @"Resources\SND" + @"\snd" + form.id + Path.GetExtension(form.path);
+                                        try
+                                        {
+                                            File.Copy(form.path, GameConfig.path + @"\" + _path, true);
+                                        }
+                                        catch { }
+                                        Sounds.SetPath(int.Parse(e.Node.Name), _path);
                                     }
                                 }
                                 FileManager.UnsavedChanges = true;
@@ -266,7 +301,8 @@ namespace JSGameIDE
             bool run = false;
             if (FileManager.UnsavedChanges)
             {
-                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel);
+                SystemSounds.Exclamation.Play();
+                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (_res == DialogResult.Yes)
                     FileManager.Save(true);
                 run = _res == DialogResult.Yes || _res == DialogResult.No;
@@ -524,6 +560,11 @@ namespace JSGameIDE
         private void MainForm_Load(object sender, EventArgs e)
         {
             LivePreview.ShowDebug(false);
+        }
+
+        private void soundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Sounds.sounds.Add(new Sound("", "sound", this));
         }
     }
 }

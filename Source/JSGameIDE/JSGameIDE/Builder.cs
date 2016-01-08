@@ -92,7 +92,8 @@ namespace JSGameIDE
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             try
             {
-                Directory.Delete(TargetPath, true);
+                if(Directory.Exists(TargetPath))
+                    Directory.Delete(TargetPath, true);
             }
             catch { }
             PreprocessorDefine();

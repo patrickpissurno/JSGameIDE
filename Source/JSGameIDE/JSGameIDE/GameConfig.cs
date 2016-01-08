@@ -77,6 +77,7 @@ namespace JSGameIDE
             Sprites.Reset();
             Rooms.Reset();
             Objects.Reset();
+            Sounds.Reset();
             Scripts.Reset();
         }
     }

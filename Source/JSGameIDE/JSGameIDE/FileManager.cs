@@ -96,6 +96,8 @@ namespace JSGameIDE
                 package.objectAmount = Objects.amount;
                 package.scripts = Scripts.scripts.ToArray();
                 package.scriptAmount = Scripts.amount;
+                package.sounds = Sounds.sounds.ToArray();
+                package.soundAmount = Sounds.amount;
 
                 //SAVE CODING DATA
                 string targetPath = null;
@@ -246,6 +248,10 @@ namespace JSGameIDE
                     if (output2.windowStyle != null)
                         GameConfig.windowStyle = (string)output2.windowStyle;
                     Sprites.amount = (int)output2.spriteAmount;
+                    if (output2.soundAmount != null)
+                        Sounds.amount = (int)output2.soundAmount;
+                    else
+                        Sounds.amount = 0;
                     Objects.amount = (int)output2.objectAmount;
                     Rooms.amount = (int)output2.roomAmount;
                     Rooms.firstId = (int)output2.roomFirstId;
@@ -284,6 +290,28 @@ namespace JSGameIDE
                             _node.Name = "" + spr.id;
                             spr.node = _node;
                             mainForm.AddViewNodeChild("Sprites", _node);
+                        }
+                    }
+
+                    //Loads the sounds
+                    if (output2.sounds != null)
+                    {
+                        _a = ((JArray)output2.sounds).ToObject<List<dynamic>>();
+                        for (int i = 0; i < Sounds.amount; i++) { Sounds.sounds.Add(null); }
+                        foreach (var _b in _a)
+                        {
+                            if (_b != null)
+                            {
+                                Sound snd = new Sound();
+                                snd.name = (string)_b.name;
+                                snd.id = (int)_b.id;
+                                snd.path = (string)_b.path;
+                                Sounds.sounds[snd.id] = snd;
+                                TreeNode _node = new TreeNode(snd.name);
+                                _node.Name = "" + snd.id;
+                                snd.node = _node;
+                                mainForm.AddViewNodeChild("Sounds", _node);
+                            }
                         }
                     }
 
@@ -482,6 +510,9 @@ namespace JSGameIDE
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sprite[] sprites;
         public int spriteAmount;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Sound[] sounds;
+        public int soundAmount;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Object[] objects;
         public int objectAmount;

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoomEditor));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.adicionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +69,7 @@
             // gridOptionsToolStripMenuItem
             // 
             this.gridOptionsToolStripMenuItem.Name = "gridOptionsToolStripMenuItem";
-            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.gridOptionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.gridOptionsToolStripMenuItem.Text = "Grid Settings";
             this.gridOptionsToolStripMenuItem.Click += new System.EventHandler(this.gridOptionsToolStripMenuItem_Click);
             // 
@@ -102,6 +103,7 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.roomSpace);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "RoomEditor";

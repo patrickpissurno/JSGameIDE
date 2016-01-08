@@ -191,7 +191,14 @@
     <Compile Include="ScriptForm.Designer.cs">
       <DependentUpon>ScriptForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Sound.cs" />
     <Compile Include="Sprite.cs" />
+    <Compile Include="SoundForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoundForm.Designer.cs">
+      <DependentUpon>SoundForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -247,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptForm.resx">
       <DependentUpon>ScriptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundForm.resx">
+      <DependentUpon>SoundForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpriteForm.resx">
       <DependentUpon>SpriteForm.cs</DependentUpon>
@@ -324,6 +334,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="audio_play.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="audio_stop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\player.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -331,6 +347,17 @@
     <None Include="Resources\livePreview.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\cef.redist.x86.3.2454.1344\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2454.1344\build\cef.redist.x86.targets')" />
