@@ -18,6 +18,14 @@ function deltaTime()
 //Update Frame Function
 function updateFrame()
 {
+    //Sound auto-dispose
+    if(!document.hasFocus())
+    {
+        for(var i=0; i<sound.sounds.length; i++)
+        {
+            soundDispose(sound.sounds[i]);
+        }
+    }
     if(true)
     {
         currentFrame += deltaTime() * 60;
@@ -33,6 +41,51 @@ function updateFrame()
         deltaTime();
     setTimeout(updateFrame, 0);
 };
+
+//Sound Functions
+function soundPlay(snd)
+{
+    if(document.hasFocus())
+    {
+        snd.loop = false;
+        snd.play();
+    }
+}
+
+function soundStop(snd)
+{
+    if(document.hasFocus())
+    {
+        snd.pause();
+        snd.currentTime = 0;
+    }
+}
+
+function soundLoop(snd)
+{
+    if(document.hasFocus())
+    {
+        snd.loop = true;
+        soundStop(snd);
+        snd.play();
+    }
+}
+
+function soundIsPlaying(snd)
+{
+    return !snd.paused;
+}
+
+function soundDispose(snd)
+{
+    snd.loop = false;
+    snd.pause();
+    snd.preload = "none";
+    var _src = snd.src;
+    snd.src = "";
+    snd.load();
+    snd.src = _src;
+}
 
 //Draw Text Function
 function drawText(x,y,text,f,c,align)

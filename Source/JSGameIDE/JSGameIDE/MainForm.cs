@@ -171,6 +171,8 @@ namespace JSGameIDE
                                         string _path = @"Resources\SND" + @"\snd" + form.id + Path.GetExtension(form.path);
                                         try
                                         {
+                                            if (File.Exists(GameConfig.path + @"\" + _path))
+                                                File.Delete(GameConfig.path + @"\" + _path);
                                             File.Copy(form.path, GameConfig.path + @"\" + _path, true);
                                         }
                                         catch { }

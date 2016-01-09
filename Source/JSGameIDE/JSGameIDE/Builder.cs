@@ -456,7 +456,12 @@ namespace JSGameIDE
             foreach (Sprite spr in Sprites.sprites)
             {
                 if(spr!=null)
-                    str = str.Replace(spr.name, "sprite.sprite"+spr.id);
+                    str = str.Replace(spr.name, "sprite.sprite" + spr.id);
+            }
+            foreach (Sound snd in Sounds.sounds)
+            {
+                if (snd != null)
+                    str = str.Replace(snd.name, "sound.sound" + snd.id);
             }
             foreach (Room rm in Rooms.rooms)
             {
