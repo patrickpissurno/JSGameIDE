@@ -126,18 +126,18 @@ namespace JSGameIDE
                 }
                 catch { }
                 Directory.CreateDirectory(dir);
-                
+
                 //Build the Preview
-                //if (Builder.Build(true, BuildPath))
-                //{
-                //    //Loads the page
-                //    if (File.Exists(BuildPath + @"\index.html"))
-                //        Browser.Load(BuildPath + @"\index.html");
-                //    else
-                //        Browser.Load(PlaceholderPath);
-                //}
-                //else
-                //    Browser.Load(PlaceholderPath);
+                if (Builder.Build(true, BuildPath))
+                {
+                    //Loads the page
+                    if (File.Exists(BuildPath + @"\index.html"))
+                        Browser.Load(BuildPath + @"\index.html");
+                    else
+                        Browser.Load(PlaceholderPath);
+                }
+                else
+                    Browser.Load(PlaceholderPath);
             }
         }
 
