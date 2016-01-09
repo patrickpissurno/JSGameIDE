@@ -103,6 +103,7 @@ namespace JSGameIDE
             try
             {
                 Directory.CreateDirectory(TargetPath + @"\IMG");
+                Directory.CreateDirectory(TargetPath + @"\SND");
                 data += BuildHTML();
                 using (StreamWriter outfile = new StreamWriter(TargetPath + @"\index.html"))
                 {
@@ -111,6 +112,7 @@ namespace JSGameIDE
                 data = "";
                 data += BuildHeader() + Environment.NewLine + Environment.NewLine;
                 data += BuildSprites(TargetPath) + Environment.NewLine + Environment.NewLine;
+                data += BuildSounds(TargetPath) + Environment.NewLine + Environment.NewLine;
                 data += BuildScripts() + Environment.NewLine + Environment.NewLine;
                 data += BuildObjects() + Environment.NewLine + Environment.NewLine;
                 data += BuildRooms() + Environment.NewLine + Environment.NewLine;
@@ -189,6 +191,32 @@ namespace JSGameIDE
                     _fsi = _i.IndexOf("#END", _fsi) + 4;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END", _fsi) - _fsi),
                         new string[] { "$spriteId" }, new string[] { sprite.id.ToString() });
+                }
+            }
+            int _le = _i.LastIndexOf("#END") + 4;
+            _d += _i.Substring(_le, _i.Length - _le);
+            return _d.Trim();
+        }
+
+        /// <summary>
+        /// This method is used to build the sounds of the JS game. 
+        /// </summary>
+        /// <returns>Returns them as a string.</returns>
+        private static string BuildSounds(string TargetPath)
+        {
+            string _i = File.ReadAllText(LibraryPath + @"\sounds.js");
+            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+            string _d = _i.Substring(0, _i.IndexOf("#FOREACH Sound"));
+            foreach (Sound sound in Sounds.sounds)
+            {
+                if (sound != null && sound.path != null)
+                {
+                    File.Copy(Path.Combine(GameConfig.path, sound.path), TargetPath + @"\SND\snd" + sound.id + Path.GetExtension(sound.path), true);
+
+                    int _fsi = _i.IndexOf("#FOREACH Sound") + 15;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi),
+                        new string[] { "$soundId", "$soundPath" }, new string[] { sound.id.ToString(), "SND/snd" + sound.id + Path.GetExtension(sound.path) });
                 }
             }
             int _le = _i.LastIndexOf("#END") + 4;

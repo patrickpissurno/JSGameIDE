@@ -334,6 +334,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\sounds.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="audio_play.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
