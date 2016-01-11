@@ -327,6 +327,12 @@ namespace JSGameIDE
                             obj.name = (string)_b.name;
                             obj.sprite = (int)_b.sprite;
                             obj.autoDraw = (bool)_b.autoDraw;
+                            if (_b.usePhysics != null)
+                                obj.usePhysics = (bool)_b.usePhysics;
+                            if (_b.bodyType != null)
+                                obj.bodyType = (Physics.BodyTypes)_b.bodyType;
+                            if (_b.lockRotation != null)
+                                obj.lockRotation = (bool)_b.lockRotation;
                             string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
                             //LEGACY PROJECT IMPORTER
                             if (GameConfig.projectVersion < 1)

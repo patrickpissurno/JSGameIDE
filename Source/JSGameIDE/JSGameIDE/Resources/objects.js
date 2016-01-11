@@ -18,9 +18,20 @@
         this.autoDraw = $objectAutoDraw;
         this.sprite = $objectSprite;
         this._create_executed = false;
+        this.usePhysics = $objectUsePhysics;
+        this.bodyType = $objectBodyType;
+        this.lockRotation = $objectLockRotation;
+        this.body = null;
+        this.transform = null;
+        
         
         this.create = function()
         {
+            if(this.usePhysics)
+            {
+                  this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale, this.y * Physics.Scale, Physics.Shapes.Box((this.width / 2) * Physics.Scale, (this.height / 2) * Physics.Scale), this.lockRotation);
+                this.transform = this.body.transform;  
+            }
             $objectCreate
         };
         
@@ -31,23 +42,42 @@
                 this.create();
                 this._create_executed = true;
             };
+            
+            //Update the X and Y variables when using Physics (read only)
+            if(this.usePhysics)
+            {
+                this.x = (this.transform.position.x / Physics.Scale) - this.width / 2;
+                this.y = (this.transform.position.y / Physics.Scale) - this.height / 2;
+            }
+                
             if(this.pressed && !mouse.pressed)
             {
                 this.pressed = false;
                 $objectMouseReleased
             };
+            
             if(mouse.pressed && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height)
             {
                 this.pressed = true;
                 $objectMousePressed
             };
+            
             if(this.toDestroy)
             {
                 this.destroy();
             };
+            
             $objectUpdate
-            this.x += this.hspeed;
-            this.y += this.vspeed;
+            
+            if(!this.usePhysics)
+            {
+                this.x += this.hspeed;
+                this.y += this.vspeed;
+            }
+            else
+            {
+                this.angle = this.transform.GetAngle() * 180 / Math.PI;
+            }
         };
         
         this.draw = function()
@@ -100,6 +130,12 @@
                         break;
                     };
                 };
+                if(this.usePhysics)
+                {
+                    if(this.body != null)
+                        Physics.World.DestroyBody(this.body);
+                    this.body = null;
+                }
             };
         }
         

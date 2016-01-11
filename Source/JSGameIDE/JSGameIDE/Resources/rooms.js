@@ -64,10 +64,10 @@ var rM = function()
     var Room$roomId = function()
     {
         #DEFINE ObjectCreates
-            for(var i=0; i<this.obj$objectId.length; i++){
+            /*for(var i=0; i<this.obj$objectId.length; i++){
                 if(this.obj$objectId[i] != null)
                     this.obj$objectId[i].create();
-            };
+            };*/
         #END
         #DEFINE ObjectUpdates
             for(var i=0; i<this.obj$objectId.length; i++)
@@ -121,6 +121,7 @@ var rM = function()
             };
             $roomUpdate
             $objectUpdates
+            Physics.Update();
         };
         
         //Room Draw Event

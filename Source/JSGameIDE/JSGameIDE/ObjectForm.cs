@@ -50,9 +50,38 @@ namespace JSGameIDE
         public string onMouseReleased = "";
         public string onDestroy = "";
 
+        public Physics.BodyTypes BodyType
+        {
+            get
+            {
+                return (Physics.BodyTypes)bodyTypeBox.SelectedIndex;
+            }
+            set { }
+        }
+
+        public bool UsePhysics
+        {
+            get
+            {
+                return usePhysicsCheckbox.Checked;
+            }
+            set { }
+        }
+
+        public bool LockRotation
+        {
+            get
+            {
+                return lockRotationCheckbox.Checked;
+            }
+            set { }
+        }
+
         public ObjectForm()
         {
             InitializeComponent();
+            bodyTypeBox.Items.AddRange(new string[] { Physics.BodyTypes.Static.ToString(), Physics.BodyTypes.Kinematic.ToString(), Physics.BodyTypes.Dynamic.ToString()});
+
             //Loads all the game sprites into the object sprite selection menu
             List<string> _sprites = new List<string>();
             _sprites.Add("None");
@@ -180,6 +209,27 @@ namespace JSGameIDE
             //Opens the Object Destroy Event data in the Code Editor
             this.onDestroy = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Destroy",
                 IDEConfig.ComponentType.Object, this.onDestroy, this.id, "destroy");
+        }
+
+        private void usePhysicsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (usePhysicsCheckbox.Checked)
+            {
+                bodyTypeBox.Show();
+                lockRotationCheckbox.Show();
+            }
+            else
+            {
+                bodyTypeBox.Hide();
+                lockRotationCheckbox.Hide();
+            }
+        }
+
+        private void ObjectForm_Load(object sender, EventArgs e)
+        {
+            bodyTypeBox.SelectedIndex = (int)Objects.objects[id].bodyType;
+            usePhysicsCheckbox.Checked = Objects.objects[id].usePhysics;
+            lockRotationCheckbox.Checked = Objects.objects[id].lockRotation;
         }
     }
 }

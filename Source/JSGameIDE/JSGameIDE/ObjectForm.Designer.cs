@@ -44,6 +44,9 @@
             this.autoDrawBox = new System.Windows.Forms.CheckBox();
             this.mousereleasedButton = new System.Windows.Forms.Button();
             this.mousepressedButton = new System.Windows.Forms.Button();
+            this.usePhysicsCheckbox = new System.Windows.Forms.CheckBox();
+            this.bodyTypeBox = new System.Windows.Forms.ComboBox();
+            this.lockRotationCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // saveButton
@@ -211,11 +214,45 @@
             this.mousepressedButton.UseVisualStyleBackColor = true;
             this.mousepressedButton.Click += new System.EventHandler(this.mousepressedButton_Click);
             // 
+            // usePhysicsCheckbox
+            // 
+            this.usePhysicsCheckbox.AutoSize = true;
+            this.usePhysicsCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.usePhysicsCheckbox.Location = new System.Drawing.Point(356, 155);
+            this.usePhysicsCheckbox.Name = "usePhysicsCheckbox";
+            this.usePhysicsCheckbox.Size = new System.Drawing.Size(110, 22);
+            this.usePhysicsCheckbox.TabIndex = 29;
+            this.usePhysicsCheckbox.Text = "Use Physics";
+            this.usePhysicsCheckbox.UseVisualStyleBackColor = true;
+            this.usePhysicsCheckbox.CheckedChanged += new System.EventHandler(this.usePhysicsCheckbox_CheckedChanged);
+            // 
+            // bodyTypeBox
+            // 
+            this.bodyTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.bodyTypeBox.Location = new System.Drawing.Point(337, 183);
+            this.bodyTypeBox.Name = "bodyTypeBox";
+            this.bodyTypeBox.Size = new System.Drawing.Size(121, 21);
+            this.bodyTypeBox.TabIndex = 30;
+            // 
+            // lockRotationCheckbox
+            // 
+            this.lockRotationCheckbox.AutoSize = true;
+            this.lockRotationCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lockRotationCheckbox.Location = new System.Drawing.Point(346, 210);
+            this.lockRotationCheckbox.Name = "lockRotationCheckbox";
+            this.lockRotationCheckbox.Size = new System.Drawing.Size(120, 22);
+            this.lockRotationCheckbox.TabIndex = 31;
+            this.lockRotationCheckbox.Text = "Lock Rotation";
+            this.lockRotationCheckbox.UseVisualStyleBackColor = true;
+            // 
             // ObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 243);
+            this.Controls.Add(this.lockRotationCheckbox);
+            this.Controls.Add(this.bodyTypeBox);
+            this.Controls.Add(this.usePhysicsCheckbox);
             this.Controls.Add(this.mousereleasedButton);
             this.Controls.Add(this.mousepressedButton);
             this.Controls.Add(this.autoDrawBox);
@@ -238,6 +275,7 @@
             this.Name = "ObjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Object properties";
+            this.Load += new System.EventHandler(this.ObjectForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -261,6 +299,8 @@
         private System.Windows.Forms.CheckBox autoDrawBox;
         private System.Windows.Forms.Button mousereleasedButton;
         private System.Windows.Forms.Button mousepressedButton;
-
+        private System.Windows.Forms.CheckBox usePhysicsCheckbox;
+        private System.Windows.Forms.ComboBox bodyTypeBox;
+        private System.Windows.Forms.CheckBox lockRotationCheckbox;
     }
 }

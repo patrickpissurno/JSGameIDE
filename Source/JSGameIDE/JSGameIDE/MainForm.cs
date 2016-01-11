@@ -240,16 +240,20 @@ namespace JSGameIDE
                             {
                                 //Updates the data of the given object
                                 Objects.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
-                                Objects.objects[int.Parse(e.Node.Name)].onCreate = form.onCreate;
-                                Objects.objects[int.Parse(e.Node.Name)].onUpdate = form.onUpdate;
-                                Objects.objects[int.Parse(e.Node.Name)].onDraw = form.onDraw;
-                                Objects.objects[int.Parse(e.Node.Name)].onKeyPressed = form.onKeyPressed;
-                                Objects.objects[int.Parse(e.Node.Name)].onKeyReleased = form.onKeyReleased;
-                                Objects.objects[int.Parse(e.Node.Name)].onMousePressed = form.onMousePressed;
-                                Objects.objects[int.Parse(e.Node.Name)].onMouseReleased = form.onMouseReleased;
-                                Objects.objects[int.Parse(e.Node.Name)].onDestroy = form.onDestroy;
-                                Objects.objects[int.Parse(e.Node.Name)].autoDraw = form.GetAutoDrawBox();
-                                Objects.objects[int.Parse(e.Node.Name)].sprite = form.GetSpriteBox();
+                                Object obj = Objects.objects[int.Parse(e.Node.Name)];
+                                obj.onCreate = form.onCreate;
+                                obj.onUpdate = form.onUpdate;
+                                obj.onDraw = form.onDraw;
+                                obj.onKeyPressed = form.onKeyPressed;
+                                obj.onKeyReleased = form.onKeyReleased;
+                                obj.onMousePressed = form.onMousePressed;
+                                obj.onMouseReleased = form.onMouseReleased;
+                                obj.onDestroy = form.onDestroy;
+                                obj.autoDraw = form.GetAutoDrawBox();
+                                obj.sprite = form.GetSpriteBox();
+                                obj.bodyType = form.BodyType;
+                                obj.usePhysics = form.UsePhysics;
+                                obj.lockRotation = form.LockRotation;
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;

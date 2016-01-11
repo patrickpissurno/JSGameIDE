@@ -110,8 +110,12 @@ namespace JSGameIDE
     {
         public int id;
         public string name;
-        public int sprite=-1;
-        public bool autoDraw=true;
+        public int sprite = -1;
+        public bool autoDraw = true;
+        public bool usePhysics = false;
+        public bool lockRotation = false;
+        public Physics.BodyTypes bodyType = Physics.BodyTypes.Static;
+
         [JsonIgnore]
         public TreeNode node;
 
