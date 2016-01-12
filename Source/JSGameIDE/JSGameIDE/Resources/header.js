@@ -21,7 +21,7 @@ var Physics = {
     Scale : 1.0 / 30,
     World : null,
     Start : function(){
-        this.World = new b2World(new b2Vec(0, 9.8), true);
+        this.World = new b2World(new b2Vec(0, 9.8), false);
 
         //Set debug draw
         var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
