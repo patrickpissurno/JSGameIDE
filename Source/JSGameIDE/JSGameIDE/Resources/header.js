@@ -20,8 +20,8 @@ var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 var Physics = {
     Scale : 1.0 / 30,
     World : null,
-    Start : function(){
-        this.World = new b2World(new b2Vec(0, 9.8), false);
+    Start : function(gravityVector, allowSleep){
+        this.World = new b2World(gravityVector, allowSleep);
 
         //Set debug draw
         var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;

@@ -265,8 +265,20 @@ namespace JSGameIDE
                     List<string> pTags = new List<string>();
                     List<string> pValues = new List<string>();
 
-                    pTags.AddRange(new string[] { "$roomFirstId", "$roomId" });
-                    pValues.AddRange(new string[] { Rooms.firstId.ToString(), room.id.ToString() });
+                    pTags.AddRange(new string[] {
+                        "$roomFirstId",
+                        "$roomId",
+                        "$roomAllowSleep",
+                        "$roomGravityX",
+                        "$roomGravityY"
+                    });
+                    pValues.AddRange(new string[] {
+                        Rooms.firstId.ToString(),
+                        room.id.ToString(),
+                        room.allowSleep.ToString().ToLower(),
+                        room.gravityX.ToString().Replace(',','.'),
+                        room.gravityY.ToString().Replace(',','.')
+                    });
 
                     string ObjectCreates, ObjectUpdates, ObjectDraws, ObjectKeyPresseds, ObjectKeyReleaseds;
                     int _o, _o2;
@@ -343,7 +355,7 @@ namespace JSGameIDE
                             "$objectKeyPresseds",
                             "$objectKeyReleaseds"
                         }).ToArray(),
-                        pValues.Concat(new string[] { 
+                        pValues.Concat(new string[] {
                             ReplaceCode(room.onCreate),
                             ReplaceCode(room.onUpdate),
                             ReplaceCode(room.onDraw),

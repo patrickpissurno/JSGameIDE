@@ -76,6 +76,10 @@ namespace JSGameIDE
     {
         public int id;
         public string name;
+        public decimal gravityX = 0;
+        public decimal gravityY = 9.8M;
+        public bool allowSleep = false;
+
         [JsonIgnore]
         public TreeNode node;
 

@@ -102,10 +102,13 @@ var rM = function()
         #END
         this._create_executed = false;
         this.camera = new camera();
+        this.allowSleep = $roomAllowSleep;
+        this.gravityVector = new b2Vec($roomGravityX, $roomGravityY);
         
         //Room Create Event
         this.create = function()
         {
+            Physics.Start(this.gravityVector, this.allowSleep);
             $roomCreate
             $roomEditorCreate
             $objectCreates

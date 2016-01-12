@@ -74,6 +74,8 @@
             {
                 this.x = (this.transform.position.x / Physics.Scale) - this.width / 2;
                 this.y = (this.transform.position.y / Physics.Scale) - this.height / 2;
+                this.hspeed = this.body.m_linearVelocity.x;
+                this.vspeed = this.body.m_linearVelocity.y;
             }
                 
             if(this.pressed && !mouse.pressed)

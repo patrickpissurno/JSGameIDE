@@ -48,6 +48,33 @@ namespace JSGameIDE
         public string onKeyReleased = "";
         public EditorObject[] editorCreate = null;
 
+        public bool AllowSleep
+        {
+            get
+            {
+                return allowSleepBox.Checked;
+            }
+            set { }
+        }
+
+        public decimal GravityX
+        {
+            get
+            {
+                return gravityXBox.Value;
+            }
+            set { }
+        }
+
+        public decimal GravityY
+        {
+            get
+            {
+                return gravityYBox.Value;
+            }
+            set { }
+        }
+
         public RoomForm()
         {
             InitializeComponent();
@@ -144,6 +171,13 @@ namespace JSGameIDE
                 }
                 form.Close();
             }
+        }
+
+        private void RoomForm_Load(object sender, EventArgs e)
+        {
+            allowSleepBox.Checked = Rooms.rooms[id].allowSleep;
+            gravityXBox.Value = Rooms.rooms[id].gravityX;
+            gravityYBox.Value = Rooms.rooms[id].gravityY;
         }
     }
 }

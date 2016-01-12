@@ -190,14 +190,15 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
-                            form.id = Rooms.rooms[int.Parse(e.Node.Name)].id;
+                            Room room = Rooms.rooms[int.Parse(e.Node.Name)];
+                            form.id = room.id;
                             form.SetFirstBox(int.Parse(e.Node.Name) == Rooms.firstId);
-                            form.onCreate = Rooms.rooms[int.Parse(e.Node.Name)].onCreate;
-                            form.onUpdate = Rooms.rooms[int.Parse(e.Node.Name)].onUpdate;
-                            form.onDraw = Rooms.rooms[int.Parse(e.Node.Name)].onDraw;
-                            form.onKeyPressed = Rooms.rooms[int.Parse(e.Node.Name)].onKeyPressed;
-                            form.onKeyReleased = Rooms.rooms[int.Parse(e.Node.Name)].onKeyReleased;
-                            form.editorCreate = Rooms.rooms[int.Parse(e.Node.Name)].editorCreate;
+                            form.onCreate = room.onCreate;
+                            form.onUpdate = room.onUpdate;
+                            form.onDraw = room.onDraw;
+                            form.onKeyPressed = room.onKeyPressed;
+                            form.onKeyReleased = room.onKeyReleased;
+                            form.editorCreate = room.editorCreate;
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
                             {
@@ -205,12 +206,15 @@ namespace JSGameIDE
                                 Rooms.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
                                 if (form.GetFirstBox())
                                     Rooms.firstId = int.Parse(e.Node.Name);
-                                Rooms.rooms[int.Parse(e.Node.Name)].onCreate = form.onCreate;
-                                Rooms.rooms[int.Parse(e.Node.Name)].onUpdate = form.onUpdate;
-                                Rooms.rooms[int.Parse(e.Node.Name)].onDraw = form.onDraw;
-                                Rooms.rooms[int.Parse(e.Node.Name)].onKeyPressed = form.onKeyPressed;
-                                Rooms.rooms[int.Parse(e.Node.Name)].onKeyReleased = form.onKeyReleased;
-                                Rooms.rooms[int.Parse(e.Node.Name)].editorCreate = form.editorCreate;
+                                room.onCreate = form.onCreate;
+                                room.onUpdate = form.onUpdate;
+                                room.onDraw = form.onDraw;
+                                room.onKeyPressed = form.onKeyPressed;
+                                room.onKeyReleased = form.onKeyReleased;
+                                room.editorCreate = form.editorCreate;
+                                room.gravityX = form.GravityX;
+                                room.gravityY = form.GravityY;
+                                room.allowSleep = form.AllowSleep;
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;
@@ -224,23 +228,23 @@ namespace JSGameIDE
                         {
                             form.Text = "Properties of " + e.Node.Text;
                             form.SetNameBoxText(e.Node.Text);
-                            form.id = Objects.objects[int.Parse(e.Node.Name)].id;
-                            form.SetSpriteBox(Objects.objects[int.Parse(e.Node.Name)].sprite);
-                            form.SetAutoDrawBox(Objects.objects[int.Parse(e.Node.Name)].autoDraw);
-                            form.onCreate = Objects.objects[int.Parse(e.Node.Name)].onCreate;
-                            form.onUpdate = Objects.objects[int.Parse(e.Node.Name)].onUpdate;
-                            form.onDraw = Objects.objects[int.Parse(e.Node.Name)].onDraw;
-                            form.onKeyPressed = Objects.objects[int.Parse(e.Node.Name)].onKeyPressed;
-                            form.onKeyReleased = Objects.objects[int.Parse(e.Node.Name)].onKeyReleased;
-                            form.onMousePressed = Objects.objects[int.Parse(e.Node.Name)].onMousePressed;
-                            form.onMouseReleased = Objects.objects[int.Parse(e.Node.Name)].onMouseReleased;
-                            form.onDestroy = Objects.objects[int.Parse(e.Node.Name)].onDestroy;
+                            Object obj = Objects.objects[int.Parse(e.Node.Name)];
+                            form.id = obj.id;
+                            form.SetSpriteBox(obj.sprite);
+                            form.SetAutoDrawBox(obj.autoDraw);
+                            form.onCreate = obj.onCreate;
+                            form.onUpdate = obj.onUpdate;
+                            form.onDraw = obj.onDraw;
+                            form.onKeyPressed = obj.onKeyPressed;
+                            form.onKeyReleased = obj.onKeyReleased;
+                            form.onMousePressed = obj.onMousePressed;
+                            form.onMouseReleased = obj.onMouseReleased;
+                            form.onDestroy = obj.onDestroy;
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
                             {
                                 //Updates the data of the given object
                                 Objects.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
-                                Object obj = Objects.objects[int.Parse(e.Node.Name)];
                                 obj.onCreate = form.onCreate;
                                 obj.onUpdate = form.onUpdate;
                                 obj.onDraw = form.onDraw;

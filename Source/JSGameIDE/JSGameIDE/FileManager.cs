@@ -384,7 +384,12 @@ namespace JSGameIDE
                             Room room = new Room();
                             room.id = (int)_b.id;
                             room.name = (string)_b.name;
-
+                            if (_b.allowSleep != null)
+                                room.allowSleep = (bool)_b.allowSleep;
+                            if (_b.gravityX != null)
+                                room.gravityX = (decimal)_b.gravityX;
+                            if (_b.gravityY != null)
+                                room.gravityY = (decimal)_b.gravityY;
                             string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
                             //LEGACY PROJECT IMPORTER
                             if (GameConfig.projectVersion < 1)
