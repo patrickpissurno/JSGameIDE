@@ -395,7 +395,11 @@ namespace JSGameIDE
                         "$objectMouseReleased",
                         "$objectUsePhysics",
                         "$objectBodyType",
-                        "$objectLockRotation"
+                        "$objectLockRotation",
+                        "$objectDensity",
+                        "$objectFriction",
+                        "$objectRestitution",
+                        "$objectColliderType"
                     };
                     string[] pValues = new string[]
                     {
@@ -414,7 +418,11 @@ namespace JSGameIDE
                         ReplaceCode(obj.onMouseReleased),
                         obj.usePhysics.ToString().ToLower(),
                         "Physics.BodyTypes." + obj.bodyType.ToString(),
-                        obj.lockRotation.ToString().ToLower()
+                        obj.lockRotation.ToString().ToLower(),
+                        obj.density.ToString().Replace(',','.'),
+                        obj.friction.ToString().Replace(',','.'),
+                        obj.restitution.ToString().Replace(',','.'),
+                        ((int)obj.colliderType).ToString()
                     };
                     int _fsi = _i.IndexOf("#FOREACH Object") + 15;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);

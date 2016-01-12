@@ -41,5 +41,11 @@ namespace JSGameIDE
             Kinematic = 1,
             Dynamic = 2
         }
+        public enum ColliderTypes
+        {
+            Box = 0,
+            InnerCircle = 1,
+            OuterCircle = 2
+        }
     }
 }

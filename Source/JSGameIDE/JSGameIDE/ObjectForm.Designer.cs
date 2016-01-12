@@ -61,8 +61,18 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.restitutionBox = new System.Windows.Forms.NumericUpDown();
+            this.frictionBox = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.densityBox1 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.colliderTypeBox = new System.Windows.Forms.ComboBox();
             this.keyreleasedButton.SuspendLayout();
             this.keypressedButton.SuspendLayout();
             this.drawButton.SuspendLayout();
@@ -76,6 +86,11 @@
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.restitutionBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frictionBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.densityBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -370,18 +385,17 @@
             // 
             this.usePhysicsCheckbox.AutoSize = true;
             this.usePhysicsCheckbox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.usePhysicsCheckbox.Location = new System.Drawing.Point(375, 6);
+            this.usePhysicsCheckbox.Location = new System.Drawing.Point(380, 6);
             this.usePhysicsCheckbox.Name = "usePhysicsCheckbox";
             this.usePhysicsCheckbox.Size = new System.Drawing.Size(82, 24);
             this.usePhysicsCheckbox.TabIndex = 29;
             this.usePhysicsCheckbox.Text = "Enabled";
             this.usePhysicsCheckbox.UseVisualStyleBackColor = true;
-            this.usePhysicsCheckbox.CheckedChanged += new System.EventHandler(this.usePhysicsCheckbox_CheckedChanged);
             // 
             // bodyTypeBox
             // 
             this.bodyTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.bodyTypeBox.Location = new System.Drawing.Point(73, 19);
+            this.bodyTypeBox.Location = new System.Drawing.Point(92, 20);
             this.bodyTypeBox.Name = "bodyTypeBox";
             this.bodyTypeBox.Size = new System.Drawing.Size(121, 21);
             this.bodyTypeBox.TabIndex = 30;
@@ -390,7 +404,7 @@
             // 
             this.lockRotationCheckbox.AutoSize = true;
             this.lockRotationCheckbox.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lockRotationCheckbox.Location = new System.Drawing.Point(50, 46);
+            this.lockRotationCheckbox.Location = new System.Drawing.Point(12, 21);
             this.lockRotationCheckbox.Name = "lockRotationCheckbox";
             this.lockRotationCheckbox.Size = new System.Drawing.Size(107, 17);
             this.lockRotationCheckbox.TabIndex = 31;
@@ -449,6 +463,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.groupBox1);
             this.tabPage3.Controls.Add(this.usePhysicsCheckbox);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -459,27 +474,146 @@
             this.tabPage3.Text = "Physics";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // groupBox3
             // 
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.bodyTypeBox);
-            this.groupBox1.Controls.Add(this.lockRotationCheckbox);
-            this.groupBox1.Location = new System.Drawing.Point(9, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(202, 186);
-            this.groupBox1.TabIndex = 32;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Transform settings";
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.colliderTypeBox);
+            this.groupBox3.Controls.Add(this.groupBox4);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.densityBox1);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.bodyTypeBox);
+            this.groupBox3.Location = new System.Drawing.Point(144, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(225, 186);
+            this.groupBox3.TabIndex = 33;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Body Settings";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.restitutionBox);
+            this.groupBox4.Controls.Add(this.frictionBox);
+            this.groupBox4.Location = new System.Drawing.Point(6, 119);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(213, 61);
+            this.groupBox4.TabIndex = 38;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Physical Properties";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(42, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Friction";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(105, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(64, 13);
+            this.label7.TabIndex = 37;
+            this.label7.Text = "Restitution";
+            // 
+            // restitutionBox
+            // 
+            this.restitutionBox.DecimalPlaces = 2;
+            this.restitutionBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.restitutionBox.Location = new System.Drawing.Point(116, 32);
+            this.restitutionBox.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.restitutionBox.Name = "restitutionBox";
+            this.restitutionBox.Size = new System.Drawing.Size(43, 20);
+            this.restitutionBox.TabIndex = 34;
+            // 
+            // frictionBox
+            // 
+            this.frictionBox.DecimalPlaces = 2;
+            this.frictionBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.frictionBox.Location = new System.Drawing.Point(43, 32);
+            this.frictionBox.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.frictionBox.Name = "frictionBox";
+            this.frictionBox.Size = new System.Drawing.Size(43, 20);
+            this.frictionBox.TabIndex = 36;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(9, 77);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(48, 13);
+            this.label5.TabIndex = 33;
+            this.label5.Text = "Density:";
+            // 
+            // densityBox1
+            // 
+            this.densityBox1.DecimalPlaces = 1;
+            this.densityBox1.Location = new System.Drawing.Point(92, 74);
+            this.densityBox1.Name = "densityBox1";
+            this.densityBox1.Size = new System.Drawing.Size(121, 20);
+            this.densityBox1.TabIndex = 32;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(6, 22);
+            this.label4.Location = new System.Drawing.Point(9, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 13);
             this.label4.TabIndex = 31;
             this.label4.Text = "Body type:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lockRotationCheckbox);
+            this.groupBox1.Location = new System.Drawing.Point(9, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(129, 186);
+            this.groupBox1.TabIndex = 32;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Transform settings";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(9, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(75, 13);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "Collider type:";
+            // 
+            // colliderTypeBox
+            // 
+            this.colliderTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colliderTypeBox.Location = new System.Drawing.Point(92, 47);
+            this.colliderTypeBox.Name = "colliderTypeBox";
+            this.colliderTypeBox.Size = new System.Drawing.Size(121, 21);
+            this.colliderTypeBox.TabIndex = 39;
             // 
             // ObjectForm
             // 
@@ -525,6 +659,13 @@
             this.groupBox2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.restitutionBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.frictionBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.densityBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -568,5 +709,15 @@
         private System.Windows.Forms.Label drawLabel;
         private System.Windows.Forms.Label mousePressedLabel;
         private System.Windows.Forms.Label mouseReleasedLabel;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown densityBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown frictionBox;
+        private System.Windows.Forms.NumericUpDown restitutionBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox colliderTypeBox;
     }
 }

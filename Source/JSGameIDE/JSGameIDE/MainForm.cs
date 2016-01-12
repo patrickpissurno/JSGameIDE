@@ -254,6 +254,10 @@ namespace JSGameIDE
                                 obj.bodyType = form.BodyType;
                                 obj.usePhysics = form.UsePhysics;
                                 obj.lockRotation = form.LockRotation;
+                                obj.density = form.Density;
+                                obj.friction = form.Friction;
+                                obj.restitution = form.Restitution;
+                                obj.colliderType = form.ColliderType;
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;

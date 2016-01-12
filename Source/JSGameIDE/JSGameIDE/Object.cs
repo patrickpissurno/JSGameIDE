@@ -112,9 +112,15 @@ namespace JSGameIDE
         public string name;
         public int sprite = -1;
         public bool autoDraw = true;
+
+        //Physics
         public bool usePhysics = false;
         public bool lockRotation = false;
         public Physics.BodyTypes bodyType = Physics.BodyTypes.Static;
+        public Physics.ColliderTypes colliderType = Physics.ColliderTypes.Box;
+        public decimal density = 1.0M;
+        public decimal friction = 0.5M;
+        public decimal restitution = 0.5M;
 
         [JsonIgnore]
         public TreeNode node;

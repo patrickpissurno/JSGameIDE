@@ -21,6 +21,9 @@
         this.usePhysics = $objectUsePhysics;
         this.bodyType = $objectBodyType;
         this.lockRotation = $objectLockRotation;
+        this.density = $objectDensity;
+        this.friction = $objectFriction;
+        this.restitution = $objectRestitution;
         this.body = null;
         this.transform = null;
         
@@ -29,7 +32,30 @@
         {
             if(this.usePhysics)
             {
-                  this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale, this.y * Physics.Scale, Physics.Shapes.Box((this.width / 2) * Physics.Scale, (this.height / 2) * Physics.Scale), this.lockRotation);
+                var _s;
+                switch($objectColliderType)
+                {
+                    case 0:
+                        _s = Physics.Shapes.Box((this.width / 2) * Physics.Scale, (this.height / 2) * Physics.Scale);
+                        break;
+                    case 1:
+                        var _r;
+                        if(this.width > this.height)
+                            _r = this.height;
+                        else
+                            _r = this.width;
+                        _s = Physics.Shapes.Circle(_r/2 * Physics.Scale);
+                        break;
+                    case 2:
+                        var _r;
+                        if(this.width > this.height)
+                            _r = this.width;
+                        else
+                            _r = this.height;
+                        _s = Physics.Shapes.Circle(_r/2 * Physics.Scale);
+                        break;
+                }
+                this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale, this.y * Physics.Scale, _s, this.lockRotation, this.density, this.friction, this.restitution);
                 this.transform = this.body.transform;  
             }
             $objectCreate

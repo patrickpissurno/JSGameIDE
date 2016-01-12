@@ -59,6 +59,15 @@ namespace JSGameIDE
             set { }
         }
 
+        public Physics.ColliderTypes ColliderType
+        {
+            get
+            {
+                return (Physics.ColliderTypes)colliderTypeBox.SelectedIndex;
+            }
+            set { }
+        }
+
         public bool UsePhysics
         {
             get
@@ -77,10 +86,38 @@ namespace JSGameIDE
             set { }
         }
 
+        public decimal Density
+        {
+            get
+            {
+                return densityBox1.Value;
+            }
+            set { }
+        }
+
+        public decimal Friction
+        {
+            get
+            {
+                return frictionBox.Value;
+            }
+            set { }
+        }
+
+        public decimal Restitution
+        {
+            get
+            {
+                return restitutionBox.Value;
+            }
+            set { }
+        }
+
         public ObjectForm()
         {
             InitializeComponent();
             bodyTypeBox.Items.AddRange(new string[] { Physics.BodyTypes.Static.ToString(), Physics.BodyTypes.Kinematic.ToString(), Physics.BodyTypes.Dynamic.ToString()});
+            colliderTypeBox.Items.AddRange(new string[] { Physics.ColliderTypes.Box.ToString(), Physics.ColliderTypes.InnerCircle.ToString(), Physics.ColliderTypes.OuterCircle.ToString() });
 
             //Loads all the game sprites into the object sprite selection menu
             List<string> _sprites = new List<string>();
@@ -211,25 +248,15 @@ namespace JSGameIDE
                 IDEConfig.ComponentType.Object, this.onDestroy, this.id, "destroy");
         }
 
-        private void usePhysicsCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (usePhysicsCheckbox.Checked)
-            {
-                bodyTypeBox.Show();
-                lockRotationCheckbox.Show();
-            }
-            else
-            {
-                bodyTypeBox.Hide();
-                lockRotationCheckbox.Hide();
-            }
-        }
-
         private void ObjectForm_Load(object sender, EventArgs e)
         {
             bodyTypeBox.SelectedIndex = (int)Objects.objects[id].bodyType;
+            colliderTypeBox.SelectedIndex = (int)Objects.objects[id].colliderType;
             usePhysicsCheckbox.Checked = Objects.objects[id].usePhysics;
             lockRotationCheckbox.Checked = Objects.objects[id].lockRotation;
+            densityBox1.Value = Objects.objects[id].density;
+            frictionBox.Value = Objects.objects[id].friction;
+            restitutionBox.Value = Objects.objects[id].restitution;
         }
     }
 }

@@ -333,6 +333,14 @@ namespace JSGameIDE
                                 obj.bodyType = (Physics.BodyTypes)_b.bodyType;
                             if (_b.lockRotation != null)
                                 obj.lockRotation = (bool)_b.lockRotation;
+                            if (_b.colliderType != null)
+                                obj.colliderType = (Physics.ColliderTypes)_b.colliderType;
+                            if (_b.density != null)
+                                obj.density = (decimal)_b.density;
+                            if (_b.friction != null)
+                                obj.friction = (decimal)_b.friction;
+                            if (_b.restitution != null)
+                                obj.restitution = (decimal)_b.restitution;
                             string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
                             //LEGACY PROJECT IMPORTER
                             if (GameConfig.projectVersion < 1)

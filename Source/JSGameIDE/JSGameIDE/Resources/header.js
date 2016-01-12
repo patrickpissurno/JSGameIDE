@@ -48,7 +48,7 @@ var Physics = {
         Kinematic : 1,
         Dynamic : 2
     },
-    CreateBody : function(type, x, y, shape, lockRotation){
+    CreateBody : function(type, x, y, shape, lockRotation, density, friction, restitution){
         var bodyDef = new b2BodyDef();
         bodyDef.type = type;
         bodyDef.position.x = x;
@@ -56,9 +56,9 @@ var Physics = {
         bodyDef.fixedRotation = lockRotation;
 
         var fixDef = new b2FixtureDef();
-        fixDef.density = 1.0;
-        fixDef.friction = 0.5;
-        fixDef.restitution = 0.5;
+        fixDef.density = density;
+        fixDef.friction = friction;
+        fixDef.restitution = restitution;
         fixDef.shape = shape;
 
         var _obj = this.World.CreateBody(bodyDef).CreateFixture(fixDef);
