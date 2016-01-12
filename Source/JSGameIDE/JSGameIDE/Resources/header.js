@@ -22,6 +22,8 @@ var Physics = {
     World : null,
     Start : function(gravityVector, allowSleep){
         this.World = new b2World(gravityVector, allowSleep);
+        
+        this.SetCollision();
 
         //Set debug draw
         var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
@@ -71,6 +73,29 @@ var Physics = {
         this.World.Step(1/60, 10, 10);
         this.World.DrawDebugData();
         this.World.ClearForces();
+    },
+    SetCollision : function()
+    {
+        this.listener = new Box2D.Dynamics.b2ContactListener();
+        this.listener.BeginContact = function(event)
+        {
+            var objA = event.GetFixtureA().GetBody().obj;
+            var objB = event.GetFixtureB().GetBody().obj;
+            if(objA._beginContact == null)
+                objA._beginContact = objB;
+            if(objB._beginContact == null)
+                objB._beginContact = objA;
+        }
+        this.listener.EndContact = function(event)
+        {
+            var objA = event.GetFixtureA().GetBody().obj;
+            var objB = event.GetFixtureB().GetBody().obj;
+            if(objA._beginContact == null)
+                objA._beginContact = objB;
+            if(objB._beginContact == null)
+                objB._beginContact = objA;
+        }
+        this.World.SetContactListener(this.listener);
     }
 }
 

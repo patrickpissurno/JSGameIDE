@@ -26,6 +26,8 @@
         this.restitution = $objectRestitution;
         this.body = null;
         this.transform = null;
+        this._beginContact = null;
+        this._endContact = null;
         
         
         this.create = function()
@@ -56,7 +58,9 @@
                         break;
                 }
                 this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale, this.y * Physics.Scale, _s, this.lockRotation, this.density, this.friction, this.restitution);
-                this.transform = this.body.transform;  
+                this.transform = this.body.transform;
+                this.body.obj = this;
+                this.transform.obj = this;
             }
             $objectCreate
         };
@@ -69,7 +73,7 @@
                 this._create_executed = true;
             };
             
-            //Update the X and Y variables when using Physics (read only)
+            //Update the X, Y, Hspeed and Vspeed variables when using Physics (read only)
             if(this.usePhysics)
             {
                 this.x = (this.transform.position.x / Physics.Scale) - this.width / 2;
@@ -94,6 +98,18 @@
             {
                 this.destroy();
             };
+            
+            if(this._beginContact != null)
+            {
+                this.collisionEnter(this._beginContact);
+                this._beginContact = null;
+            }
+            
+            if(this._endContact != null)
+            {
+                this.collisionExit(this._endContact);
+                this._endContact = null;
+            }
             
             $objectUpdate
             
@@ -120,6 +136,16 @@
             };
             $objectDraw
         };
+        
+        this.collisionEnter = function(other)
+        {
+            $objectCollisionEnter
+        }
+        
+        this.collisionExit = function(other)
+        {
+            $objectCollisionExit
+        }
         
         this.keyPressed = function(event)
         {
