@@ -57,7 +57,7 @@
                         _s = Physics.Shapes.Circle(_r/2 * Physics.Scale);
                         break;
                 }
-                this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale, this.y * Physics.Scale, _s, this.lockRotation, this.density, this.friction, this.restitution);
+                this.body = Physics.CreateBody(this.bodyType, this.x * Physics.Scale + this.width/2 * Physics.Scale, this.y * Physics.Scale + this.height/2 * Physics.Scale, _s, this.lockRotation, this.density, this.friction, this.restitution);
                 this.transform = this.body.transform;
                 this.body.obj = this;
                 this.transform.obj = this;
