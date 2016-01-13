@@ -62,6 +62,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.colliderTypeBox = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -71,8 +73,10 @@
             this.densityBox1 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.colliderTypeBox = new System.Windows.Forms.ComboBox();
+            this.collisionExitButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.collisionEnterButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.keyreleasedButton.SuspendLayout();
             this.keypressedButton.SuspendLayout();
             this.drawButton.SuspendLayout();
@@ -92,6 +96,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.frictionBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.densityBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.collisionExitButton.SuspendLayout();
+            this.collisionEnterButton.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveButton
@@ -424,6 +430,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.collisionExitButton);
+            this.tabPage1.Controls.Add(this.collisionEnterButton);
             this.tabPage1.Controls.Add(this.createButton);
             this.tabPage1.Controls.Add(this.updateButton);
             this.tabPage1.Controls.Add(this.drawButton);
@@ -489,6 +497,24 @@
             this.groupBox3.TabIndex = 33;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Body Settings";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(9, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(75, 13);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "Collider type:";
+            // 
+            // colliderTypeBox
+            // 
+            this.colliderTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colliderTypeBox.Location = new System.Drawing.Point(92, 47);
+            this.colliderTypeBox.Name = "colliderTypeBox";
+            this.colliderTypeBox.Size = new System.Drawing.Size(121, 21);
+            this.colliderTypeBox.TabIndex = 39;
             // 
             // groupBox4
             // 
@@ -597,23 +623,57 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Transform settings";
             // 
-            // label8
+            // collisionExitButton
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(9, 50);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(75, 13);
-            this.label8.TabIndex = 40;
-            this.label8.Text = "Collider type:";
+            this.collisionExitButton.Controls.Add(this.label9);
+            this.collisionExitButton.Font = new System.Drawing.Font("Segoe UI Light", 21F);
+            this.collisionExitButton.Location = new System.Drawing.Point(232, 77);
+            this.collisionExitButton.Name = "collisionExitButton";
+            this.collisionExitButton.Size = new System.Drawing.Size(65, 65);
+            this.collisionExitButton.TabIndex = 30;
+            this.collisionExitButton.Text = "CX";
+            this.collisionExitButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.collisionExitButton.UseVisualStyleBackColor = true;
+            this.collisionExitButton.Click += new System.EventHandler(this.collisionExitButton_Click);
             // 
-            // colliderTypeBox
+            // label9
             // 
-            this.colliderTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.colliderTypeBox.Location = new System.Drawing.Point(92, 47);
-            this.colliderTypeBox.Name = "colliderTypeBox";
-            this.colliderTypeBox.Size = new System.Drawing.Size(121, 21);
-            this.colliderTypeBox.TabIndex = 39;
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semilight", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(11, 43);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(43, 13);
+            this.label9.TabIndex = 31;
+            this.label9.Text = "Col. Exit";
+            this.label9.Click += new System.EventHandler(this.collisionExitButton_Click);
+            // 
+            // collisionEnterButton
+            // 
+            this.collisionEnterButton.Controls.Add(this.label10);
+            this.collisionEnterButton.Font = new System.Drawing.Font("Segoe UI Light", 21F);
+            this.collisionEnterButton.Location = new System.Drawing.Point(161, 77);
+            this.collisionEnterButton.Name = "collisionEnterButton";
+            this.collisionEnterButton.Size = new System.Drawing.Size(65, 65);
+            this.collisionEnterButton.TabIndex = 29;
+            this.collisionEnterButton.Text = "CE";
+            this.collisionEnterButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.collisionEnterButton.UseVisualStyleBackColor = true;
+            this.collisionEnterButton.Click += new System.EventHandler(this.collisionEnterButton_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label10.Font = new System.Drawing.Font("Segoe UI Semilight", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(7, 43);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(52, 13);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "Col. Enter";
+            this.label10.Click += new System.EventHandler(this.collisionEnterButton_Click);
             // 
             // ObjectForm
             // 
@@ -668,6 +728,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.densityBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.collisionExitButton.ResumeLayout(false);
+            this.collisionExitButton.PerformLayout();
+            this.collisionEnterButton.ResumeLayout(false);
+            this.collisionEnterButton.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -719,5 +783,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox colliderTypeBox;
+        private System.Windows.Forms.Button collisionExitButton;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button collisionEnterButton;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -49,6 +49,8 @@ namespace JSGameIDE
         public string onMousePressed = "";
         public string onMouseReleased = "";
         public string onDestroy = "";
+        public string onCollisionEnter = "";
+        public string onCollisionExit = "";
 
         public Physics.BodyTypes BodyType
         {
@@ -257,6 +259,20 @@ namespace JSGameIDE
             densityBox1.Value = Objects.objects[id].density;
             frictionBox.Value = Objects.objects[id].friction;
             restitutionBox.Value = Objects.objects[id].restitution;
+        }
+
+        private void collisionEnterButton_Click(object sender, EventArgs e)
+        {
+            // Opens the Object Collision Enter Event data in the Code Editor
+            this.onCollisionEnter = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Collision Enter",
+                IDEConfig.ComponentType.Object, this.onCollisionEnter, this.id, "collisionEnter");
+        }
+
+        private void collisionExitButton_Click(object sender, EventArgs e)
+        {
+            // Opens the Object Collision Exit Event data in the Code Editor
+            this.onCollisionExit = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Collision Exit",
+                IDEConfig.ComponentType.Object, this.onCollisionExit, this.id, "collisionExit");
         }
     }
 }

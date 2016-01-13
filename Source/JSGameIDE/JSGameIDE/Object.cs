@@ -142,6 +142,10 @@ namespace JSGameIDE
         public string onMouseReleased = "";
         [JsonIgnore]
         public string onDestroy = "";
+        [JsonIgnore]
+        public string onCollisionEnter = "";
+        [JsonIgnore]
+        public string onCollisionExit = "";
 
         /// <summary>
         /// Creates a new game object

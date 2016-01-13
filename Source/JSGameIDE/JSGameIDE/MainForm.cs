@@ -240,6 +240,8 @@ namespace JSGameIDE
                             form.onMousePressed = obj.onMousePressed;
                             form.onMouseReleased = obj.onMouseReleased;
                             form.onDestroy = obj.onDestroy;
+                            form.onCollisionEnter = obj.onCollisionEnter;
+                            form.onCollisionExit = obj.onCollisionExit;
                             var result = form.ShowDialog();
                             if (result == DialogResult.OK)
                             {
@@ -262,6 +264,8 @@ namespace JSGameIDE
                                 obj.friction = form.Friction;
                                 obj.restitution = form.Restitution;
                                 obj.colliderType = form.ColliderType;
+                                obj.onCollisionEnter = form.onCollisionEnter;
+                                obj.onCollisionExit = form.onCollisionExit;
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;

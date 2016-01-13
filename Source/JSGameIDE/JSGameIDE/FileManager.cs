@@ -139,6 +139,14 @@ namespace JSGameIDE
                     {
                         w.Write(obj.onMouseReleased);
                     }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\collisionEnter.js"))
+                    {
+                        w.Write(obj.onCollisionEnter);
+                    }
+                    using (StreamWriter w = new StreamWriter(targetPath + @"\collisionExit.js"))
+                    {
+                        w.Write(obj.onCollisionExit);
+                    }
                 }
 
                 //Rooms
@@ -353,6 +361,8 @@ namespace JSGameIDE
                                 obj.onDestroy = (string)_b.onDestroy;
                                 obj.onMousePressed = (string)_b.onMousePressed;
                                 obj.onMouseReleased = (string)_b.onMouseReleased;
+                                obj.onCollisionEnter = "";
+                                obj.onCollisionExit = "";
                                 Directory.CreateDirectory(importerPath);
                             }
                             else
@@ -365,6 +375,12 @@ namespace JSGameIDE
                                 obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
                                 obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
                                 obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                                if (!File.Exists(importerPath + @"\collisionEnter.js"))
+                                    File.CreateText(importerPath + @"\collisionEnter.js").Close();
+                                if (!File.Exists(importerPath + @"\collisionExit.js"))
+                                    File.CreateText(importerPath + @"\collisionExit.js").Close();
+                                obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
+                                obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
                             }
                             Objects.objects[obj.id]=obj;
                             TreeNode _node = new TreeNode(obj.name);
@@ -495,6 +511,8 @@ namespace JSGameIDE
                 obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
                 obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
                 obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
+                obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
             }
             //Rooms
             foreach (Room room in Rooms.rooms)

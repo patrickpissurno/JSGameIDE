@@ -411,7 +411,9 @@ namespace JSGameIDE
                         "$objectDensity",
                         "$objectFriction",
                         "$objectRestitution",
-                        "$objectColliderType"
+                        "$objectColliderType",
+                        "$objectCollisionEnter",
+                        "$objectCollisionExit"
                     };
                     string[] pValues = new string[]
                     {
@@ -434,7 +436,9 @@ namespace JSGameIDE
                         obj.density.ToString().Replace(',','.'),
                         obj.friction.ToString().Replace(',','.'),
                         obj.restitution.ToString().Replace(',','.'),
-                        ((int)obj.colliderType).ToString()
+                        ((int)obj.colliderType).ToString(),
+                        obj.onCollisionEnter,
+                        obj.onCollisionExit
                     };
                     int _fsi = _i.IndexOf("#FOREACH Object") + 15;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
