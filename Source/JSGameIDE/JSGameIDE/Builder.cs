@@ -127,6 +127,11 @@ namespace JSGameIDE
                     File.Copy(GameConfig.path + @"\Resources\icon.ico", TargetPath + @"\favicon.ico", true);
                 }
                 catch { }
+                try
+                {
+                    File.Copy(Application.StartupPath + @"\Resources\Box2d.min.js", TargetPath + @"\Box2d.min.js", true);
+                }
+                catch { }
                 if (!silent)
                     MessageBox.Show("Exported successfully!");
                 return true;

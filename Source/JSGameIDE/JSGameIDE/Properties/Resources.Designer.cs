@@ -91,11 +91,24 @@ namespace JSGameIDE.Properties {
         ///room_actual=roomManager.actual
         ///room_goto(=roomManager.go(new 
         ///gameFPS=fps.get()
-        ///screen_clear()=context.clearRect(0,0,canvas.width,canvas.height).
+        ///screen_clear()=context.clearRect(0,0,canvas.width,canvas.height)
+        ///vk_mouseLeft=0
+        ///vk_mouseMiddle=1
+        ///vk_mouseRight=2.
         /// </summary>
         internal static string alias {
             get {
                 return ResourceManager.GetString("alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var Box2D={};
+        ///(function(F,G){function K(){}if(!(Object.prototype.defineProperty instanceof Function)&amp;&amp;Object.prototype.__defineGetter__ instanceof Function&amp;&amp;Object.prototype.__defineSetter__ instanceof Function)Object.defineProperty=function(y,w,A){A.get instanceof Function&amp;&amp;y.__defineGetter__(w,A.get);A.set instanceof Function&amp;&amp;y.__defineSetter__(w,A.set)};F.inherit=function(y,w){K.prototype=w.prototype;y.prototype=new K;y.prototype.constructor=y};F.generateCallback=function(y,w){return function(){w.apply( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Box2d_min {
+            get {
+                return ResourceManager.GetString("Box2d_min", resourceCulture);
             }
         }
         
@@ -108,6 +121,7 @@ namespace JSGameIDE.Properties {
         ///var mouse = new mousePrefab();
         ///var roomManager = new rM();
         ///var sprite = new sprImport();
+        ///var sound = new sndImport();
         ///updateFrame();.
         /// </summary>
         internal static string footer {
@@ -124,22 +138,14 @@ namespace JSGameIDE.Properties {
         ///var start = (new Date()).getTime();
         ///var currentFrame=0;
         ///
-        /////Delta Time Function
-        ///function deltaTime()
-        ///{
-        ///    current = (new Date()).getTime();
-        ///    elapsed = current - start;
-        ///    start = current;
-        ///    var delta = elapsed / 1000;
-        ///    return delta;
-        ///};
-        ///
-        /////Update Frame Function
-        ///function updateFrame()
-        ///{
-        ///    if(true)
-        ///    {
-        /// [rest of string was truncated]&quot;;.
+        /////Physics
+        ///var b2Vec = Box2D.Common.Math.b2Vec2;
+        ///var b2BodyDef = Box2D.Dynamics.b2BodyDef;
+        ///var b2Body = Box2D.Dynamics.b2Body;
+        ///var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
+        ///var b2Fixture = Box2D.Dynamics.b2Fixture;
+        ///var b2World = Box2D.Dynamics.b2World;
+        ///var b2MassD [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string header {
             get {
@@ -220,7 +226,7 @@ namespace JSGameIDE.Properties {
         ///        this.toDestroy = false;
         ///        this.x = 0;
         ///        this.y = 0;
-        ///        this.pressed = false;
+        ///        this.pressed = [false, false, false];
         ///        this.alpha = 1;
         ///        this.angle = 0;
         ///        this.imageIndex = 0;
@@ -229,8 +235,7 @@ namespace JSGameIDE.Properties {
         ///        this.height = $objectHeight;
         ///        this.hspeed = 0;
         ///        this.vspeed = 0;
-        ///        this.autoDraw = $objectAutoDraw;
-        ///     [rest of string was truncated]&quot;;.
+        ///        this.autoDraw = $objec [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string objects {
             get {
@@ -281,14 +286,13 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var sprImport = function()
+        ///   Looks up a localized string similar to var sndImport = function()
         ///{
-        ///    #FOREACH Sprite
-        ///        this.sprite$spriteId = [];
-        ///        #FOREACH Frame
-        ///            this.sprite$spriteId[$frameId] = new Image();
-        ///            this.sprite$spriteId[$frameId].src = $framePath;
-        ///        #END
+        ///    this.sounds = [];
+        ///    #FOREACH Sound
+        ///        this.sound$soundId = new Audio(&quot;$soundPath&quot;);
+        ///        this.sound$soundId.preload = &quot;none&quot;;
+        ///        this.sounds.push(this.sound$soundId);
         ///    #END
         ///}.
         /// </summary>

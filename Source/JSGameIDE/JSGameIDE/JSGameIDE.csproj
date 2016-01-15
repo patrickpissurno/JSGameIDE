@@ -335,6 +335,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Box2d.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\sounds.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
