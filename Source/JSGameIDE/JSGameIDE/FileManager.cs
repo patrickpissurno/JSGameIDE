@@ -105,84 +105,93 @@ namespace JSGameIDE
                 //Objects
                 foreach (Object obj in Objects.objects)
                 {
-                    targetPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
-                    Directory.CreateDirectory(targetPath);
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                    if (obj != null)
                     {
-                        w.Write(obj.onCreate);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
-                    {
-                        w.Write(obj.onUpdate);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
-                    {
-                        w.Write(obj.onDraw);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
-                    {
-                        w.Write(obj.onKeyPressed);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
-                    {
-                        w.Write(obj.onKeyReleased);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\destroy.js"))
-                    {
-                        w.Write(obj.onDestroy);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\mousePressed.js"))
-                    {
-                        w.Write(obj.onMousePressed);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\mouseReleased.js"))
-                    {
-                        w.Write(obj.onMouseReleased);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\collisionEnter.js"))
-                    {
-                        w.Write(obj.onCollisionEnter);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\collisionExit.js"))
-                    {
-                        w.Write(obj.onCollisionExit);
+                        targetPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                        Directory.CreateDirectory(targetPath);
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                        {
+                            w.Write(obj.onCreate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
+                        {
+                            w.Write(obj.onUpdate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
+                        {
+                            w.Write(obj.onDraw);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
+                        {
+                            w.Write(obj.onKeyPressed);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
+                        {
+                            w.Write(obj.onKeyReleased);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\destroy.js"))
+                        {
+                            w.Write(obj.onDestroy);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\mousePressed.js"))
+                        {
+                            w.Write(obj.onMousePressed);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\mouseReleased.js"))
+                        {
+                            w.Write(obj.onMouseReleased);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\collisionEnter.js"))
+                        {
+                            w.Write(obj.onCollisionEnter);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\collisionExit.js"))
+                        {
+                            w.Write(obj.onCollisionExit);
+                        }
                     }
                 }
 
                 //Rooms
                 foreach (Room rm in Rooms.rooms)
                 {
-                    targetPath = GameConfig.path + @"\Codes\Rooms\room" + rm.id;
-                    Directory.CreateDirectory(targetPath);
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                    if (rm != null)
                     {
-                        w.Write(rm.onCreate);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
-                    {
-                        w.Write(rm.onUpdate);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
-                    {
-                        w.Write(rm.onDraw);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
-                    {
-                        w.Write(rm.onKeyPressed);
-                    }
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
-                    {
-                        w.Write(rm.onKeyReleased);
+                        targetPath = GameConfig.path + @"\Codes\Rooms\room" + rm.id;
+                        Directory.CreateDirectory(targetPath);
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                        {
+                            w.Write(rm.onCreate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
+                        {
+                            w.Write(rm.onUpdate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
+                        {
+                            w.Write(rm.onDraw);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
+                        {
+                            w.Write(rm.onKeyPressed);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
+                        {
+                            w.Write(rm.onKeyReleased);
+                        }
                     }
                 }
 
                 foreach (Script s in Scripts.scripts)
                 {
-                    targetPath = GameConfig.path + @"\Codes\Scripts";
-                    Directory.CreateDirectory(targetPath);
-                    using (StreamWriter w = new StreamWriter(targetPath + @"\script" + s.id + ".js"))
+                    if (s != null)
                     {
-                        w.Write(s.data);
+                        targetPath = GameConfig.path + @"\Codes\Scripts";
+                        Directory.CreateDirectory(targetPath);
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\script" + s.id + ".js"))
+                        {
+                            w.Write(s.data);
+                        }
                     }
                 }
 
@@ -499,36 +508,47 @@ namespace JSGameIDE
         /// </summary>
         public static void ReloadCode()
         {
-            //Objects
-            foreach (Object obj in Objects.objects)
+            try
             {
-                string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
-                obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
-                obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
-                obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
-                obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
-                obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
-                obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
+                //Objects
+                foreach (Object obj in Objects.objects)
+                {
+                    if (obj != null)
+                    {
+                        string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                        obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                        obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                        obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                        obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                        obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                        obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                        obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
+                        obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                        obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
+                        obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
+                    }
+                }
+                //Rooms
+                foreach (Room room in Rooms.rooms)
+                {
+                    if (room != null)
+                    {
+                        string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
+                        room.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                        room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                        room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                        room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                        room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                    }
+                }
+                //Scripts
+                foreach (Script script in Scripts.scripts)
+                {
+                    if(script != null)
+                        script.data = File.ReadAllText(GameConfig.path + @"\Codes\Scripts" + @"\script" + script.id + ".js");
+                }
             }
-            //Rooms
-            foreach (Room room in Rooms.rooms)
-            {
-                string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
-                room.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
-            }
-            //Scripts
-            foreach (Script script in Scripts.scripts)
-            {
-                script.data = File.ReadAllText(GameConfig.path + @"\Codes\Scripts" + @"\script" + script.id + ".js");
-            }
+            catch { }
         }
     }
 

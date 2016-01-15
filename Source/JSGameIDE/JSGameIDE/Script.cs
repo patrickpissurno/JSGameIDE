@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace JSGameIDE
 {
@@ -67,6 +68,24 @@ namespace JSGameIDE
                 scripts[id].name = name;
                 scripts[id].node.Text = name;
             }
+        }
+
+        /// <summary>
+        /// Permanently deletes the script from the project
+        /// </summary>
+        /// <param name="id">The index of the script to be removed</param>
+        public static void Delete(int id)
+        {
+
+            //Deletes all the files related to the script
+            try
+            {
+                string _dir = GameConfig.path + @"\Codes\Scripts\script" + id + ".js";
+                if (File.Exists(_dir))
+                    File.Delete(_dir);
+            }
+            catch { }
+            scripts[id] = null;
         }
     }
 

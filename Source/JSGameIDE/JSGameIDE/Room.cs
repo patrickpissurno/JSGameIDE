@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace JSGameIDE
 {
@@ -69,6 +70,23 @@ namespace JSGameIDE
             amount = 0;
             rooms = new List<Room>();
             firstId = 0;
+        }
+
+        /// <summary>
+        /// Permanently deletes the room from the project
+        /// </summary>
+        /// <param name="id">The index of the room to be removed</param>
+        public static void Delete(int id)
+        {
+            //Deletes all the files related to the room
+            try
+            {
+                string _dir = GameConfig.path + @"\Codes\Rooms\room" + id;
+                if (Directory.Exists(_dir))
+                    Directory.Delete(_dir, true);
+            }
+            catch { }
+            rooms[id] = null;
         }
     }
 

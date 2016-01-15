@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace JSGameIDE
 {
@@ -116,6 +117,33 @@ namespace JSGameIDE
             }
             amount = 0;
             sprites = new List<Sprite>();
+        }
+
+        /// <summary>
+        /// Permanently deletes the sprite from the project
+        /// </summary>
+        /// <param name="id">The index of the sprite to be removed</param>
+        public static void Delete(int id)
+        {
+            //Removes the sprite from every object
+            foreach (Object obj in Objects.objects)
+            {
+                if (obj != null)
+                {
+                    if (obj.sprite == id)
+                        obj.sprite = -1;
+                }
+            }
+
+            //Deletes all the files related to the object
+            try
+            {
+                string _dir = GameConfig.path + @"\Resources\IMG\spr" + id;
+                if (Directory.Exists(_dir))
+                    Directory.Delete(_dir, true);
+            }
+            catch { }
+            sprites[id] = null;
         }
     }
     public class Sprite

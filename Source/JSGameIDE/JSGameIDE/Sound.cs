@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace JSGameIDE
 {
@@ -116,6 +117,23 @@ namespace JSGameIDE
             }
             amount = 0;
             sounds = new List<Sound>();
+        }
+
+        /// <summary>
+        /// Permanently deletes the sound from the project
+        /// </summary>
+        /// <param name="id">The index of the sound to be removed</param>
+        public static void Delete(int id)
+        {
+            //Deletes the sound file
+            try
+            {
+                string _dir = GameConfig.path + @"\" + sounds[id].path;
+                if(File.Exists(_dir))
+                    File.Delete(_dir);
+            }
+            catch { }
+            sounds[id] = null;
         }
     }
     public class Sound

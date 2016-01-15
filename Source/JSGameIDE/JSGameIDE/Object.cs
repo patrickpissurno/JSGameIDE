@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace JSGameIDE
 {
@@ -103,6 +104,41 @@ namespace JSGameIDE
                 else
                     return objects[_id].name;
             }
+        }
+
+        /// <summary>
+        /// Permanently deletes the object from the project
+        /// </summary>
+        /// <param name="id">The index of the object to be removed</param>
+        public static void Delete(int id)
+        {
+            //Removes the object from the Room Editor in each room
+            foreach (Room room in Rooms.rooms)
+            {
+                if (room != null)
+                {
+                    List<EditorObject> objs = room.editorCreate.ToList();
+                    foreach (EditorObject o in room.editorCreate)
+                    {
+                        if (o != null)
+                        {
+                            if (o.id == id)
+                                objs.Remove(o);
+                        }
+                    }
+                    room.editorCreate = objs.ToArray();
+                }
+            }
+
+            //Deletes all the files related to the object
+            try
+            {
+                string _dir = GameConfig.path + @"\Codes\Objects\obj" + id;
+                if (Directory.Exists(_dir))
+                    Directory.Delete(_dir, true);
+            }
+            catch { }
+            objects[id] = null;
         }
     }
     

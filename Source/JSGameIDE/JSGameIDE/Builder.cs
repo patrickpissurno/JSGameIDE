@@ -84,10 +84,10 @@ namespace JSGameIDE
         /// <summary>
         /// This method is used to export the game.
         /// </summary>
-        /// <param name="skipAlert">If true the builder wouldn't show any alert</param>
+        /// <param name="silent">If true the builder wouldn't show any alert</param>
         /// <param name="customPath">Specifies a custom export location to the builder. Leave it null for default path</param>
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
-        public static bool Build(bool skipAlert = false, string customPath = null)
+        public static bool Build(bool silent = false, string customPath = null)
         {
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             try
@@ -127,13 +127,14 @@ namespace JSGameIDE
                     File.Copy(GameConfig.path + @"\Resources\icon.ico", TargetPath + @"\favicon.ico", true);
                 }
                 catch { }
-                if (!skipAlert)
+                if (!silent)
                     MessageBox.Show("Exported successfully!");
                 return true;
             }
             catch
             {
-                MessageBox.Show("Exportation error.");
+                if(!silent)
+                    MessageBox.Show("Exportation error.");
                 return false;
             }
         }

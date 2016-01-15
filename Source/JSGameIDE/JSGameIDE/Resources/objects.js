@@ -201,10 +201,13 @@
         
         this.fixData = function()
         {
-            while(this.imageIndex < 0)
-                this.imageIndex += this.sprite.length - 1;
-            while(this.imageIndex > this.sprite.length - 1)
-                this.imageIndex -= this.sprite.length - 1;
+            if(this.sprite != null)
+            {
+                while(this.imageIndex < 0)
+                    this.imageIndex += this.sprite.length - 1;
+                while(this.imageIndex > this.sprite.length - 1)
+                    this.imageIndex -= this.sprite.length - 1;
+            }
             if(this.alpha > 1)
                 this.alpha = 1;
             if(this.alpha < 0)
@@ -217,10 +220,13 @@
         
         this.animator = function()
         {
-            if(this.imageIndex < this.sprite.length - 1)
-                this.imageIndex += this.imageSpeed / 10;
-            else
-                this.imageIndex = 0;
+            if(this.sprite != null)
+            {
+                if(this.imageIndex < this.sprite.length - 1)
+                    this.imageIndex += this.imageSpeed / 10;
+                else
+                    this.imageIndex = 0;
+            }
         };
     }
 #END

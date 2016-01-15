@@ -381,25 +381,29 @@ namespace JSGameIDE
         {
             if (componentsTree.SelectedNode.Parent != null)
             {
+                int id = int.Parse(componentsTree.SelectedNode.Name);
                 switch (componentsTree.SelectedNode.Parent.Text)
                 {
                     case "Sprites":
                         //Deletes the given sprite
-                        Sprites.sprites[int.Parse(componentsTree.SelectedNode.Name)] = null;
+                        Sprites.Delete(id);
                         break;
                     case "Objects":
                         //Deletes the given object
-                        Objects.objects[int.Parse(componentsTree.SelectedNode.Name)] = null;
+                        Objects.Delete(id);
                         break;
                     case "Rooms":
                         //Deletes the given room
-                        Rooms.rooms[int.Parse(componentsTree.SelectedNode.Name)] = null;
+                        Rooms.Delete(id);
                         break;
                     case "Scripts":
                         //Deletes the given user-defined function
-                        Scripts.scripts[int.Parse(componentsTree.SelectedNode.Name)] = null;
+                        Scripts.Delete(id);
                         break;
-
+                    case "Sounds":
+                        //Deletes the given sound
+                        Sounds.Delete(id);
+                        break;
                 }
                 componentsTree.SelectedNode.Remove();
                 FileManager.UnsavedChanges = true;
