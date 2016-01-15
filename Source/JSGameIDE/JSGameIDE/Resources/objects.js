@@ -6,7 +6,7 @@
         this.toDestroy = false;
         this.x = 0;
         this.y = 0;
-        this.pressed = false;
+        this.pressed = [false, false, false];
         this.alpha = 1;
         this.angle = 0;
         this.imageIndex = 0;
@@ -82,15 +82,21 @@
                 this.vspeed = this.body.m_linearVelocity.y;
             }
                 
-            if(this.pressed && !mouse.pressed)
+            if((!mouse.pressed[0] && this.pressed[0])||
+               (!mouse.pressed[1] && this.pressed[1])||
+               (!mouse.pressed[2] && this.pressed[2]))
             {
-                this.pressed = false;
+                var event = {button : (this.pressed[0] && !mouse.pressed[0] ? 0 : this.pressed[1] && !mouse.pressed[1] ? 1 : 2)};
+                this.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
                 $objectMouseReleased
             };
             
-            if(mouse.pressed && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height)
+            if(((mouse.pressed[0] && !this.pressed[0])||
+               (mouse.pressed[1] && !this.pressed[1])||
+               (mouse.pressed[2] && !this.pressed[2])) && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height)
             {
-                this.pressed = true;
+                var event = {button : (!this.pressed[0] && mouse.pressed[0] ? 0 : !this.pressed[1] && mouse.pressed[1] ? 1 : 2)};
+                this.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
                 $objectMousePressed
             };
             

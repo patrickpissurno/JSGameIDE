@@ -225,22 +225,19 @@ var mousePrefab = function()
 {
     this.x = 0;
     this.y = 0;
-    this.pressed = false;
+    this.pressed = [false,false,false];
 };
 
 var mousePressed = function(e)
 {
-    if(e.button == 0)
-    {
-        e.preventDefault();
-        mouse.pressed=true;
-    }
+    e.preventDefault();
+    mouse.pressed[e.button] = true;
 };
 
 var mouseReleased = function(e)
 {
     e.preventDefault();
-    mouse.pressed=false;
+    mouse.pressed[e.button] = false;
 };
 
 function getMouse(e)
