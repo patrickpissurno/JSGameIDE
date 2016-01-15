@@ -101,6 +101,7 @@ var rM = function()
             this.obj$objectId = [];
         #END
         this._create_executed = false;
+        this.prefab = Room$roomId;
         this.camera = new camera();
         this.allowSleep = $roomAllowSleep;
         this.gravityVector = new b2Vec($roomGravityX, $roomGravityY);
