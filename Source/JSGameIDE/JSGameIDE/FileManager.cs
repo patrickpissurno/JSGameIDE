@@ -279,9 +279,12 @@ namespace JSGameIDE
                         GameConfig.copyright = output2.copyright;
 
                     //Load all the preferences
-                    GameConfig.gridWidth = (int)output2.gridWidth;
-                    GameConfig.gridHeight = (int)output2.gridHeight;
-                    GameConfig.gridEnabled = (bool)output2.gridEnabled;
+                    if(output2.gridWidth != null)
+                        GameConfig.gridWidth = (int)output2.gridWidth;
+                    if (output2.gridHeight != null)
+                        GameConfig.gridHeight = (int)output2.gridHeight;
+                    if (output2.gridEnabled != null)
+                        GameConfig.gridEnabled = (bool)output2.gridEnabled;
 
                     //Loads the sprites
                     var _a = ((JArray)output2.sprites).ToObject<List<dynamic>>();
