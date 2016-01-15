@@ -212,11 +212,12 @@ function drawSprite(x,y,sprite)
 };
 
 //Draw Sprite Extended Function
-function drawSpriteExt(x,y,w,h,sprite,angle)
+function drawSpriteExt(x,y,w,h,sprite,angle, scaleX, scaleY)
 {
     context.save();
     context.translate(-roomManager.actual.camera.x+x+w/2, -roomManager.actual.camera.y+y+h/2);
     context.rotate(angle * Math.PI/180);
+    context.scale(scaleX, scaleY);
     context.drawImage(sprite,-w/2,-h/2);
     context.restore();
 };

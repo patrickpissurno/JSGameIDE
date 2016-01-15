@@ -13,6 +13,8 @@
         this.imageSpeed = 1;
         this.width = $objectWidth;
         this.height = $objectHeight;
+        this.scaleX = 1;
+        this.scaleY = 1;
         this.hspeed = 0;
         this.vspeed = 0;
         this.autoDraw = $objectAutoDraw;
@@ -136,12 +138,21 @@
             this.animator();
             if(this.sprite != null && this.autoDraw)
             {
-                context.globalAlpha = this.alpha;
-                drawSpriteExt(this.x, this.y, this.width, this.height, this.sprite[Math.round(this.imageIndex)], this.angle);
-                context.globalAlpha = 1;
+                this.drawSelf();
             };
             $objectDraw
         };
+        
+        this.drawSelf = function()
+        {
+            if(this.sprite != null)
+            {
+                this.fixData();
+                context.globalAlpha = this.alpha;
+                drawSpriteExt(this.x, this.y, this.width, this.height, this.sprite[Math.round(this.imageIndex)], this.angle, this.scaleX, this.scaleY);
+                context.globalAlpha = 1;
+            };
+        }
         
         this.collisionEnter = function(other)
         {
