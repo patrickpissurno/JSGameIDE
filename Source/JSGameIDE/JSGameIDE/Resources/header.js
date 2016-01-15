@@ -92,8 +92,8 @@ var Physics = {
             var objB = event.GetFixtureB().GetBody().obj;
             if(objA._beginContact == null)
                 objA._beginContact = objB;
-            if(objB._beginContact == null)
-                objB._beginContact = objA;
+            if(objB._endContact == null)
+                objB._endContact = objA;
         }
         this.World.SetContactListener(this.listener);
     }
