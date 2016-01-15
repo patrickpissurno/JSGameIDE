@@ -30,7 +30,7 @@
         this.transform = null;
         this._beginContact = null;
         this._endContact = null;
-        
+        this.prefab = obj$objectId;
         
         this.create = function()
         {
