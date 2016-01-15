@@ -494,16 +494,13 @@ namespace JSGameIDE
                     if (form.GetProjectName() != GameConfig.name)
                     {
                         DirectoryInfo dir = new DirectoryInfo(GameConfig.path);
-                        string newPath;
-                        GameConfig.name = form.GetProjectName();
+                        string name = form.GetProjectName();
+                        string newPath = GameConfig.path.Replace(GameConfig.name, name);
 
-                        if (!string.IsNullOrWhiteSpace(dir.Parent.ToString()))
-                            newPath = dir.Parent.ToString() + @"\" + GameConfig.name;
-                        else
-                            newPath = dir.Root.ToString() + GameConfig.name;
-
+                        //Access denied bug. Something is locking the file.
                         Directory.Move(GameConfig.path, newPath);
                         GameConfig.path = newPath;
+                        GameConfig.name = name;
                         FileManager.Save(true);
                     }
                 }

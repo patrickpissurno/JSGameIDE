@@ -44,6 +44,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using System.Media;
 
 namespace JSGameIDE
 {
@@ -221,12 +222,12 @@ namespace JSGameIDE
         /// Loads a given project
         /// </summary>
         /// <param name="path">A string containing the path to the given project</param>
-        public static void Load(string path,bool quiet = false)
+        public static void Load(string path,bool quiet = false, StartScreen startScreen = null)
         {
             bool run;
             if (!quiet)
             {
-                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel);
+                DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (_res == DialogResult.Yes)
                     Save(true);
                 run =  _res== DialogResult.Yes || _res == DialogResult.No;
@@ -257,247 +258,280 @@ namespace JSGameIDE
                         //LEGACY SUPPORT
                         GameConfig.projectVersion = 0;
                     }
-                    GameConfig.path = Path.GetDirectoryName(path);
-                    GameConfig.width = (int)output2.gameWidth;
-                    GameConfig.height = (int)output2.gameHeight;
-                    GameConfig.viewWidth = (int)output2.viewWidth;
-                    GameConfig.viewHeight = (int)output2.viewHeight;
-                    if (output2.windowStyle != null)
-                        GameConfig.windowStyle = (string)output2.windowStyle;
-                    Sprites.amount = (int)output2.spriteAmount;
-                    if (output2.soundAmount != null)
-                        Sounds.amount = (int)output2.soundAmount;
-                    else
-                        Sounds.amount = 0;
-                    Objects.amount = (int)output2.objectAmount;
-                    Rooms.amount = (int)output2.roomAmount;
-                    Rooms.firstId = (int)output2.roomFirstId;
-                    Scripts.amount = (int)output2.scriptAmount;
-                    if (output2.author != null)
-                        GameConfig.author = output2.author;
-                    if (output2.copyright != null)
-                        GameConfig.copyright = output2.copyright;
-
-                    //Load all the preferences
-                    if(output2.gridWidth != null)
-                        GameConfig.gridWidth = (int)output2.gridWidth;
-                    if (output2.gridHeight != null)
-                        GameConfig.gridHeight = (int)output2.gridHeight;
-                    if (output2.gridEnabled != null)
-                        GameConfig.gridEnabled = (bool)output2.gridEnabled;
-
-                    //Loads the sprites
-                    var _a = ((JArray)output2.sprites).ToObject<List<dynamic>>();
-                    for (int i = 0; i < Sprites.amount; i++) { Sprites.sprites.Add(null); }
-                    foreach (var _b in _a)
+                    if (GameConfig.projectVersion > IDEConfig.IDEVersion)
                     {
-                        if (_b != null)
-                        {
-                            Sprite spr = new Sprite();
-                            spr.name = (string)_b.name;
-                            spr.id = (int)_b.id;
-                            if (_b.path != null)
-                            {
-                                List<string> _path = new List<string>();
-                                foreach (var _c in _b.path)
-                                {
-                                    _path.Add((string)_c);
-                                }
-                                spr.path = _path.ToArray<string>();
-                            }
-                            Sprites.sprites[spr.id] = spr;
-                            TreeNode _node = new TreeNode(spr.name);
-                            _node.Name = "" + spr.id;
-                            spr.node = _node;
-                            mainForm.AddViewNodeChild("Sprites", _node);
-                        }
+                        SystemSounds.Exclamation.Play();
+                        DialogResult _res = MessageBox.Show("This project was made on a later version of JSGameIDE. We recommend that you update your IDE to the latest version to open this project, otherwise bugs may appear. Force the project to be opened?", "JSGameIDE", MessageBoxButtons.YesNo, MessageBoxIcon.Stop);
+                        if (_res != DialogResult.Yes)
+                            run = false;
                     }
-
-                    //Loads the sounds
-                    if (output2.sounds != null)
+                    else if (GameConfig.projectVersion < IDEConfig.IDEVersion)
                     {
-                        _a = ((JArray)output2.sounds).ToObject<List<dynamic>>();
-                        for (int i = 0; i < Sounds.amount; i++) { Sounds.sounds.Add(null); }
+                        SystemSounds.Exclamation.Play();
+                        DialogResult _res = MessageBox.Show("This project was made on a earlier version of JSGameIDE. If you proceed, the project will be updated and will no longer be compatible with older versions. Continue?", "JSGameIDE", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (_res != DialogResult.Yes)
+                            run = false;
+                    }
+                    else
+                        run = true;
+                    if (run)
+                    {
+                        GameConfig.path = Path.GetDirectoryName(path);
+                        GameConfig.width = (int)output2.gameWidth;
+                        GameConfig.height = (int)output2.gameHeight;
+                        GameConfig.viewWidth = (int)output2.viewWidth;
+                        GameConfig.viewHeight = (int)output2.viewHeight;
+                        if (output2.windowStyle != null)
+                            GameConfig.windowStyle = (string)output2.windowStyle;
+                        Sprites.amount = (int)output2.spriteAmount;
+                        if (output2.soundAmount != null)
+                            Sounds.amount = (int)output2.soundAmount;
+                        else
+                            Sounds.amount = 0;
+                        Objects.amount = (int)output2.objectAmount;
+                        Rooms.amount = (int)output2.roomAmount;
+                        Rooms.firstId = (int)output2.roomFirstId;
+                        Scripts.amount = (int)output2.scriptAmount;
+                        if (output2.author != null)
+                            GameConfig.author = output2.author;
+                        if (output2.copyright != null)
+                            GameConfig.copyright = output2.copyright;
+
+                        //Load all the preferences
+                        if (output2.gridWidth != null)
+                            GameConfig.gridWidth = (int)output2.gridWidth;
+                        if (output2.gridHeight != null)
+                            GameConfig.gridHeight = (int)output2.gridHeight;
+                        if (output2.gridEnabled != null)
+                            GameConfig.gridEnabled = (bool)output2.gridEnabled;
+
+                        //Loads the sprites
+                        var _a = ((JArray)output2.sprites).ToObject<List<dynamic>>();
+                        for (int i = 0; i < Sprites.amount; i++) { Sprites.sprites.Add(null); }
                         foreach (var _b in _a)
                         {
                             if (_b != null)
                             {
-                                Sound snd = new Sound();
-                                snd.name = (string)_b.name;
-                                snd.id = (int)_b.id;
-                                snd.path = (string)_b.path;
-                                Sounds.sounds[snd.id] = snd;
-                                TreeNode _node = new TreeNode(snd.name);
-                                _node.Name = "" + snd.id;
-                                snd.node = _node;
-                                mainForm.AddViewNodeChild("Sounds", _node);
-                            }
-                        }
-                    }
-
-                    //Loads the objects
-                    _a = ((JArray)output2.objects).ToObject<List<dynamic>>();
-                    for (int i = 0; i < Objects.amount; i++) { Objects.objects.Add(null); }
-                    foreach (var _b in _a)
-                    {
-                        if (_b != null)
-                        {
-                            Object obj = new Object();
-                            obj.id = (int)_b.id;
-                            obj.name = (string)_b.name;
-                            obj.sprite = (int)_b.sprite;
-                            obj.autoDraw = (bool)_b.autoDraw;
-                            if (_b.usePhysics != null)
-                                obj.usePhysics = (bool)_b.usePhysics;
-                            if (_b.bodyType != null)
-                                obj.bodyType = (Physics.BodyTypes)_b.bodyType;
-                            if (_b.lockRotation != null)
-                                obj.lockRotation = (bool)_b.lockRotation;
-                            if (_b.colliderType != null)
-                                obj.colliderType = (Physics.ColliderTypes)_b.colliderType;
-                            if (_b.density != null)
-                                obj.density = (decimal)_b.density;
-                            if (_b.friction != null)
-                                obj.friction = (decimal)_b.friction;
-                            if (_b.restitution != null)
-                                obj.restitution = (decimal)_b.restitution;
-                            string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
-                            //LEGACY PROJECT IMPORTER
-                            if (GameConfig.projectVersion < 1)
-                            {
-                                obj.onCreate = (string)_b.onCreate;
-                                obj.onUpdate = (string)_b.onUpdate;
-                                obj.onDraw = (string)_b.onDraw;
-                                obj.onKeyPressed = (string)_b.onKeyPressed;
-                                obj.onKeyReleased = (string)_b.onKeyReleased;
-                                obj.onDestroy = (string)_b.onDestroy;
-                                obj.onMousePressed = (string)_b.onMousePressed;
-                                obj.onMouseReleased = (string)_b.onMouseReleased;
-                                obj.onCollisionEnter = "";
-                                obj.onCollisionExit = "";
-                                Directory.CreateDirectory(importerPath);
-                            }
-                            else
-                            {
-                                obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                                obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                                obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                                obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                                obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
-                                obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
-                                obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
-                                obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
-                                if (!File.Exists(importerPath + @"\collisionEnter.js"))
-                                    File.CreateText(importerPath + @"\collisionEnter.js").Close();
-                                if (!File.Exists(importerPath + @"\collisionExit.js"))
-                                    File.CreateText(importerPath + @"\collisionExit.js").Close();
-                                obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
-                                obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
-                            }
-                            Objects.objects[obj.id]=obj;
-                            TreeNode _node = new TreeNode(obj.name);
-                            _node.Name = "" + obj.id;
-                            obj.node = _node;
-                            mainForm.AddViewNodeChild("Objects", _node);
-                        }
-                    }
-
-                    //Loads the rooms
-                    for (int i = 0; i < Rooms.amount; i++) { Rooms.rooms.Add(null); }
-                    _a = ((JArray)output2.rooms).ToObject<List<dynamic>>();
-                    foreach (var _b in _a)
-                    {
-                        if (_b != null)
-                        {
-                            Room room = new Room();
-                            room.id = (int)_b.id;
-                            room.name = (string)_b.name;
-                            if (_b.allowSleep != null)
-                                room.allowSleep = (bool)_b.allowSleep;
-                            if (_b.gravityX != null)
-                                room.gravityX = (decimal)_b.gravityX;
-                            if (_b.gravityY != null)
-                                room.gravityY = (decimal)_b.gravityY;
-                            string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
-                            //LEGACY PROJECT IMPORTER
-                            if (GameConfig.projectVersion < 1)
-                            {
-                                room.onCreate = (string)_b.onCreate;
-                                room.onUpdate = (string)_b.onUpdate;
-                                room.onDraw = (string)_b.onDraw;
-                                room.onKeyPressed = (string)_b.onKeyPressed;
-                                room.onKeyReleased = (string)_b.onKeyReleased;
-                                Directory.CreateDirectory(importerPath);
-                            }
-                            else
-                            {
-                                room.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                                room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                                room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                                room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                                room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
-                            }
-                            
-
-                            if (_b.editorCreate != null)
-                            {
-                                List<EditorObject> _editorCreate = new List<EditorObject>();
-                                foreach (var _c in _b.editorCreate)
+                                Sprite spr = new Sprite();
+                                spr.name = (string)_b.name;
+                                spr.id = (int)_b.id;
+                                if (_b.path != null)
                                 {
-                                    EditorObject _obj = new EditorObject((float)_c.x, (float)_c.y, (int)_c.id);
-                                    _editorCreate.Add(_obj);
+                                    List<string> _path = new List<string>();
+                                    foreach (var _c in _b.path)
+                                    {
+                                        _path.Add((string)_c);
+                                    }
+                                    spr.path = _path.ToArray<string>();
                                 }
-                                room.editorCreate = _editorCreate.ToArray<EditorObject>();
+                                Sprites.sprites[spr.id] = spr;
+                                TreeNode _node = new TreeNode(spr.name);
+                                _node.Name = "" + spr.id;
+                                spr.node = _node;
+                                mainForm.AddViewNodeChild("Sprites", _node);
                             }
-                            Rooms.rooms[room.id] = room;
-                            TreeNode _node = new TreeNode(room.name);
-                            _node.Name = "" + room.id;
-                            room.node = _node;
-                            mainForm.AddViewNodeChild("Rooms", _node);
                         }
-                    }
 
-                    //Loads the scripts
-                    _a = ((JArray)output2.scripts).ToObject<List<dynamic>>();
-                    for (int i = 0; i < Scripts.amount; i++) { Scripts.scripts.Add(null); }
-                    foreach (var _b in _a)
-                    {
-                        if (_b != null)
+                        //Loads the sounds
+                        if (output2.sounds != null)
                         {
-                            Script script = new Script();
-                            script.id = (int)_b.id;
-                            script.name = (string)_b.name;
+                            _a = ((JArray)output2.sounds).ToObject<List<dynamic>>();
+                            for (int i = 0; i < Sounds.amount; i++) { Sounds.sounds.Add(null); }
+                            foreach (var _b in _a)
+                            {
+                                if (_b != null)
+                                {
+                                    Sound snd = new Sound();
+                                    snd.name = (string)_b.name;
+                                    snd.id = (int)_b.id;
+                                    snd.path = (string)_b.path;
+                                    Sounds.sounds[snd.id] = snd;
+                                    TreeNode _node = new TreeNode(snd.name);
+                                    _node.Name = "" + snd.id;
+                                    snd.node = _node;
+                                    mainForm.AddViewNodeChild("Sounds", _node);
+                                }
+                            }
+                        }
 
-                            string importerPath = GameConfig.path + @"\Codes\Scripts";
-                            //LEGACY PROJECT IMPORTER
-                            if (GameConfig.projectVersion < 1)
+                        //Loads the objects
+                        _a = ((JArray)output2.objects).ToObject<List<dynamic>>();
+                        for (int i = 0; i < Objects.amount; i++) { Objects.objects.Add(null); }
+                        foreach (var _b in _a)
+                        {
+                            if (_b != null)
                             {
-                                script.data = (string)_b.data;
-                                Directory.CreateDirectory(importerPath);
+                                Object obj = new Object();
+                                obj.id = (int)_b.id;
+                                obj.name = (string)_b.name;
+                                obj.sprite = (int)_b.sprite;
+                                obj.autoDraw = (bool)_b.autoDraw;
+                                if (_b.usePhysics != null)
+                                    obj.usePhysics = (bool)_b.usePhysics;
+                                if (_b.bodyType != null)
+                                    obj.bodyType = (Physics.BodyTypes)_b.bodyType;
+                                if (_b.lockRotation != null)
+                                    obj.lockRotation = (bool)_b.lockRotation;
+                                if (_b.colliderType != null)
+                                    obj.colliderType = (Physics.ColliderTypes)_b.colliderType;
+                                if (_b.density != null)
+                                    obj.density = (decimal)_b.density;
+                                if (_b.friction != null)
+                                    obj.friction = (decimal)_b.friction;
+                                if (_b.restitution != null)
+                                    obj.restitution = (decimal)_b.restitution;
+                                string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
+                                //LEGACY PROJECT IMPORTER
+                                if (GameConfig.projectVersion < 1)
+                                {
+                                    obj.onCreate = (string)_b.onCreate;
+                                    obj.onUpdate = (string)_b.onUpdate;
+                                    obj.onDraw = (string)_b.onDraw;
+                                    obj.onKeyPressed = (string)_b.onKeyPressed;
+                                    obj.onKeyReleased = (string)_b.onKeyReleased;
+                                    obj.onDestroy = (string)_b.onDestroy;
+                                    obj.onMousePressed = (string)_b.onMousePressed;
+                                    obj.onMouseReleased = (string)_b.onMouseReleased;
+                                    obj.onCollisionEnter = "";
+                                    obj.onCollisionExit = "";
+                                    Directory.CreateDirectory(importerPath);
+                                }
+                                else
+                                {
+                                    obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                                    obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                                    obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                                    obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                                    obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                                    obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                                    obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
+                                    obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                                    if (!File.Exists(importerPath + @"\collisionEnter.js"))
+                                        File.CreateText(importerPath + @"\collisionEnter.js").Close();
+                                    if (!File.Exists(importerPath + @"\collisionExit.js"))
+                                        File.CreateText(importerPath + @"\collisionExit.js").Close();
+                                    obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
+                                    obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
+                                }
+                                Objects.objects[obj.id] = obj;
+                                TreeNode _node = new TreeNode(obj.name);
+                                _node.Name = "" + obj.id;
+                                obj.node = _node;
+                                mainForm.AddViewNodeChild("Objects", _node);
                             }
-                            else
+                        }
+
+                        //Loads the rooms
+                        for (int i = 0; i < Rooms.amount; i++) { Rooms.rooms.Add(null); }
+                        _a = ((JArray)output2.rooms).ToObject<List<dynamic>>();
+                        foreach (var _b in _a)
+                        {
+                            if (_b != null)
                             {
-                                script.data = File.ReadAllText(importerPath + @"\script" + script.id + ".js");
+                                Room room = new Room();
+                                room.id = (int)_b.id;
+                                room.name = (string)_b.name;
+                                if (_b.allowSleep != null)
+                                    room.allowSleep = (bool)_b.allowSleep;
+                                if (_b.gravityX != null)
+                                    room.gravityX = (decimal)_b.gravityX;
+                                if (_b.gravityY != null)
+                                    room.gravityY = (decimal)_b.gravityY;
+                                string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
+                                //LEGACY PROJECT IMPORTER
+                                if (GameConfig.projectVersion < 1)
+                                {
+                                    room.onCreate = (string)_b.onCreate;
+                                    room.onUpdate = (string)_b.onUpdate;
+                                    room.onDraw = (string)_b.onDraw;
+                                    room.onKeyPressed = (string)_b.onKeyPressed;
+                                    room.onKeyReleased = (string)_b.onKeyReleased;
+                                    Directory.CreateDirectory(importerPath);
+                                }
+                                else
+                                {
+                                    room.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                                    room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                                    room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                                    room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                                    room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                                }
+
+
+                                if (_b.editorCreate != null)
+                                {
+                                    List<EditorObject> _editorCreate = new List<EditorObject>();
+                                    foreach (var _c in _b.editorCreate)
+                                    {
+                                        EditorObject _obj = new EditorObject((float)_c.x, (float)_c.y, (int)_c.id);
+                                        _editorCreate.Add(_obj);
+                                    }
+                                    room.editorCreate = _editorCreate.ToArray<EditorObject>();
+                                }
+                                Rooms.rooms[room.id] = room;
+                                TreeNode _node = new TreeNode(room.name);
+                                _node.Name = "" + room.id;
+                                room.node = _node;
+                                mainForm.AddViewNodeChild("Rooms", _node);
                             }
-                            Scripts.scripts[script.id] = script;
-                            TreeNode _node = new TreeNode(script.name);
-                            _node.Name = "" + script.id;
-                            script.node = _node;
-                            mainForm.AddViewNodeChild("Scripts", _node);
+                        }
+
+                        //Loads the scripts
+                        _a = ((JArray)output2.scripts).ToObject<List<dynamic>>();
+                        for (int i = 0; i < Scripts.amount; i++) { Scripts.scripts.Add(null); }
+                        foreach (var _b in _a)
+                        {
+                            if (_b != null)
+                            {
+                                Script script = new Script();
+                                script.id = (int)_b.id;
+                                script.name = (string)_b.name;
+
+                                string importerPath = GameConfig.path + @"\Codes\Scripts";
+                                //LEGACY PROJECT IMPORTER
+                                if (GameConfig.projectVersion < 1)
+                                {
+                                    script.data = (string)_b.data;
+                                    Directory.CreateDirectory(importerPath);
+                                }
+                                else
+                                {
+                                    script.data = File.ReadAllText(importerPath + @"\script" + script.id + ".js");
+                                }
+                                Scripts.scripts[script.id] = script;
+                                TreeNode _node = new TreeNode(script.name);
+                                _node.Name = "" + script.id;
+                                script.node = _node;
+                                mainForm.AddViewNodeChild("Scripts", _node);
+                            }
+                        }
+                        //Fixes Projects without icon
+                        if (!File.Exists(GameConfig.path + @"\Resources\icon.ico"))
+                            File.Copy(Application.StartupPath + @"\Resources\player.ico", GameConfig.path + @"\Resources\icon.ico");
+                        //LEGACY PROJECT IMPORTER UPDATER
+                        if (GameConfig.projectVersion != IDEConfig.IDEVersion)
+                        {
+                            GameConfig.projectVersion = IDEConfig.IDEVersion;
+                            FileManager.Save(true);
+                        }
+                        FileManager.UnsavedChanges = false;
+                        FileManager.ProjectLoaded = true;
+                        IDEConfig.RecentProjectAdd(GameConfig.name, GameConfig.path + @"\project.JSGP");
+                        if (startScreen != null)
+                        {
+                            startScreen.Close();
+                            mainForm.Show();
                         }
                     }
-                    //Fixes Projects without icon
-                    if(!File.Exists(GameConfig.path + @"\Resources\icon.ico"))
-                        File.Copy(Application.StartupPath + @"\Resources\player.ico", GameConfig.path + @"\Resources\icon.ico");
-                    //LEGACY PROJECT IMPORTER UPDATER
-                    if (GameConfig.projectVersion != IDEConfig.IDEVersion)
+                    else
                     {
-                        GameConfig.projectVersion = IDEConfig.IDEVersion;
-                        FileManager.Save(true);
+                        if (startScreen != null)
+                        {
+                            startScreen.quit = true;
+                            startScreen.Show();
+                            mainForm.Hide();
+                        }
                     }
-                    FileManager.UnsavedChanges = false;
-                    FileManager.ProjectLoaded = true;
-                    IDEConfig.RecentProjectAdd(GameConfig.name, GameConfig.path + @"\project.JSGP");
                 }
                 catch
                 {

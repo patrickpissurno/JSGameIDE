@@ -104,11 +104,14 @@ namespace JSGameIDE
         private void Open(string path)
         {
             this.quit = false;
-            var form = new MainForm();
-            form.Show();
+            this.Hide();
+            MainForm form = null;
+            if (FileManager.mainForm != null)
+                form = FileManager.mainForm;
+            else
+                form = new MainForm();
             FileManager.mainForm = form;
-            FileManager.Load(path, true);
-            this.Close();
+            FileManager.Load(path, true, this);
         }
 
         private void StartScreen_Load(object sender, EventArgs e)
