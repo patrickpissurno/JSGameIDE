@@ -507,9 +507,12 @@ namespace JSGameIDE
             foreach (Object obj in Objects.objects)
             {
                 if (obj != null)
-                {
                     str = str.Replace(obj.name, "obj" + obj.id);
-                }
+            }
+            foreach (Script s in Scripts.scripts)
+            {
+                if (s != null)
+                    str = str.Replace(s.name, "script" + s.id);
             }
             foreach (string vk in KeyCode.keyCodes.Keys)
             {

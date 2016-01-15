@@ -507,6 +507,69 @@ namespace JSGameIDE
         }
 
         /// <summary>
+        /// Updates a single file
+        /// </summary>
+        /// <param name="comp">The component to be updated</param>
+        /// <param name="data">The new data</param>
+        /// <param name="eventName">The event to be updated</param>
+        public static void UpdateSingle(IDEComponent comp, string data, string eventName)
+        {
+            if (comp.Type != IDEComponent.ComponentType.None &&
+                comp.Type != IDEComponent.ComponentType.Sprite &&
+                comp.Type != IDEComponent.ComponentType.Sound)
+            {
+                string targetPath = GameConfig.path;
+                switch(comp.Type)
+                {
+                    case IDEComponent.ComponentType.Object:
+                        targetPath += @"\Codes\Objects\obj" + ((Object)comp).id + @"\" + eventName + ".js";
+                        break;
+                    case IDEComponent.ComponentType.Room:
+                        targetPath += @"\Codes\Rooms\room" + ((Room)comp).id + @"\" + eventName + ".js";
+                        break;
+                    case IDEComponent.ComponentType.Script:
+                        targetPath += @"\Codes\Scripts\script" + ((Script)comp).id + ".js";
+                        break;
+                }
+                Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
+                using (StreamWriter w = new StreamWriter(targetPath))
+                {
+                    w.Write(data);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads a single file
+        /// </summary>
+        /// <param name="comp">The component to be read</param>
+        /// <param name="eventName">The event to be read</param>
+        public static string ReadSingle(IDEComponent comp, string eventName)
+        {
+            if (comp.Type != IDEComponent.ComponentType.None &&
+                comp.Type != IDEComponent.ComponentType.Sprite &&
+                comp.Type != IDEComponent.ComponentType.Sound)
+            {
+                string targetPath = GameConfig.path;
+                switch (comp.Type)
+                {
+                    case IDEComponent.ComponentType.Object:
+                        targetPath += @"\Codes\Objects\obj" + ((Object)comp).id + @"\" + eventName + ".js";
+                        break;
+                    case IDEComponent.ComponentType.Room:
+                        targetPath += @"\Codes\Rooms\room" + ((Room)comp).id + @"\" + eventName + ".js";
+                        break;
+                    case IDEComponent.ComponentType.Script:
+                        targetPath += @"\Codes\Scripts\script" + ((Script)comp).id + ".js";
+                        break;
+                }
+                if(File.Exists(targetPath))
+                    return File.ReadAllText(targetPath);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Reloads all the code from the files.
         /// </summary>
         public static void ReloadCode()
@@ -519,16 +582,19 @@ namespace JSGameIDE
                     if (obj != null)
                     {
                         string importerPath = GameConfig.path + @"\Codes\Objects\obj" + obj.id;
-                        obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                        obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                        obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                        obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                        obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
-                        obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
-                        obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
-                        obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
-                        obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
-                        obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
+                        if (Directory.Exists(importerPath))
+                        {
+                            obj.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                            obj.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                            obj.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                            obj.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                            obj.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                            obj.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                            obj.onMousePressed = File.ReadAllText(importerPath + @"\mousePressed.js");
+                            obj.onMouseReleased = File.ReadAllText(importerPath + @"\mouseReleased.js");
+                            obj.onCollisionEnter = File.ReadAllText(importerPath + @"\collisionEnter.js");
+                            obj.onCollisionExit = File.ReadAllText(importerPath + @"\collisionExit.js");
+                        }
                     }
                 }
                 //Rooms
@@ -537,18 +603,25 @@ namespace JSGameIDE
                     if (room != null)
                     {
                         string importerPath = GameConfig.path + @"\Codes\Rooms\room" + room.id;
-                        room.onCreate = File.ReadAllText(importerPath + @"\create.js");
-                        room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
-                        room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
-                        room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
-                        room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                        if (Directory.Exists(importerPath))
+                        {
+                            room.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                            room.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                            room.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                            room.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                            room.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                        }
                     }
                 }
                 //Scripts
                 foreach (Script script in Scripts.scripts)
                 {
-                    if(script != null)
-                        script.data = File.ReadAllText(GameConfig.path + @"\Codes\Scripts" + @"\script" + script.id + ".js");
+                    if (script != null)
+                    {
+                        string importerPath = GameConfig.path + @"\Codes\Scripts" + @"\script" + script.id + ".js";
+                        if (File.Exists(importerPath))
+                            script.data = File.ReadAllText(importerPath);
+                    }
                 }
             }
             catch { }

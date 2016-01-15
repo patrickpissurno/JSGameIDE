@@ -134,6 +134,7 @@
     <Compile Include="EditorOptionsForm.Designer.cs">
       <DependentUpon>EditorOptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDEComponent.cs" />
     <Compile Include="IDEConfig.cs" />
     <Compile Include="LivePreview.cs" />
     <Compile Include="Physics.cs" />

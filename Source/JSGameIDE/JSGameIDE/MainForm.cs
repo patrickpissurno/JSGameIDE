@@ -285,8 +285,25 @@ namespace JSGameIDE
                             if (result == DialogResult.OK)
                             {
                                 //Updates the data of the given script
-                                Scripts.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
-                                Scripts.scripts[int.Parse(e.Node.Name)].data = form.data;
+                                int id = int.Parse(e.Node.Name);
+                                Script script = Scripts.scripts[id];
+                                script.data = form.data;
+
+                                //Updates the code with the new script name
+                                string name = form.GetNameBoxText();
+                                if (script.name != name)
+                                {
+                                    if (!IDEConfig.IsDefaultEditor)
+                                    {
+                                        string newData = FileManager.ReadSingle(script, null);
+                                        if (newData != null)
+                                            script.data = newData;
+                                    }
+                                    script.data = script.data.Replace(script.name, name);
+                                    FileManager.UpdateSingle(script, script.data, null);
+                                }
+
+                                Scripts.SetName(id, name);
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;

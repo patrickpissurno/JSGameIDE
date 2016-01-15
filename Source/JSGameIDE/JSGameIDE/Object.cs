@@ -142,7 +142,7 @@ namespace JSGameIDE
         }
     }
     
-    public class Object
+    public class Object : IDEComponent
     {
         public int id;
         public string name;
@@ -190,6 +190,7 @@ namespace JSGameIDE
         /// <param name="form">A reference to the main form of the application</param>
         public Object(string name=null, MainForm form=null)
         {
+            this.Type = ComponentType.Object;
             if (name != null && form != null)
             {
                 this.id = Objects.amount;

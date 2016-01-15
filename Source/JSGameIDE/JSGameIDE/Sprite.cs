@@ -146,7 +146,7 @@ namespace JSGameIDE
             sprites[id] = null;
         }
     }
-    public class Sprite
+    public class Sprite : IDEComponent
     {
         //Sprite Data
         public string[] path;
@@ -163,6 +163,7 @@ namespace JSGameIDE
         /// <param name="form">A reference to the main form of the application</param>
         public Sprite(string[] path=null,string name=null,MainForm form=null)
         {
+            this.Type = ComponentType.Sprite;
             if (path != null && name != null && form != null)
             {
                 this.path = path;

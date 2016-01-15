@@ -90,7 +90,7 @@ namespace JSGameIDE
         }
     }
 
-    public class Room
+    public class Room : IDEComponent
     {
         public int id;
         public string name;
@@ -121,6 +121,7 @@ namespace JSGameIDE
         /// <param name="form">A reference to the main form of the application</param>
         public Room(string name=null, MainForm form=null)
         {
+            this.Type = ComponentType.Room;
             if (name != null && form != null)
             {
                 this.id = Rooms.amount;
