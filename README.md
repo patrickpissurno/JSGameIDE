@@ -17,7 +17,7 @@ Authors and Contributors:
 Patrick Pissurno
 
 Support or Contact:
-Having trouble with JSGameIDE? Check out the documentation at somewhere or contact me at patrickpissurno.nave@gmail.com and I’ll help you sort it out.
+Having trouble with JSGameIDE? Check out the documentation at somewhere or contact me at contato@patrickpissurno.com.br and I’ll help you sort it out.
 
 License:
 JSGameIDE by Patrick Pissurno is licensed under a GNU General Public License, version 3, except for commercial usage, which is strictly FORBIDDEN. But the games you make with JSGameIDE are license free, so if you want to sell them, you are free to do it.
