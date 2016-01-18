@@ -39,9 +39,50 @@ namespace JSGameIDE
 {
     public partial class UIDesigner : Form
     {
+        public int width = 500;
+        public int height = 400;
         public UIDesigner()
         {
             InitializeComponent();
+            UIPanel.Size = new Size(width, height);
+            FlowCenter();
+            UICenter();
+            foreach (Control c in flowLayoutPanel1.Controls)
+            {
+                if (typeof(Button) == c.GetType())
+                {
+                    c.Click += (object sender, EventArgs e) => {
+                        MessageBox.Show("Click");
+                    };
+                }
+            }
+        }
+
+        private void flowLayoutPanel1_Resize(object sender, EventArgs e)
+        {
+            FlowCenter();
+        }
+
+        private void FlowCenter()
+        {
+            foreach (Control c in flowLayoutPanel1.Controls)
+            {
+                if (c != null)
+                {
+                    c.Anchor = AnchorStyles.None;
+                    c.Margin = new Padding(flowLayoutPanel1.Width/2 - c.Width/2, c.Margin.Top, c.Margin.Right, c.Margin.Bottom);
+                }
+            }
+        }
+
+        private void UICenter()
+        {
+            UIPanel.Location = new Point(UIPanel.Parent.Size.Width/2 - UIPanel.Size.Width/2, UIPanel.Parent.Size.Height / 2 - UIPanel.Size.Height/2);
+        }
+
+        private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
+        {
+            UICenter();
         }
     }
 }
