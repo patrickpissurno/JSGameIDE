@@ -115,6 +115,7 @@ namespace JSGameIDE
                 data += BuildSounds(TargetPath) + Environment.NewLine + Environment.NewLine;
                 data += BuildScripts() + Environment.NewLine + Environment.NewLine;
                 data += BuildObjects() + Environment.NewLine + Environment.NewLine;
+                data += BuildUIs() + Environment.NewLine + Environment.NewLine;
                 data += BuildRooms() + Environment.NewLine + Environment.NewLine;
                 data += BuildNativeFunctions() + Environment.NewLine + Environment.NewLine;
                 data += BuildFooter();
@@ -447,6 +448,54 @@ namespace JSGameIDE
                         ReplaceCode(obj.onCollisionExit)
                     };
                     int _fsi = _i.IndexOf("#FOREACH Object") + 15;
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
+                }
+            }
+            return PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues).TrimEnd() + Environment.NewLine;
+        }
+
+        /// <summary>
+        /// This method is used to build the UIs of the JS game. 
+        /// </summary>
+        /// <returns>Returns them as a string.</returns>
+        private static string BuildUIs()
+        {
+            string _i = File.ReadAllText(LibraryPath + @"\UIs.js");
+            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+            string _d = _i.Substring(0, _i.IndexOf("#FOREACH UI"));
+            foreach (UI ui in UIs.uis)
+            {
+                if (ui != null)
+                {
+                    string[] pTags = new string[] {
+                        "$UIId",
+                        "$UIWidth",
+                        "$UIHeight",
+                        "$UIAlign",
+                        "$UIMovable",
+                        "$UICreate",
+                        "$UIUpdate",
+                        "$UIDraw",
+                        "$UIKeyPressed",
+                        "$UIKeyReleased",
+                        "$UIDestroy"
+                    };
+                    string[] pValues = new string[]
+                    {
+                        ui.id.ToString(),
+                        ui.width.ToString(),
+                        ui.height.ToString(),
+                        "UI.SCREEN_ALIGN." + ui.align.ToString(),
+                        ui.movable.ToString().ToLower(),
+                        ReplaceCode(ui.onCreate),
+                        ReplaceCode(ui.onUpdate),
+                        ReplaceCode(ui.onDraw),
+                        ReplaceCode(ui.onKeyPressed),
+                        ReplaceCode(ui.onKeyReleased),
+                        ReplaceCode(ui.onDestroy)
+                    };
+                    int _fsi = _i.IndexOf("#FOREACH UI") + 15;
                     _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
                 }
             }

@@ -31,9 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Sprites");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Objects");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Rooms");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Sounds");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Scripts");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("UIs");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Rooms");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Sounds");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Scripts");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +45,7 @@
             this.spriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +70,7 @@
             this.livePreview = new System.Windows.Forms.Panel();
             this.developerTab = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.soundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.childMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -126,6 +128,7 @@
             this.novoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.spriteToolStripMenuItem,
             this.ObjectToolStripMenuItem,
+            this.uIToolStripMenuItem,
             this.RoomToolStripMenuItem,
             this.soundToolStripMenuItem,
             this.scriptToolStripMenuItem});
@@ -153,6 +156,13 @@
             this.RoomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.RoomToolStripMenuItem.Text = "Room";
             this.RoomToolStripMenuItem.Click += new System.EventHandler(this.RoomToolStripMenuItem_Click);
+            // 
+            // soundToolStripMenuItem
+            // 
+            this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
+            this.soundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.soundToolStripMenuItem.Text = "Sound";
+            this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
             // 
             // scriptToolStripMenuItem
             // 
@@ -295,21 +305,25 @@
             treeNode2.Name = "Objects";
             treeNode2.Text = "Objects";
             treeNode2.ToolTipText = "All game objects";
-            treeNode3.Name = "Rooms";
-            treeNode3.Text = "Rooms";
-            treeNode3.ToolTipText = "All game rooms";
-            treeNode4.Name = "Sounds";
-            treeNode4.Text = "Sounds";
-            treeNode4.ToolTipText = "All game sounds";
-            treeNode5.Name = "Scripts";
-            treeNode5.Text = "Scripts";
-            treeNode5.ToolTipText = "All the Scripts of the game";
+            treeNode3.Name = "UIs";
+            treeNode3.Text = "UIs";
+            treeNode3.ToolTipText = "All the UIs of the game";
+            treeNode4.Name = "Rooms";
+            treeNode4.Text = "Rooms";
+            treeNode4.ToolTipText = "All game rooms";
+            treeNode5.Name = "Sounds";
+            treeNode5.Text = "Sounds";
+            treeNode5.ToolTipText = "All game sounds";
+            treeNode6.Name = "Scripts";
+            treeNode6.Text = "Scripts";
+            treeNode6.ToolTipText = "All the Scripts of the game";
             this.componentsTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
             treeNode4,
-            treeNode5});
+            treeNode5,
+            treeNode6});
             this.componentsTree.Size = new System.Drawing.Size(138, 551);
             this.componentsTree.TabIndex = 1;
             this.componentsTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.componentsTree_NodeMouseDoubleClick);
@@ -365,12 +379,12 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(725, 551);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // soundToolStripMenuItem
+            // uIToolStripMenuItem
             // 
-            this.soundToolStripMenuItem.Name = "soundToolStripMenuItem";
-            this.soundToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.soundToolStripMenuItem.Text = "Sound";
-            this.soundToolStripMenuItem.Click += new System.EventHandler(this.soundToolStripMenuItem_Click);
+            this.uIToolStripMenuItem.Name = "uIToolStripMenuItem";
+            this.uIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uIToolStripMenuItem.Text = "UI";
+            this.uIToolStripMenuItem.Click += new System.EventHandler(this.uIToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -432,6 +446,7 @@
         private System.Windows.Forms.Panel developerTab;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem soundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uIToolStripMenuItem;
     }
 }
 

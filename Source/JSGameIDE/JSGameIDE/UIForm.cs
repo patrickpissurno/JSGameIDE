@@ -48,10 +48,20 @@ namespace JSGameIDE
         public string onKeyReleased = "";
         public string onDestroy = "";
         public UIComponent[] Components = null;
+        public UI.UIAlignment Alignment
+        {
+            get
+            {
+                return (UI.UIAlignment)alignmentBox.SelectedIndex;
+            }
+            set { }
+        }
 
         public UIForm()
         {
             InitializeComponent();
+            for (int i = 0; i < 12; i++)
+                alignmentBox.Items.Add(((UI.UIAlignment)i).ToString());
         }
 
         /// <summary>
@@ -64,10 +74,10 @@ namespace JSGameIDE
         }
 
         /// <summary>
-        /// Sets the First box (whether the game starts with this UI) to a new value
+        /// Sets the Movable box (whether the game starts with this UI) to a new value
         /// </summary>
         /// <param name="bl">A boolean</param>
-        public void SetFirstBox(bool bl)
+        public void SetMovableBox(bool bl)
         {
             movableBox.Checked = bl;
         }
@@ -82,7 +92,7 @@ namespace JSGameIDE
         }
 
         /// <summary>
-        /// Returns the First box value (whether the game starts with this UI)
+        /// Returns the Movable box value
         /// </summary>
         /// <returns>A boolean</returns>
         public bool GetMovableBox()
@@ -149,7 +159,7 @@ namespace JSGameIDE
 
         private void UIForm_Load(object sender, EventArgs e)
         {
-
+            alignmentBox.SelectedIndex = (int)UIs.uis[id].align;
         }
 
         private void destroyButton_Click(object sender, EventArgs e)

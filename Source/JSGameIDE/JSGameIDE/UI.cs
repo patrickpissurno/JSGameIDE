@@ -113,6 +113,7 @@ namespace JSGameIDE
         public int y = 0;
         public int width = 0;
         public int height = 0;
+        public bool movable = false;
         public UIAlignment align = UIAlignment.TOP_LEFT;
 
         [JsonIgnore]

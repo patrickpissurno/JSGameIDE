@@ -1,7 +1,8 @@
 //Defines each UI
 #FOREACH UI
-    var UI$UIId = function()
+    var UI$UIId = function(args)
     {
+        this.name = "UI$UIId";
         this.x = 0;
         this.y = 0;
         this.width = $UIWidth;
@@ -11,15 +12,21 @@
         this._create_executed = false;
         this.prefab = UI$UIId;
         this.toDestroy = false;
+        this.args = args;
+        
+        //Instantiate
+        roomManager.actual[this.name].push(this);
         
         //UI Create Event
         this.create = function()
         {
+            var args = this.args;
             $UICreate
             for(var i=0; i<this.components.length; i++){
                 if(this.components[i] != null && this.components[i].create != null)
                     this.components[i].create();
             }
+            this.args = null;
         };
         
         //UI Update Event

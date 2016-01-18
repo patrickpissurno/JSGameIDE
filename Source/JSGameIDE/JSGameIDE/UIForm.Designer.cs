@@ -39,6 +39,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.movableBox = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.destroyButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.createButton = new System.Windows.Forms.Button();
             this.createLabel = new System.Windows.Forms.Label();
             this.updateButton = new System.Windows.Forms.Button();
@@ -50,18 +52,20 @@
             this.keyreleasedButton = new System.Windows.Forms.Button();
             this.keyReleasedLabel = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.destroyButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.alignmentBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.destroyButton.SuspendLayout();
             this.createButton.SuspendLayout();
             this.updateButton.SuspendLayout();
             this.drawButton.SuspendLayout();
             this.keypressedButton.SuspendLayout();
             this.keyreleasedButton.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.destroyButton.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // saveButton
@@ -125,6 +129,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -171,6 +176,32 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Events";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // destroyButton
+            // 
+            this.destroyButton.Controls.Add(this.label3);
+            this.destroyButton.Font = new System.Drawing.Font("Segoe UI Light", 21F);
+            this.destroyButton.Location = new System.Drawing.Point(9, 77);
+            this.destroyButton.Name = "destroyButton";
+            this.destroyButton.Size = new System.Drawing.Size(65, 65);
+            this.destroyButton.TabIndex = 21;
+            this.destroyButton.Text = "De";
+            this.destroyButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.destroyButton.UseVisualStyleBackColor = true;
+            this.destroyButton.Click += new System.EventHandler(this.destroyButton_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label3.Font = new System.Drawing.Font("Segoe UI Semilight", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(13, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 35;
+            this.label3.Text = "Destroy";
+            this.label3.Click += new System.EventHandler(this.destroyButton_Click);
             // 
             // createButton
             // 
@@ -313,31 +344,33 @@
             this.tabControl1.Size = new System.Drawing.Size(377, 224);
             this.tabControl1.TabIndex = 32;
             // 
-            // destroyButton
+            // alignmentBox
             // 
-            this.destroyButton.Controls.Add(this.label3);
-            this.destroyButton.Font = new System.Drawing.Font("Segoe UI Light", 21F);
-            this.destroyButton.Location = new System.Drawing.Point(9, 77);
-            this.destroyButton.Name = "destroyButton";
-            this.destroyButton.Size = new System.Drawing.Size(65, 65);
-            this.destroyButton.TabIndex = 21;
-            this.destroyButton.Text = "De";
-            this.destroyButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.destroyButton.UseVisualStyleBackColor = true;
-            this.destroyButton.Click += new System.EventHandler(this.destroyButton_Click);
+            this.alignmentBox.FormattingEnabled = true;
+            this.alignmentBox.Location = new System.Drawing.Point(66, 20);
+            this.alignmentBox.Name = "alignmentBox";
+            this.alignmentBox.Size = new System.Drawing.Size(114, 21);
+            this.alignmentBox.TabIndex = 28;
             // 
-            // label3
+            // label4
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semilight", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 13);
-            this.label3.TabIndex = 35;
-            this.label3.Text = "Destroy";
-            this.label3.Click += new System.EventHandler(this.destroyButton_Click);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "Alignment:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.alignmentBox);
+            this.groupBox1.Location = new System.Drawing.Point(124, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(190, 186);
+            this.groupBox1.TabIndex = 28;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Drawing Settings";
             // 
             // UIForm
             // 
@@ -363,6 +396,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
+            this.destroyButton.ResumeLayout(false);
+            this.destroyButton.PerformLayout();
             this.createButton.ResumeLayout(false);
             this.createButton.PerformLayout();
             this.updateButton.ResumeLayout(false);
@@ -374,8 +409,8 @@
             this.keyreleasedButton.ResumeLayout(false);
             this.keyreleasedButton.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.destroyButton.ResumeLayout(false);
-            this.destroyButton.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -406,5 +441,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button destroyButton;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox alignmentBox;
     }
 }

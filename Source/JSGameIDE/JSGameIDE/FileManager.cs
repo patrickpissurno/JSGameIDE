@@ -548,6 +548,7 @@ namespace JSGameIDE
                                     ui.width = (int)_b.width;
                                     ui.height = (int)_b.height;
                                     ui.align = (UI.UIAlignment)_b.align;
+                                    ui.movable = (bool)_b.movable;
                                     string importerPath = GameConfig.path + @"\Codes\UIs\ui" + ui.id;
                                     ui.onCreate = File.ReadAllText(importerPath + @"\create.js");
                                     ui.onUpdate = File.ReadAllText(importerPath + @"\update.js");

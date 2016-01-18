@@ -222,6 +222,43 @@ namespace JSGameIDE
                             form.Close();
                         }
                         break;
+                    case "UIs":
+                        //Opens the UI Form and loads it with the given UI data
+                        using (var form = new UIForm())
+                        {
+                            form.Text = "Properties of " + e.Node.Text;
+                            form.SetNameBoxText(e.Node.Text);
+                            UI ui = UIs.uis[int.Parse(e.Node.Name)];
+                            form.id = ui.id;
+                            form.SetMovableBox(ui.movable);
+                            form.onCreate = ui.onCreate;
+                            form.onUpdate = ui.onUpdate;
+                            form.onDraw = ui.onDraw;
+                            form.onKeyPressed = ui.onKeyPressed;
+                            form.onKeyReleased = ui.onKeyReleased;
+                            form.onDestroy = ui.onDestroy;
+                            form.Components = ui.components;
+                            var result = form.ShowDialog();
+                            if (result == DialogResult.OK)
+                            {
+                                //Updates the data of the given UI
+                                UIs.SetName(int.Parse(e.Node.Name), form.GetNameBoxText());
+                                ui.onCreate = form.onCreate;
+                                ui.onUpdate = form.onUpdate;
+                                ui.onDraw = form.onDraw;
+                                ui.onKeyPressed = form.onKeyPressed;
+                                ui.onKeyReleased = form.onKeyReleased;
+                                ui.onDestroy = form.onDestroy;
+                                ui.components = form.Components;
+                                ui.movable = form.GetMovableBox();
+                                ui.align = form.Alignment;
+                                if (!IDEConfig.IsDefaultEditor)
+                                    FileManager.ReloadCode();
+                                FileManager.UnsavedChanges = true;
+                            }
+                            form.Close();
+                        }
+                        break;
                     case "Objects":
                         //Opens the Object Form and loads it with the given object data
                         using (var form = new ObjectForm())
@@ -408,6 +445,10 @@ namespace JSGameIDE
                     case "Objects":
                         //Deletes the given object
                         Objects.Delete(id);
+                        break;
+                    case "UIs":
+                        //Deletes the given UI
+                        UIs.Delete(id);
                         break;
                     case "Rooms":
                         //Deletes the given room
@@ -601,6 +642,11 @@ namespace JSGameIDE
         private void soundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Sounds.sounds.Add(new Sound("", "sound", this));
+        }
+
+        private void uIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UIs.uis.Add(new UI("ui", this));
         }
     }
 }
