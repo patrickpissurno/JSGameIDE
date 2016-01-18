@@ -191,7 +191,7 @@ namespace JSGameIDE
         {
             //Opens the Object Create Event data in the Code Editor
             this.onCreate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Create",
-                IDEConfig.ComponentType.Object, this.onCreate, this.id, "create");
+                IDEComponent.ComponentType.Object, this.onCreate, this.id, "create");
         }
 
         //Update button click event
@@ -199,7 +199,7 @@ namespace JSGameIDE
         {
             //Opens the Object Update Event data in the Code Editor
             this.onUpdate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Update",
-                IDEConfig.ComponentType.Object, this.onUpdate, this.id, "update");
+                IDEComponent.ComponentType.Object, this.onUpdate, this.id, "update");
         }
 
         //Draw button click event
@@ -207,7 +207,7 @@ namespace JSGameIDE
         {
             //Opens the Object Draw Event data in the Code Editor
             this.onDraw = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Draw",
-                IDEConfig.ComponentType.Object, this.onDraw, this.id, "draw");
+                IDEComponent.ComponentType.Object, this.onDraw, this.id, "draw");
         }
 
         //Key Pressed button click event
@@ -215,7 +215,7 @@ namespace JSGameIDE
         {
             //Opens the Object Key Pressed Event data in the Code Editor
             this.onKeyPressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Pressed",
-                IDEConfig.ComponentType.Object, this.onKeyPressed, this.id, "keyPressed");
+                IDEComponent.ComponentType.Object, this.onKeyPressed, this.id, "keyPressed");
         }
 
         //Key Released button click event
@@ -223,7 +223,7 @@ namespace JSGameIDE
         {
             //Opens the Object Key Released Event data in the Code Editor
             this.onKeyReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Released",
-                IDEConfig.ComponentType.Object, this.onKeyReleased, this.id, "keyReleased");
+                IDEComponent.ComponentType.Object, this.onKeyReleased, this.id, "keyReleased");
         }
 
         //Mouse Pressed button click event
@@ -231,7 +231,7 @@ namespace JSGameIDE
         {
             //Opens the Object Mouse Pressed Event data in the Code Editor
             this.onMousePressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Mouse Pressed",
-                IDEConfig.ComponentType.Object, this.onMousePressed, this.id, "mousePressed");
+                IDEComponent.ComponentType.Object, this.onMousePressed, this.id, "mousePressed");
         }
 
         //Mouse Released button click event
@@ -239,7 +239,7 @@ namespace JSGameIDE
         {
             //Opens the Object Mouse Released Event data in the Code Editor
             this.onMouseReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Mouse Released",
-                IDEConfig.ComponentType.Object, this.onMouseReleased, this.id, "mouseReleased");
+                IDEComponent.ComponentType.Object, this.onMouseReleased, this.id, "mouseReleased");
         }
 
         //Destroy button click event
@@ -247,7 +247,7 @@ namespace JSGameIDE
         {
             //Opens the Object Destroy Event data in the Code Editor
             this.onDestroy = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Destroy",
-                IDEConfig.ComponentType.Object, this.onDestroy, this.id, "destroy");
+                IDEComponent.ComponentType.Object, this.onDestroy, this.id, "destroy");
         }
 
         private void ObjectForm_Load(object sender, EventArgs e)
@@ -265,14 +265,14 @@ namespace JSGameIDE
         {
             // Opens the Object Collision Enter Event data in the Code Editor
             this.onCollisionEnter = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Collision Enter",
-                IDEConfig.ComponentType.Object, this.onCollisionEnter, this.id, "collisionEnter");
+                IDEComponent.ComponentType.Object, this.onCollisionEnter, this.id, "collisionEnter");
         }
 
         private void collisionExitButton_Click(object sender, EventArgs e)
         {
             // Opens the Object Collision Exit Event data in the Code Editor
             this.onCollisionExit = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Collision Exit",
-                IDEConfig.ComponentType.Object, this.onCollisionExit, this.id, "collisionExit");
+                IDEComponent.ComponentType.Object, this.onCollisionExit, this.id, "collisionExit");
         }
     }
 }

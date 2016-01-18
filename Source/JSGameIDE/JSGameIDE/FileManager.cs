@@ -99,6 +99,8 @@ namespace JSGameIDE
                 package.scriptAmount = Scripts.amount;
                 package.sounds = Sounds.sounds.ToArray();
                 package.soundAmount = Sounds.amount;
+                package.UIs = UIs.uis.ToArray();
+                package.UIAmount = UIs.amount;
 
                 //SAVE CODING DATA
                 string targetPath = null;
@@ -179,6 +181,55 @@ namespace JSGameIDE
                         using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
                         {
                             w.Write(rm.onKeyReleased);
+                        }
+                    }
+                }
+
+                //UIs
+                foreach (UI ui in UIs.uis)
+                {
+                    if (ui != null)
+                    {
+                        targetPath = GameConfig.path + @"\Codes\UIs\ui" + ui.id;
+                        Directory.CreateDirectory(targetPath);
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\create.js"))
+                        {
+                            w.Write(ui.onCreate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\update.js"))
+                        {
+                            w.Write(ui.onUpdate);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\draw.js"))
+                        {
+                            w.Write(ui.onDraw);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyPressed.js"))
+                        {
+                            w.Write(ui.onKeyPressed);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\keyReleased.js"))
+                        {
+                            w.Write(ui.onKeyReleased);
+                        }
+                        using (StreamWriter w = new StreamWriter(targetPath + @"\destroy.js"))
+                        {
+                            w.Write(ui.onDestroy);
+                        }
+                        targetPath += @"\components";
+                        Directory.CreateDirectory(targetPath);
+                        if (ui.components != null)
+                        {
+                            foreach(UIComponent component in ui.components)
+                            {
+                                if(component != null)
+                                {
+                                    using (StreamWriter w = new StreamWriter(targetPath + @"\component" + component.id + ".js"))
+                                    {
+                                        w.Write(component.data);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -288,6 +339,10 @@ namespace JSGameIDE
                             Sounds.amount = (int)output2.soundAmount;
                         else
                             Sounds.amount = 0;
+                        if (output2.UIAmount != null)
+                            UIs.amount = (int)output2.UIAmount;
+                        else
+                            UIs.amount = 0;
                         Objects.amount = (int)output2.objectAmount;
                         Rooms.amount = (int)output2.roomAmount;
                         Rooms.firstId = (int)output2.roomFirstId;
@@ -476,6 +531,53 @@ namespace JSGameIDE
                             }
                         }
 
+                        //Loads the UIs
+                        if (output2.UIs != null && output2.UIAmount != null)
+                        {
+                            for (int i = 0; i < UIs.amount; i++) { UIs.uis.Add(null); }
+                            _a = ((JArray)output2.UIs).ToObject<List<dynamic>>();
+                            foreach (var _b in _a)
+                            {
+                                if (_b != null)
+                                {
+                                    UI ui = new UI();
+                                    ui.id = (int)_b.id;
+                                    ui.name = (string)_b.name;
+                                    ui.x = (int)_b.x;
+                                    ui.y = (int)_b.y;
+                                    ui.width = (int)_b.width;
+                                    ui.height = (int)_b.height;
+                                    ui.align = (UI.UIAlignment)_b.align;
+                                    string importerPath = GameConfig.path + @"\Codes\UIs\ui" + ui.id;
+                                    ui.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                                    ui.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                                    ui.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                                    ui.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                                    ui.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                                    ui.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+
+                                    if (_b.components != null)
+                                    {
+                                        importerPath += @"\components";
+                                        List<UIComponent> components = new List<UIComponent>();
+                                        foreach (var _c in _b.components)
+                                        {
+                                            UIComponent _obj = new UIComponent((int)_c.x, (int)_c.y, (int)_c.id);
+                                            if(File.Exists(importerPath + @"\component" + _obj.id + ".js"))
+                                                _obj.data = File.ReadAllText(importerPath + @"\component" + _obj.id + ".js");
+                                            components.Add(_obj);
+                                        }
+                                        ui.components = components.ToArray();
+                                    }
+                                    UIs.uis[ui.id] = ui;
+                                    TreeNode _node = new TreeNode(ui.name);
+                                    _node.Name = "" + ui.id;
+                                    ui.node = _node;
+                                    mainForm.AddViewNodeChild("UIs", _node);
+                                }
+                            }
+                        }
+
                         //Loads the scripts
                         _a = ((JArray)output2.scripts).ToObject<List<dynamic>>();
                         for (int i = 0; i < Scripts.amount; i++) { Scripts.scripts.Add(null); }
@@ -631,6 +733,32 @@ namespace JSGameIDE
                         }
                     }
                 }
+                //UIs
+                foreach (UI ui in UIs.uis)
+                {
+                    if (ui != null)
+                    {
+                        string importerPath = GameConfig.path + @"\Codes\UIs\ui" + ui.id;
+                        if (Directory.Exists(importerPath))
+                        {
+                            ui.onCreate = File.ReadAllText(importerPath + @"\create.js");
+                            ui.onUpdate = File.ReadAllText(importerPath + @"\update.js");
+                            ui.onDraw = File.ReadAllText(importerPath + @"\draw.js");
+                            ui.onKeyPressed = File.ReadAllText(importerPath + @"\keyPressed.js");
+                            ui.onKeyReleased = File.ReadAllText(importerPath + @"\keyReleased.js");
+                            ui.onDestroy = File.ReadAllText(importerPath + @"\destroy.js");
+                            importerPath += @"\components";
+                            if(Directory.Exists(importerPath))
+                            {
+                                foreach(UIComponent component in ui.components)
+                                {
+                                    if(component != null && File.Exists(importerPath + @"\component" + component.id + ".js"))
+                                        component.data = File.ReadAllText(importerPath + @"\component" + component.id + ".js");
+                                }
+                            }
+                        }
+                    }
+                }
                 //Rooms
                 foreach (Room room in Rooms.rooms)
                 {
@@ -683,6 +811,9 @@ namespace JSGameIDE
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Object[] objects;
         public int objectAmount;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public UI[] UIs;
+        public int UIAmount;
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Room[] rooms;
         public int roomAmount;

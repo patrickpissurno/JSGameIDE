@@ -5,6 +5,10 @@ var context = canvas.getContext('2d');
 var start = (new Date()).getTime();
 var currentFrame=0;
 
+Math.lerp = function (a,  b, f) {
+    return (a * (1.0 - f)) + (b * f);
+}
+
 //Physics
 var b2Vec = Box2D.Common.Math.b2Vec2;
 var b2BodyDef = Box2D.Dynamics.b2BodyDef;
@@ -96,6 +100,80 @@ var Physics = {
                 objB._endContact = objA;
         }
         this.World.SetContactListener(this.listener);
+    }
+}
+
+//UI Development
+var UI ={
+    SCREEN_SCALE : 1,
+    SCREEN_ALIGN : {
+        TOP_CENTER : 0,
+        TOP_LEFT : 1,
+        TOP_RIGHT : 2,
+        CENTER_LEFT : 3,
+        CENTER_CENTER : 4,
+        CENTER_RIGHT : 5,
+        BOT_LEFT : 6,
+        BOT_CENTER : 7,
+        BOT_RIGHT : 8,
+        STRETCH_ALL : 9,
+        STRETCH_HORIZONTAL : 10,
+        STRETCH_VERTICAL : 11,
+        FILL : 12
+    },
+    DrawSprite : function(x, y, sprite, screen_align, scale)
+    {
+        if(scale == null)
+		  scale = 1;
+        switch(screen_align)
+        {
+            //BOT
+            case UI.SCREEN_ALIGN.BOT_CENTER:
+                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.BOT_LEFT:
+                context.drawImage(sprite, x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.BOT_RIGHT:
+                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            //TOP
+            case UI.SCREEN_ALIGN.TOP_CENTER:
+                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.TOP_LEFT:
+                context.drawImage(sprite, x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.TOP_RIGHT:
+                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            //CENTER
+            case UI.SCREEN_ALIGN.CENTER_CENTER:
+                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.CENTER_LEFT:
+                context.drawImage(sprite, x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.CENTER_RIGHT:
+                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            //OTHER
+            case UI.SCREEN_ALIGN.STRETCH_ALL:
+                context.drawImage(sprite,x,y, canvas.width, canvas.height);
+                break;
+            case UI.SCREEN_ALIGN.STRETCH_HORIZONTAL:
+                context.drawImage(sprite,x,y, canvas.width, sprite.height * UI.SCREEN_SCALE * scale);
+                break;
+            case UI.SCREEN_ALIGN.STRETCH_VERTICAL:
+                context.drawImage(sprite,x,y, sprite.width * UI.SCREEN_SCALE * scale, canvas.height);
+                break;
+            case UI.SCREEN_ALIGN.FILL:
+                if(canvas.width > canvas.height)
+                    context.drawImage(sprite,x,y, canvas.width, canvas.width * (sprite.height / sprite.width));
+                else
+                    context.drawImage(sprite,x,y, canvas.height * (sprite.width / sprite.height), canvas.height);
+                break; 
+        }
     }
 }
 

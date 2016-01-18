@@ -47,6 +47,13 @@ var rM = function()
     this.draw = function()
     {
         this.actual.draw();
+    }
+    
+    //Room manager draw UI function
+    this.drawUI = function()
+    {
+        if(this.actual.drawUI != null)
+            this.actual.drawUI();
         if(this.change)
         {
             if(this.alpha > 1)

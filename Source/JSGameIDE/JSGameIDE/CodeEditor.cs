@@ -94,7 +94,7 @@ namespace JSGameIDE
                 this.DialogResult = DialogResult.Cancel;
         }
 
-        public static string Open(string Title, IDEConfig.ComponentType Type, string Data, int Index, string Event)
+        public static string Open(string Title, IDEComponent.ComponentType Type, string Data, int Index, string Event)
         {
             string r = Data;
             if (IDEConfig.IsDefaultEditor)
@@ -116,14 +116,20 @@ namespace JSGameIDE
                 string path = GameConfig.path + @"\Codes";
                 switch (Type)
                 {
-                    case IDEConfig.ComponentType.Object:
+                    case IDEComponent.ComponentType.Object:
                         path += @"\Objects\obj";
                         break;
-                    case IDEConfig.ComponentType.Room:
+                    case IDEComponent.ComponentType.Room:
                         path += @"\Rooms\room";
                         break;
-                    case IDEConfig.ComponentType.Script:
+                    case IDEComponent.ComponentType.Script:
                         path += @"\Scripts\script";
+                        break;
+                    case IDEComponent.ComponentType.UI:
+                        path += @"\UIs\ui";
+                        break;
+                    case IDEComponent.ComponentType.UIComponent:
+                        path += @"\UIs\ui" + Index + @"\components\component";
                         break;
                 }
                 path += Event == null ? Index.ToString() + ".js" : Index.ToString() + @"\" + Event + ".js";

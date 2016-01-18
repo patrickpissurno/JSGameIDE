@@ -70,7 +70,7 @@ namespace JSGameIDE
         {
             //Opens this script data in the Code Editor
             this.data = CodeEditor.Open("Code Editor: " + nameBox.Text,
-                IDEConfig.ComponentType.Script, this.data, this.id, null);
+                IDEComponent.ComponentType.Script, this.data, this.id, null);
         }
     }
 }

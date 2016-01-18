@@ -34,7 +34,7 @@ namespace JSGameIDE
 {
     public static class IDEConfig
     {
-        public const int IDEVersion = 3;
+        public const int IDEVersion = 4;
 
         public static List<string> CodeEditors = new List<string>();
         public static int CodeEditorIndex = 0;
@@ -125,13 +125,7 @@ namespace JSGameIDE
             RecentProjectNames = result[0];
             RecentProjectPaths = result[1];
         }
-        public enum ComponentType
-        {
-            Object,
-            Room,
-            Script,
-            Sprite
-        }
+
         public static void Save()
         {
             //General

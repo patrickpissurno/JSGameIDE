@@ -90,6 +90,7 @@ namespace JSGameIDE.Properties {
         ///   Looks up a localized string similar to room_goback()=roomManager.go(roomManager.last)
         ///room_actual=roomManager.actual
         ///room_goto(=roomManager.go(new 
+        ///room_reload()=roomManager.go(new roomManager.actual.prefab)
         ///gameFPS=fps.get()
         ///screen_clear()=context.clearRect(0,0,canvas.width,canvas.height)
         ///vk_mouseLeft=0
@@ -117,6 +118,7 @@ namespace JSGameIDE.Properties {
         ///{
         ///    roomManager.update();
         ///    roomManager.draw();
+        ///    roomManager.drawUI();
         ///};
         ///var mouse = new mousePrefab();
         ///var roomManager = new rM();
@@ -138,14 +140,16 @@ namespace JSGameIDE.Properties {
         ///var start = (new Date()).getTime();
         ///var currentFrame=0;
         ///
+        ///Math.lerp = function (a,  b, f) {
+        ///    return (a * (1.0 - f)) + (b * f);
+        ///}
+        ///
         /////Physics
         ///var b2Vec = Box2D.Common.Math.b2Vec2;
         ///var b2BodyDef = Box2D.Dynamics.b2BodyDef;
         ///var b2Body = Box2D.Dynamics.b2Body;
         ///var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
-        ///var b2Fixture = Box2D.Dynamics.b2Fixture;
-        ///var b2World = Box2D.Dynamics.b2World;
-        ///var b2MassD [rest of string was truncated]&quot;;.
+        ///var b2Fixture  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string header {
             get {
@@ -233,9 +237,10 @@ namespace JSGameIDE.Properties {
         ///        this.imageSpeed = 1;
         ///        this.width = $objectWidth;
         ///        this.height = $objectHeight;
+        ///        this.scaleX = 1;
+        ///        this.scaleY = 1;
         ///        this.hspeed = 0;
-        ///        this.vspeed = 0;
-        ///        this.autoDraw = $objec [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string objects {
             get {
@@ -317,6 +322,34 @@ namespace JSGameIDE.Properties {
         internal static string sprites {
             get {
                 return ResourceManager.GetString("sprites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to //Defines each UI
+        ///#FOREACH UI
+        ///    var UI$UIId = function()
+        ///    {
+        ///        this.x = 0;
+        ///        this.y = 0;
+        ///        this.width = $UIWidth;
+        ///        this.height = $UIHeight;
+        ///        this.align = $UIAlign;
+        ///        this.components = [];
+        ///        this._create_executed = false;
+        ///        this.prefab = UI$UIId;
+        ///        this.toDestroy = false;
+        ///        
+        ///        //UI Create Event
+        ///        this.create = function()
+        ///        {
+        ///            $UICreate
+        ///            for(var i=0; i&lt;this.components.length; i++){
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UIs {
+            get {
+                return ResourceManager.GetString("UIs", resourceCulture);
             }
         }
     }

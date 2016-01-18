@@ -41,6 +41,8 @@ namespace JSGameIDE
             None,
             Sprite,
             Object,
+            UI,
+            UIComponent,
             Room,
             Sound,
             Script

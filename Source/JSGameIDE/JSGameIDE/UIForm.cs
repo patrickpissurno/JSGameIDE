@@ -37,51 +37,25 @@ using System.Windows.Forms;
 
 namespace JSGameIDE
 {
-    public partial class RoomForm : Form
+    public partial class UIForm : Form
     {
-        //Room Form temporary data variables
+        //UI Form temporary data variables
         public int id = -1;
         public string onCreate = "";
         public string onUpdate = "";
         public string onDraw = "";
         public string onKeyPressed = "";
         public string onKeyReleased = "";
-        public EditorObject[] editorCreate = null;
+        public string onDestroy = "";
+        public UIComponent[] Components = null;
 
-        public bool AllowSleep
-        {
-            get
-            {
-                return allowSleepBox.Checked;
-            }
-            set { }
-        }
-
-        public decimal GravityX
-        {
-            get
-            {
-                return gravityXBox.Value;
-            }
-            set { }
-        }
-
-        public decimal GravityY
-        {
-            get
-            {
-                return gravityYBox.Value;
-            }
-            set { }
-        }
-
-        public RoomForm()
+        public UIForm()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Sets the temporary room name text
+        /// Sets the temporary UI name text
         /// </summary>
         /// <param name="_txt">A string containing the new name</param>
         public void SetNameBoxText(string _txt)
@@ -90,16 +64,16 @@ namespace JSGameIDE
         }
 
         /// <summary>
-        /// Sets the First box (whether the game starts with this room) to a new value
+        /// Sets the First box (whether the game starts with this UI) to a new value
         /// </summary>
         /// <param name="bl">A boolean</param>
         public void SetFirstBox(bool bl)
         {
-            firstBox.Checked = bl;
+            movableBox.Checked = bl;
         }
 
         /// <summary>
-        /// Returns the current temporary name of this room
+        /// Returns the current temporary name of this UI
         /// </summary>
         /// <returns>A string containing the name</returns>
         public string GetNameBoxText()
@@ -108,76 +82,80 @@ namespace JSGameIDE
         }
 
         /// <summary>
-        /// Returns the First box value (whether the game starts with this room)
+        /// Returns the First box value (whether the game starts with this UI)
         /// </summary>
         /// <returns>A boolean</returns>
-        public bool GetFirstBox()
+        public bool GetMovableBox()
         {
-            return firstBox.Checked;
+            return movableBox.Checked;
         }
 
         //"Create" button click event
         private void createButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Create Event data in the Code Editor
+            //Opens the UI Create Event data in the Code Editor
             this.onCreate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Create",
-                IDEComponent.ComponentType.Room, this.onCreate, this.id, "create");
+                IDEComponent.ComponentType.UI, this.onCreate, this.id, "create");
         }
 
         //"Update" button click event
         private void updateButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Update Event data in the Code Editor
+            //Opens the UI Update Event data in the Code Editor
             this.onUpdate = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Update",
-                IDEComponent.ComponentType.Room, this.onUpdate, this.id, "update");
+                IDEComponent.ComponentType.UI, this.onUpdate, this.id, "update");
         }
 
         //"Draw" button click event
         private void drawButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Draw Event data in the Code Editor
+            //Opens the UI Draw Event data in the Code Editor
             this.onDraw = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Draw",
-                IDEComponent.ComponentType.Room, this.onDraw, this.id, "draw");
+                IDEComponent.ComponentType.UI, this.onDraw, this.id, "draw");
         }
 
         //"Key Pressed" button click event
         private void keypressedButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Key Pressed Event data in the Code Editor
+            //Opens the UI Key Pressed Event data in the Code Editor
             this.onKeyPressed = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Pressed",
-                IDEComponent.ComponentType.Room, this.onKeyPressed, this.id, "keyPressed");
+                IDEComponent.ComponentType.UI, this.onKeyPressed, this.id, "keyPressed");
         }
 
         //"Key Released" button click event
         private void keyreleasedButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Key Released Event data in the Code Editor
+            //Opens the UI Key Released Event data in the Code Editor
             this.onKeyReleased = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Key Released",
-                IDEComponent.ComponentType.Room, this.onKeyReleased, this.id, "keyReleased");
+                IDEComponent.ComponentType.UI, this.onKeyReleased, this.id, "keyReleased");
         }
 
-        //"Room Editor" button click event
-        private void roomEditorButton_Click(object sender, EventArgs e)
+        //"UI Editor" button click event
+        private void UIEditorButton_Click(object sender, EventArgs e)
         {
-            //Opens the Room Editor with the current room
-            using (var form = new RoomEditor())
-            {
-                form.Text = "Level Editor: " + nameBox.Text;
-                form.SetData(this.editorCreate);
-                var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    this.editorCreate = form.GetData();
-                }
-                form.Close();
-            }
+            //Opens the UI Editor with the current UI
+            //using (var form = new UIEditor())
+            //{
+            //    form.Text = "Level Editor: " + nameBox.Text;
+            //    form.SetData(this.Components);
+            //    var result = form.ShowDialog();
+            //    if (result == DialogResult.OK)
+            //    {
+            //        this.components = form.GetData();
+            //    }
+            //    form.Close();
+            //}
         }
 
-        private void RoomForm_Load(object sender, EventArgs e)
+        private void UIForm_Load(object sender, EventArgs e)
         {
-            allowSleepBox.Checked = Rooms.rooms[id].allowSleep;
-            gravityXBox.Value = Rooms.rooms[id].gravityX;
-            gravityYBox.Value = Rooms.rooms[id].gravityY;
+
+        }
+
+        private void destroyButton_Click(object sender, EventArgs e)
+        {
+            this.onDestroy = CodeEditor.Open("Code Editor: " + nameBox.Text + " - Destroy",
+                IDEComponent.ComponentType.UI, this.onDestroy, this.id, "destroy");
         }
     }
 }

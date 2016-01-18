@@ -138,6 +138,13 @@
     <Compile Include="IDEConfig.cs" />
     <Compile Include="LivePreview.cs" />
     <Compile Include="Physics.cs" />
+    <Compile Include="UIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIForm.Designer.cs">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI.cs" />
     <Compile Include="RoomGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -251,6 +258,9 @@
     <EmbeddedResource Include="RoomEditor.resx">
       <DependentUpon>RoomEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIForm.resx">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RoomForm.resx">
       <DependentUpon>RoomForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -336,6 +346,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\UIs.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Box2d.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
