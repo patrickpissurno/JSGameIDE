@@ -119,11 +119,11 @@
             // UIEditorButton
             // 
             this.UIEditorButton.Font = new System.Drawing.Font("Segoe UI Light", 12.5F);
-            this.UIEditorButton.Location = new System.Drawing.Point(302, 1);
+            this.UIEditorButton.Location = new System.Drawing.Point(293, 1);
             this.UIEditorButton.Name = "UIEditorButton";
-            this.UIEditorButton.Size = new System.Drawing.Size(75, 39);
+            this.UIEditorButton.Size = new System.Drawing.Size(84, 39);
             this.UIEditorButton.TabIndex = 0;
-            this.UIEditorButton.Text = "Edit";
+            this.UIEditorButton.Text = "Designer";
             this.UIEditorButton.UseVisualStyleBackColor = true;
             this.UIEditorButton.Click += new System.EventHandler(this.UIEditorButton_Click);
             // 

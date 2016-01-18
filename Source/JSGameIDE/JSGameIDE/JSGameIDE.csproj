@@ -138,6 +138,12 @@
     <Compile Include="IDEConfig.cs" />
     <Compile Include="LivePreview.cs" />
     <Compile Include="Physics.cs" />
+    <Compile Include="UIDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIDesigner.Designer.cs">
+      <DependentUpon>UIDesigner.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,6 +263,9 @@
     </Compile>
     <EmbeddedResource Include="RoomEditor.resx">
       <DependentUpon>RoomEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIDesigner.resx">
+      <DependentUpon>UIDesigner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIForm.resx">
       <DependentUpon>UIForm.cs</DependentUpon>

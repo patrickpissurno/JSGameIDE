@@ -751,10 +751,13 @@ namespace JSGameIDE
                             importerPath += @"\components";
                             if(Directory.Exists(importerPath))
                             {
-                                foreach(UIComponent component in ui.components)
+                                if (ui.components != null)
                                 {
-                                    if(component != null && File.Exists(importerPath + @"\component" + component.id + ".js"))
-                                        component.data = File.ReadAllText(importerPath + @"\component" + component.id + ".js");
+                                    foreach (UIComponent component in ui.components)
+                                    {
+                                        if (component != null && File.Exists(importerPath + @"\component" + component.id + ".js"))
+                                            component.data = File.ReadAllText(importerPath + @"\component" + component.id + ".js");
+                                    }
                                 }
                             }
                         }

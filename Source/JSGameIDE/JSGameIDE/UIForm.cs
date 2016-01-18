@@ -144,17 +144,17 @@ namespace JSGameIDE
         private void UIEditorButton_Click(object sender, EventArgs e)
         {
             //Opens the UI Editor with the current UI
-            //using (var form = new UIEditor())
-            //{
-            //    form.Text = "Level Editor: " + nameBox.Text;
-            //    form.SetData(this.Components);
-            //    var result = form.ShowDialog();
-            //    if (result == DialogResult.OK)
-            //    {
-            //        this.components = form.GetData();
-            //    }
-            //    form.Close();
-            //}
+            using (var form = new UIDesigner())
+            {
+                form.Text = "UI Designer: " + nameBox.Text;
+                //form.SetData(this.Components);
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    //this.components = form.GetData();
+                }
+                form.Close();
+            }
         }
 
         private void UIForm_Load(object sender, EventArgs e)
