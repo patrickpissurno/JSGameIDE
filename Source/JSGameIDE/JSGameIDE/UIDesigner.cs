@@ -59,19 +59,6 @@ namespace JSGameIDE
         public List<Callback> queueCallback = new List<Callback>();
         #endregion
 
-        /*
-        "<canvas id = canvas width = 200 height = 200></canvas>" +
-        "<script>" +
-                "window.onload = function() {" +
-                    "var canvas = document.getElementById('canvas');" +
-                    "var context = canvas.getContext('2d');" +
-                    "context.fillStyle = 'green';" +
-                    "context.fillRect(50, 50, 100, 100);" +
-                    "window.location = canvas.toDataURL('image/png');" +
-                "}" +
-        "</script>"
-        */
-
         public UIDesigner()
         {
             form = this;
@@ -102,10 +89,6 @@ namespace JSGameIDE
             };
             #endregion
 
-            RenderScript("", (Image i) => {
-                UIPanel.BackgroundImage = i;
-            });
-
             //Load the templates
             if(templates == null)
             {
@@ -119,9 +102,10 @@ namespace JSGameIDE
                         cT.Name = Path.GetFileNameWithoutExtension(file);
                         cT.Path = file;
                         cT.Data = File.ReadAllText(file);
-                        string iPath = file.Replace(".js", ".png");
-                        if (File.Exists(iPath))
-                            cT.Image = Image.FromFile(iPath);
+                        RenderScript(cT.Data, (Image i) => {
+                            cT.Image = i;
+                            ReloadImages();
+                        });
                         templates.Add(cT);
                     }
                 }
@@ -138,6 +122,8 @@ namespace JSGameIDE
                 {
                     btn.BackgroundImage = t.Image;
                     btn.FlatStyle = FlatStyle.Flat;
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.Text = "";
                     btn.Size = t.Image.Size;
                     if (t.Image.Size.Width > splitContainer1.Panel1.Width)
                     {
@@ -150,12 +136,14 @@ namespace JSGameIDE
                 btn.Parent = flowLayoutPanel1;
                 btn.BackColor = Color.Transparent;
                 btn.Tag = i.ToString();
+                t.button = btn;
                 flowLayoutPanel1.Controls.Add(btn);
             }
 
             //Align
             FlowCenter();
             UICenter();
+            ResetFocus();
 
             foreach (Control c in flowLayoutPanel1.Controls)
             {
@@ -220,15 +208,82 @@ namespace JSGameIDE
             }
         }
 
-        public void RenderScript(string script, Callback callback)
+        public void ReloadImages()
         {
-            if (queueCallback.Count == 0)
+            if (this.InvokeRequired)
             {
-                browser.LoadHtml(script, FAKE_ADDR);
+                this.Invoke(new MethodInvoker(() => { ReloadImages(); }));
             }
             else
-                queueScript.Add(script);
+            {
+                for (int i = 0; i < templates.Count; i++)
+                {
+                    ComponentTemplate t = templates[i];
+                    Button btn = t.button;
+                    if (t.Image != null)
+                    {
+                        btn.BackgroundImage = t.Image;
+                        btn.FlatStyle = FlatStyle.Flat;
+                        btn.FlatAppearance.BorderSize = 0;
+                        btn.Size = t.Image.Size;
+                        if (t.Image.Size.Width > splitContainer1.Panel1.Width)
+                        {
+                            if (t.Image.Size.Width <= 200)
+                                splitContainer1.SplitterDistance = t.Image.Size.Width + 6;
+                            else
+                                splitContainer1.SplitterDistance = 200;
+                        }
+                        btn.Text = "";
+                    }
+                }
+                FlowCenter();
+                ResetFocus();
+            }
+        }
+
+        public void ResetFocus()
+        {
+            Button p = new Button();
+            form.Controls.Add(p);
+            p.Focus();
+            form.Controls.Remove(p);
+            p.Dispose();
+        }
+
+        public void RenderScript(string script, Callback callback)
+        {
+            Builder.PreprocessorDefine();
+            string str = "<canvas id=gameCanvas width=800 height=800></canvas><script>var Box2D = null;" + Environment.NewLine;
+            str += Builder.BuildHeader() + Environment.NewLine;
+            str += "var roomManager = {actual:{camera:{x:0, y:0}}}" + Environment.NewLine;
+            str += script + Environment.NewLine;
+            str += "window.onload = function() {" + Environment.NewLine + 
+                "var a = new " + GetScriptName(script) +"();" + Environment.NewLine + 
+                "if(a.draw!=null)" + Environment.NewLine + 
+                "a.draw(); " + Environment.NewLine + 
+                " window.location = canvas.toDataURL('image / png');" + Environment.NewLine + "}</script>";
+            str = str.Replace("addEventListener", "//");
+            if (queueCallback.Count == 0)
+            {
+                browser.LoadHtml(str, FAKE_ADDR);
+            }
+            else
+                queueScript.Add(str);
             queueCallback.Add(callback);
+            Clipboard.SetText(str);
+        }
+
+        public string GetScriptName(string script)
+        {
+            string[] lines = script.Split('\n');
+            foreach(string line in lines)
+            {
+                int f = line.IndexOf("= function(");
+                int v = line.IndexOf("var");
+                if (f != -1 && v != -1)
+                    return line.Substring(v + 4, f - (v + 4)).Trim();
+            }
+            return null;
         }
 
         #region RenderScript Core
@@ -354,6 +409,7 @@ namespace JSGameIDE
             b.Tag = btn.Tag;
             b.BackgroundImage = btn.BackgroundImage;
             b.FlatStyle = btn.FlatStyle;
+            b.FlatAppearance.BorderSize = btn.FlatAppearance.BorderSize;
             return b;
         }
 
@@ -402,5 +458,6 @@ namespace JSGameIDE
         public string Path;
         public string Data;
         public Image Image = null;
+        public Button button = null;
     }
 }

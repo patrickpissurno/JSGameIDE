@@ -61,7 +61,7 @@ namespace JSGameIDE
             return Regex.Replace(lines, @"^\s*$\n|\r", "", RegexOptions.Multiline).TrimEnd();
         }
 
-        private static void PreprocessorDefine()
+        public static void PreprocessorDefine()
         {
             PreprocessorTags = new string[] {
                 "$viewWidth",
@@ -149,7 +149,7 @@ namespace JSGameIDE
         /// This method is used to build the basic HTML page. 
         /// </summary>
         /// <returns>Returns it as a string.</returns>
-        private static string BuildHTML()
+        public static string BuildHTML()
         {
             string _d = File.ReadAllText(LibraryPath + @"\default.html");
             _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
@@ -160,7 +160,7 @@ namespace JSGameIDE
         /// This method is used to build the header of the JS game. 
         /// </summary>
         /// <returns>Returns it as a string.</returns>
-        private static string BuildHeader()
+        public static string BuildHeader()
         {
             string _d = File.ReadAllText(LibraryPath + @"\header.js");
             _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
@@ -171,7 +171,7 @@ namespace JSGameIDE
         /// This method is used to build the sprites of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildSprites(string TargetPath)
+        public static string BuildSprites(string TargetPath)
         {
             string _i = File.ReadAllText(LibraryPath + @"\sprites.js");
             _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
@@ -209,7 +209,7 @@ namespace JSGameIDE
         /// This method is used to build the sounds of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildSounds(string TargetPath)
+        public static string BuildSounds(string TargetPath)
         {
             string _i = File.ReadAllText(LibraryPath + @"\sounds.js");
             _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
@@ -235,7 +235,7 @@ namespace JSGameIDE
         /// This method is used to build the scripts of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildScripts()
+        public static string BuildScripts()
         {
             string _d = "";
             foreach (Script script in Scripts.scripts)
@@ -252,7 +252,7 @@ namespace JSGameIDE
         /// This method is used to build the rooms of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildRooms()
+        public static string BuildRooms()
         {
             if (Rooms.rooms[Rooms.firstId] == null)
             {
@@ -384,7 +384,7 @@ namespace JSGameIDE
         /// This method is used to build the objects of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildObjects()
+        public static string BuildObjects()
         {
             string _i = File.ReadAllText(LibraryPath + @"\objects.js");
             _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
@@ -458,7 +458,7 @@ namespace JSGameIDE
         /// This method is used to build the UIs of the JS game. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildUIs()
+        public static string BuildUIs()
         {
             string _i = File.ReadAllText(LibraryPath + @"\UIs.js");
             _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
@@ -506,7 +506,7 @@ namespace JSGameIDE
         /// This method is used to build the footer of the JS game. 
         /// </summary>
         /// <returns>Returns the footer as a string.</returns>
-        private static string BuildFooter()
+        public static string BuildFooter()
         {
             string _d = File.ReadAllText(LibraryPath + @"\footer.js");
             _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
@@ -517,7 +517,7 @@ namespace JSGameIDE
         /// This method is used to build the native functions of the JS library. 
         /// </summary>
         /// <returns>Returns them as a string.</returns>
-        private static string BuildNativeFunctions()
+        public static string BuildNativeFunctions()
         {
             string _d = File.ReadAllText(LibraryPath + @"\nativeFunctions.js");
             _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
