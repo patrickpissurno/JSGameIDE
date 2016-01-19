@@ -215,18 +215,40 @@ namespace JSGameIDE
             {
                 UIComponent u = _components[i];
                 CustomButton btn = new CustomButton();
+                btn.Location = new Point(u.x, u.y);
                 btn.Size = new Size(80, 30);
                 string name = UI.GetComponentNameFromScript(u.data);
                 btn.Text = name != null ? name : "Loading...";
                 btn.Parent = UIPanel;
                 btn.BackColor = Color.Transparent;
                 btn.Tag = i.ToString();
+
+                if (!string.IsNullOrWhiteSpace(u.data))
+                {
+                    string width = UI.GetVariableFromScript(u.data, "width");
+                    string height = UI.GetVariableFromScript(u.data, "height");
+                    string x = UI.GetVariableFromScript(u.data, "x");
+                    string y = UI.GetVariableFromScript(u.data, "y");
+                    int w, h, _x, _y;
+                    if(!string.IsNullOrWhiteSpace(width) && !string.IsNullOrWhiteSpace(height) 
+                        && int.TryParse(width, out w) && int.TryParse(height, out h))
+                    {
+                        btn.Size = new Size(w, h);
+                    }
+                    if (!string.IsNullOrWhiteSpace(x) && !string.IsNullOrWhiteSpace(y)
+                        && int.TryParse(x, out _x) && int.TryParse(y, out _y))
+                    {
+                        btn.Location = new Point(_x, _y);
+                    }
+                }
+
                 btn.Component = u;
                 btn.BringToFront();
                 #region Events
                 btn.MouseDown += CustomButton_MouseDown;
                 btn.MouseUp += (object _sender, MouseEventArgs _e) =>
                 {
+                    CustomButton_UpdatePosition(btn);
                     btn.Moving = false;
                 };
                 btn.MouseMove += CustomButton_MouseMove;
@@ -238,7 +260,6 @@ namespace JSGameIDE
                 #endregion
                 cButtons.Add(btn);
                 UIPanel.Controls.Add(btn);
-                btn.Location = new Point(u.x, u.y);
                 RenderScript(u.data, (Image _i) => {
                     btn.BackgroundImage = _i;
                     ReloadImages();
@@ -299,6 +320,7 @@ namespace JSGameIDE
                                     b.Dispose();
                                 }
                             }
+                            CustomButton_UpdatePosition(b);
                             b.Moving = false;
                         };
                         b.MouseDown += CustomButton_MouseDown;
@@ -316,6 +338,19 @@ namespace JSGameIDE
         }
 
         #region Custom Button Events
+
+        private void CustomButton_UpdatePosition(CustomButton b)
+        {
+            string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + b.Component.id + ".js";
+            string data = File.Exists(path) ? File.ReadAllText(path) : b.Component.data;
+            data = UI.ReplaceVariableValueInScript(data, "x", b.Location.X.ToString());
+            data = UI.ReplaceVariableValueInScript(data, "y", b.Location.Y.ToString());
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            using (StreamWriter w = new StreamWriter(path))
+            {
+                w.Write(data);
+            }
+        }
         private void CustomButton_DoubleClick(object sender, EventArgs e)
         {
             CustomButton b = (CustomButton)sender;
@@ -439,7 +474,21 @@ namespace JSGameIDE
                             string r = File.ReadAllText(path);
                             if (r != b.Component.data || b.BackgroundImage == null)
                             {
+                                if (r != b.Component.data)
+                                {
+                                    //Update the position from Code
+                                    string x = UI.GetVariableFromScript(r, "x");
+                                    string y = UI.GetVariableFromScript(r, "y");
+                                    int _x, _y;
+                                    if (!string.IsNullOrWhiteSpace(x) && !string.IsNullOrWhiteSpace(y)
+                                        && int.TryParse(x, out _x) && int.TryParse(y, out _y))
+                                    {
+                                        b.Location = new Point(_x, _y);
+                                    }
+                                }
+
                                 b.Component.data = r;
+
                                 RenderScript(b.Component.data, (Image i) =>
                                 {
                                     b.BackgroundImage = i;
@@ -592,8 +641,6 @@ namespace JSGameIDE
             queueCallback.Add(callback);
             //Clipboard.SetText(str);
         }
-
-        
 
         #region RenderScript Core
         public Image Base64ToImage(string base64String)

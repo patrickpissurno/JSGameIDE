@@ -170,6 +170,60 @@ namespace JSGameIDE
             }
             return null;
         }
+
+        /// <summary>
+        /// Returns a UI Component public variable from a Script
+        /// </summary>
+        /// <param name="script">A string containing a javascript class</param>
+        /// <param name="variable">The public variable to be extracted</param>
+        /// <returns></returns>
+        public static string GetVariableFromScript(string script, string variable)
+        {
+            string[] lines = script.Split('\n');
+            foreach (string line in lines)
+            {
+                string v_s = "this." + variable + "=";
+                int v = line.IndexOf(v_s);
+                if (v == -1)
+                {
+                    v_s = "this." + variable + " =";
+                    v = line.IndexOf(v_s);
+                }
+                if (v != -1)
+                {
+                    string f_s = ";";
+                    int f = line.IndexOf(f_s, v);
+                    if (f != -1)
+                        return line.Substring(v + v_s.Length, f - (v + v_s.Length)).Trim();
+                }
+            }
+            return null;
+        }
+        public static string ReplaceVariableValueInScript(string script, string variable, string value)
+        {
+            string[] lines = script.Split('\n');
+            foreach (string line in lines)
+            {
+                string v_s = "this." + variable + "=";
+                int v = line.IndexOf(v_s);
+                if (v == -1)
+                {
+                    v_s = "this." + variable + " =";
+                    v = line.IndexOf(v_s);
+                }
+                if (v != -1)
+                {
+                    string f_s = ";";
+                    int f = line.IndexOf(f_s, v);
+                    if (f != -1)
+                    {
+                        string oldVal = line.Substring(v + v_s.Length, f - (v + v_s.Length)).Trim();
+                        return script.Replace(line,line.Replace(oldVal, value));
+                    }
+                }
+            }
+            return script;
+        }
     }
 
     public class UIComponent
