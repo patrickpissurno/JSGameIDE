@@ -48,7 +48,7 @@ namespace JSGameIDE
         public CodeEditor()
         {
             InitializeComponent();
-            SetTabWidth(codeBox,4);
+            SetTabWidth(codeBox, 4);
         }
 
 
@@ -94,7 +94,7 @@ namespace JSGameIDE
                 this.DialogResult = DialogResult.Cancel;
         }
 
-        public static string Open(string Title, IDEComponent.ComponentType Type, string Data, int Index, string Event)
+        public static string Open(string Title, IDEComponent.ComponentType Type, string Data, int[] Index, string Event)
         {
             string r = Data;
             if (IDEConfig.IsDefaultEditor)
@@ -129,20 +129,18 @@ namespace JSGameIDE
                         path += @"\UIs\ui";
                         break;
                     case IDEComponent.ComponentType.UIComponent:
-                        path += @"\UIs\ui" + Index + @"\components\component";
+                        path += @"\UIs\ui" + Index[1] + @"\components\component";
                         break;
                 }
-                path += Event == null ? Index.ToString() + ".js" : Index.ToString() + @"\" + Event + ".js";
+                path += Event == null ? Index[0].ToString() + ".js" : Index[0].ToString() + @"\" + Event + ".js";
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.FileName = IDEConfig.CodeEditors[IDEConfig.CodeEditorIndex];
-                switch(Path.GetFileNameWithoutExtension(startInfo.FileName).ToLower())
+                switch (Path.GetFileNameWithoutExtension(startInfo.FileName).ToLower())
                 {
                     default:
                         startInfo.Arguments = path;
                         break;
                     case "brackets":
-                        //foreach (var process in System.Diagnostics.Process.GetProcessesByName("Brackets"))
-                            //process.Kill();
                         startInfo.WorkingDirectory = Path.GetDirectoryName(path);
                         startInfo.Arguments = "\"" + Path.GetFileName(path) + "\"";
                         break;
@@ -150,6 +148,11 @@ namespace JSGameIDE
                 System.Diagnostics.Process.Start(startInfo);
             }
             return r;
+        }
+
+        public static string Open(string Title, IDEComponent.ComponentType Type, string Data, int Index, string Event)
+        {
+            return Open(Title, Type, Data, new int[] { Index }, Event);
         }
     }
 }

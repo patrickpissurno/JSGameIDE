@@ -43,15 +43,58 @@ namespace JSGameIDE
 {
     public partial class UIDesigner : Form
     {
-        public int width;
-        public int height;
+        private int width;
+        private int height;
         public int id;
-        public UIDesigner form;
+        private UIDesigner form;
 
-        public static List<ComponentTemplate> templates = null;
+        private static List<ComponentTemplate> templates = null;
 
-        public List<UIComponent> Components = new List<UIComponent>();
-        public List<CustomButton> cButtons = new List<CustomButton>();
+        private List<UIComponent> _components = new List<UIComponent>();
+        private List<CustomButton> cButtons = new List<CustomButton>();
+
+        public UIComponent[] Components
+        {
+            get
+            {
+                List<UIComponent> c = new List<UIComponent>();
+                foreach(UIComponent u in _components)
+                {
+                    if(u != null)
+                    {
+                        string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + u.id + ".js";
+                        if (File.Exists(path))
+                            u.data = File.ReadAllText(path);
+                        u.id = c.Count;
+                        c.Add(u);
+                    }
+                }
+                _components.Clear();
+                _components = c;
+
+                string[] files = Directory.GetFiles(GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components");
+                foreach(string file in files)
+                {
+                    try
+                    {
+                        if (File.Exists(file))
+                            File.Delete(file);
+                    }
+                    catch { }
+                }
+                
+                foreach(UIComponent u in c)
+                {
+                    string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + u.id + ".js";
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    using (StreamWriter w = new StreamWriter(path))
+                    {
+                        w.Write(u.data);
+                    }
+                }
+                return c.ToArray();
+            }
+        }
 
         #region RenderScript Core
         public ChromiumWebBrowser browser;
@@ -63,11 +106,14 @@ namespace JSGameIDE
         public List<Callback> queueCallback = new List<Callback>();
         #endregion
 
-        public UIDesigner(int id)
+        public UIDesigner(int id, UIComponent[] comps)
         {
             this.id = id;
             this.width = UIs.uis[id].width;
             this.height = UIs.uis[id].height;
+
+            if(comps != null)
+                this._components = comps.ToList();
 
             form = this;
             InitializeComponent();
@@ -98,6 +144,9 @@ namespace JSGameIDE
             #endregion
 
             form.Activated += Form_Activated;
+            form.FormClosing += Form_FormClosing;
+
+            #region Load the templates
 
             //Load the templates
             if(templates == null)
@@ -150,10 +199,44 @@ namespace JSGameIDE
                 flowLayoutPanel1.Controls.Add(btn);
             }
 
+            #endregion
+
             //Align
             FlowCenter();
             UICenter();
             ResetFocus();
+
+            //Load the Components
+            for (int i = 0; i < _components.Count; i++)
+            {
+                UIComponent u = _components[i];
+                CustomButton btn = new CustomButton();
+                btn.Size = new Size(80, 30);
+                string name = GetScriptName(u.data);
+                btn.Text = name != null ? name : "Loading...";
+                btn.Parent = UIPanel;
+                btn.BackColor = Color.Transparent;
+                btn.Tag = i.ToString();
+                btn.Component = u;
+                btn.BringToFront();
+                #region Events
+                btn.MouseDown += CustomButton_MouseDown;
+                btn.MouseUp += (object _sender, MouseEventArgs _e) =>
+                {
+                    btn.Moving = false;
+                };
+                btn.MouseMove += CustomButton_MouseMove;
+                btn.MouseLeave += CustomButton_MouseLeave;
+                btn.DoubleClick += CustomButton_DoubleClick;
+                #endregion
+                cButtons.Add(btn);
+                UIPanel.Controls.Add(btn);
+                btn.Location = new Point(u.x, u.y);
+                RenderScript(u.data, (Image _i) => {
+                    btn.BackgroundImage = _i;
+                    ReloadImages();
+                });
+            }
 
             foreach (Control c in flowLayoutPanel1.Controls)
             {
@@ -169,10 +252,7 @@ namespace JSGameIDE
                         Point _mp = form.PointToClient(Cursor.Position);
                         b.Location = new Point(_mp.X - b.Size.Width / 2, _mp.Y - b.Size.Height / 2);
 
-                        b.MouseDown += (object _sender, MouseEventArgs _e) =>
-                        {
-                            b.Moving = true;
-                        };
+                        #region Events
                         b.MouseUp += (object _sender, MouseEventArgs _e) =>
                         {
                             if (b.Parent != UIPanel)
@@ -191,11 +271,13 @@ namespace JSGameIDE
                                         comp.x = b.Location.X;
                                         comp.y = b.Location.Y;
                                         comp.data = templates[int.Parse(b.Tag.ToString())].Data;
-                                        comp.id = Components.Count;
-                                        Components.Add(comp);
+                                        comp.id = _components.Count;
+                                        _components.Add(comp);
                                         b.Component = comp;
 
-                                        using (StreamWriter w = new StreamWriter(GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + comp.id + ".js"))
+                                        string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + comp.id + ".js";
+                                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+                                        using (StreamWriter w = new StreamWriter(path))
                                         {
                                             w.Write(comp.data);
                                         }
@@ -209,31 +291,55 @@ namespace JSGameIDE
                             }
                             b.Moving = false;
                         };
-                        b.MouseMove += (object _sender, MouseEventArgs _e) =>
-                        {
-                            Point mp = b.Parent.PointToClient(Cursor.Position);
-                            if (b.Moving)
-                                b.Location = new Point(mp.X - b.Size.Width/2, mp.Y - b.Size.Height / 2);
-                            this.Refresh();
-                        };
-                        b.MouseLeave += (object _sender, EventArgs _e) =>
-                        {
-                            if (b.Moving)
-                            {
-                                Point mp = b.Parent.PointToClient(Cursor.Position);
-                                b.Location = new Point(mp.X - b.Size.Width / 2, mp.Y - b.Size.Height / 2);
-                                b.Focus();
-                            }
-                        };
-                        b.DoubleClick += (object _sender, EventArgs _e) =>
-                        {
-                            b.Component.data = CodeEditor.Open("Code Editor: " + UIs.uis[form.id].name + " - " + GetScriptName(b.Component.data),
-                IDEComponent.ComponentType.UIComponent, b.Component.data, b.Component.id, null);
-                        };
+                        b.MouseDown += CustomButton_MouseDown;
+                        b.MouseMove += CustomButton_MouseMove;
+                        b.MouseLeave += CustomButton_MouseLeave;
+                        b.DoubleClick += CustomButton_DoubleClick;
+                        #endregion
                     };
                 }
             }
         }
+
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        #region Custom Button Events
+        private void CustomButton_DoubleClick(object sender, EventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            b.Component.data = CodeEditor.Open("Code Editor: " + UIs.uis[form.id].name + " - " + GetScriptName(b.Component.data),
+                IDEComponent.ComponentType.UIComponent, b.Component.data, new int[] { b.Component.id, form.id }, null);
+        }
+
+        private void CustomButton_MouseLeave(object sender, EventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            if (b.Moving)
+            {
+                Point mp = b.Parent.PointToClient(Cursor.Position);
+                b.Location = new Point(mp.X - b.Size.Width / 2, mp.Y - b.Size.Height / 2);
+                b.Focus();
+            }
+        }
+
+        private void CustomButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            b.Moving = true;
+        }
+
+        private void CustomButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            Point mp = b.Parent.PointToClient(Cursor.Position);
+            if (b.Moving)
+                b.Location = new Point(mp.X - b.Size.Width / 2, mp.Y - b.Size.Height / 2);
+            this.Refresh();
+        }
+        #endregion
 
         //Reload Stuff
         private void Form_Activated(object sender, EventArgs e)
@@ -249,13 +355,19 @@ namespace JSGameIDE
                     {
                         string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + b.Component.id + ".js";
                         if (File.Exists(path))
-                            b.Component.data = File.ReadAllText(path);
+                        {
+                            string r = File.ReadAllText(path);
+                            if (r != b.Component.data || b.BackgroundImage == null)
+                            {
+                                b.Component.data = r;
+                                RenderScript(b.Component.data, (Image i) =>
+                                {
+                                    b.BackgroundImage = i;
+                                    ReloadImages();
+                                });
+                            }
+                        }
                     }
-                    RenderScript(b.Component.data, (Image i) =>
-                    {
-                        b.BackgroundImage = i;
-                        ReloadImages();
-                    });
                 }
                 ReloadImages();
             }
