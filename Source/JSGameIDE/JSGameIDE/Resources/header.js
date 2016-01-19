@@ -282,24 +282,28 @@ function soundDispose(snd)
 //Draw Text Function
 function drawText(x,y,text,f,c,align)
 {
+    var bX = roomManager.actual.x != null ? -roomManager.actual.camera.x : 0;
+    var bY = roomManager.actual.y != null ? -roomManager.actual.camera.y : 0;
     context.fillStyle = c;
     context.font = f;
     context.textAlign = align;
-    context.fillText(text,-roomManager.actual.camera.x + x,-roomManager.actual.camera.y + y);
+    context.fillText(text, bX + x, bY + y);
 };
 
 //Draw Rect Function
 function drawRect(x,y,w,h,r,g,b,onlyStroke)
 {
+    var bX = roomManager.actual.x != null ? -roomManager.actual.camera.x : 0;
+    var bY = roomManager.actual.y != null ? -roomManager.actual.camera.y : 0;
     if(!onlyStroke)
     {
         context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';
-        context.fillRect(-roomManager.actual.camera.x + x, -roomManager.actual.camera.y + y,w,h);
+        context.fillRect(bX + x, bY + y, w, h);
     }
     else
     {
         context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';
-        context.strokeRect(-roomManager.actual.camera.x + x, -roomManager.actual.camera.y + y,w,h);
+        context.strokeRect(bX + x, bY + y, w, h);
     }
 };
 
