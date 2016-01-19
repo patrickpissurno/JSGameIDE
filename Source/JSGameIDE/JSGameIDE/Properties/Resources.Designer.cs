@@ -114,6 +114,18 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to var Button = new function()
+        ///{
+        ///    
+        ///}.
+        /// </summary>
+        internal static string Button {
+            get {
+                return ResourceManager.GetString("Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to function loop()
         ///{
         ///    roomManager.update();
@@ -328,8 +340,9 @@ namespace JSGameIDE.Properties {
         /// <summary>
         ///   Looks up a localized string similar to //Defines each UI
         ///#FOREACH UI
-        ///    var UI$UIId = function()
+        ///    var UI$UIId = function(args)
         ///    {
+        ///        this.name = &quot;UI$UIId&quot;;
         ///        this.x = 0;
         ///        this.y = 0;
         ///        this.width = $UIWidth;
@@ -339,13 +352,12 @@ namespace JSGameIDE.Properties {
         ///        this._create_executed = false;
         ///        this.prefab = UI$UIId;
         ///        this.toDestroy = false;
+        ///        this.args = args;
         ///        
-        ///        //UI Create Event
-        ///        this.create = function()
-        ///        {
-        ///            $UICreate
-        ///            for(var i=0; i&lt;this.components.length; i++){
-        ///     [rest of string was truncated]&quot;;.
+        ///        //Instantiate
+        ///        roomManager.actual[this.name].push(this);
+        ///        
+        ///        // [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UIs {
             get {

@@ -1,0 +1,4 @@
+var Button = new function()
+{
+    
+}

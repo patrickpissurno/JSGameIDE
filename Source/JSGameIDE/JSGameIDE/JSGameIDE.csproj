@@ -355,6 +355,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Templates\Button.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\UIs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
