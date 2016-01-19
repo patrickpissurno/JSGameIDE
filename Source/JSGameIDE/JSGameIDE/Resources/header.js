@@ -9,97 +9,99 @@ Math.lerp = function (a,  b, f) {
     return (a * (1.0 - f)) + (b * f);
 }
 
-//Physics
-var b2Vec = Box2D.Common.Math.b2Vec2;
-var b2BodyDef = Box2D.Dynamics.b2BodyDef;
-var b2Body = Box2D.Dynamics.b2Body;
-var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
-var b2Fixture = Box2D.Dynamics.b2Fixture;
-var b2World = Box2D.Dynamics.b2World;
-var b2MassData = Box2D.Collision.Shapes.b2MassData;
-var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
-var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+if(Box2D != null){
+    //Physics
+    var b2Vec = Box2D.Common.Math.b2Vec2;
+    var b2BodyDef = Box2D.Dynamics.b2BodyDef;
+    var b2Body = Box2D.Dynamics.b2Body;
+    var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
+    var b2Fixture = Box2D.Dynamics.b2Fixture;
+    var b2World = Box2D.Dynamics.b2World;
+    var b2MassData = Box2D.Collision.Shapes.b2MassData;
+    var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+    var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-var Physics = {
-    Scale : 1.0 / 30,
-    World : null,
-    Start : function(gravityVector, allowSleep){
-        this.World = new b2World(gravityVector, allowSleep);
-        
-        this.SetCollision();
+    var Physics = {
+        Scale : 1.0 / 30,
+        World : null,
+        Start : function(gravityVector, allowSleep){
+            this.World = new b2World(gravityVector, allowSleep);
 
-        //Set debug draw
-        var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
-        var debugDraw = new b2DebugDraw();
-        debugDraw.SetSprite(context);
-        debugDraw.SetDrawScale(30.0);
-        debugDraw.SetFillAlpha(0.3);
-        debugDraw.SetLineThickness(1.0);
-        debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
-        this.World.SetDebugDraw(debugDraw);
-    },
-    Shapes : {
-        Box : function(width, height){
-            var r = new b2PolygonShape();
-            r.SetAsBox(width, height);
-            return r;
+            this.SetCollision();
+
+            //Set debug draw
+            var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+            var debugDraw = new b2DebugDraw();
+            debugDraw.SetSprite(context);
+            debugDraw.SetDrawScale(30.0);
+            debugDraw.SetFillAlpha(0.3);
+            debugDraw.SetLineThickness(1.0);
+            debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+            this.World.SetDebugDraw(debugDraw);
         },
-        Circle : function(radius){
-            return new b2CircleShape(radius);
-        }
-    },
-    BodyTypes : {
-        Static : 0,
-        Kinematic : 1,
-        Dynamic : 2
-    },
-    CreateBody : function(type, x, y, shape, lockRotation, density, friction, restitution){
-        var bodyDef = new b2BodyDef();
-        bodyDef.type = type;
-        bodyDef.position.x = x;
-        bodyDef.position.y = y;
-        bodyDef.fixedRotation = lockRotation;
+        Shapes : {
+            Box : function(width, height){
+                var r = new b2PolygonShape();
+                r.SetAsBox(width, height);
+                return r;
+            },
+            Circle : function(radius){
+                return new b2CircleShape(radius);
+            }
+        },
+        BodyTypes : {
+            Static : 0,
+            Kinematic : 1,
+            Dynamic : 2
+        },
+        CreateBody : function(type, x, y, shape, lockRotation, density, friction, restitution){
+            var bodyDef = new b2BodyDef();
+            bodyDef.type = type;
+            bodyDef.position.x = x;
+            bodyDef.position.y = y;
+            bodyDef.fixedRotation = lockRotation;
 
-        var fixDef = new b2FixtureDef();
-        fixDef.density = density;
-        fixDef.friction = friction;
-        fixDef.restitution = restitution;
-        fixDef.shape = shape;
+            var fixDef = new b2FixtureDef();
+            fixDef.density = density;
+            fixDef.friction = friction;
+            fixDef.restitution = restitution;
+            fixDef.shape = shape;
 
-        var _obj = this.World.CreateBody(bodyDef).CreateFixture(fixDef);
-        _obj.body = _obj.GetBody();
-        _obj.body.transform = _obj.body.GetTransform();
-        _obj.body.fixture = _obj;
-        return _obj.body;
-    },
-    Update : function(){
-        this.World.Step(1/60, 10, 10);
-        this.World.DrawDebugData();
-        this.World.ClearForces();
-    },
-    SetCollision : function()
-    {
-        this.listener = new Box2D.Dynamics.b2ContactListener();
-        this.listener.BeginContact = function(event)
+            var _obj = this.World.CreateBody(bodyDef).CreateFixture(fixDef);
+            _obj.body = _obj.GetBody();
+            _obj.body.transform = _obj.body.GetTransform();
+            _obj.body.fixture = _obj;
+            return _obj.body;
+        },
+        Update : function(){
+            this.World.Step(1/60, 10, 10);
+            this.World.DrawDebugData();
+            this.World.ClearForces();
+        },
+        SetCollision : function()
         {
-            var objA = event.GetFixtureA().GetBody().obj;
-            var objB = event.GetFixtureB().GetBody().obj;
-            if(objA._beginContact == null)
-                objA._beginContact = objB;
-            if(objB._beginContact == null)
-                objB._beginContact = objA;
+            this.listener = new Box2D.Dynamics.b2ContactListener();
+            this.listener.BeginContact = function(event)
+            {
+                var objA = event.GetFixtureA().GetBody().obj;
+                var objB = event.GetFixtureB().GetBody().obj;
+                if(objA._beginContact == null)
+                    objA._beginContact = objB;
+                if(objB._beginContact == null)
+                    objB._beginContact = objA;
+            }
+            this.listener.EndContact = function(event)
+            {
+                var objA = event.GetFixtureA().GetBody().obj;
+                var objB = event.GetFixtureB().GetBody().obj;
+                if(objA._beginContact == null)
+                    objA._beginContact = objB;
+                if(objB._endContact == null)
+                    objB._endContact = objA;
+            }
+            this.World.SetContactListener(this.listener);
         }
-        this.listener.EndContact = function(event)
-        {
-            var objA = event.GetFixtureA().GetBody().obj;
-            var objB = event.GetFixtureB().GetBody().obj;
-            if(objA._beginContact == null)
-                objA._beginContact = objB;
-            if(objB._endContact == null)
-                objB._endContact = objA;
-        }
-        this.World.SetContactListener(this.listener);
     }
 }
 
@@ -173,6 +175,24 @@ var UI ={
                 else
                     context.drawImage(sprite,x,y, canvas.height * (sprite.width / sprite.height), canvas.height);
                 break; 
+        }
+    },
+    DrawText : function (x, y, text, f, c, align){
+        context.fillStyle = c;
+        context.font = f;
+        context.textAlign = align;
+        context.fillText(text, x, y);
+    },
+    DrawRect : function(x, y, w, h, r, g, b, onlyStroke){
+        if(!onlyStroke)
+        {
+            context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';
+            context.fillRect(x,y,w,h);
+        }
+        else
+        {
+            context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';
+            context.strokeRect(x,y,w,h);
         }
     }
 }
@@ -274,12 +294,12 @@ function drawRect(x,y,w,h,r,g,b,onlyStroke)
     if(!onlyStroke)
     {
         context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';
-        context.fillRect(x,y,w,h);
+        context.fillRect(-roomManager.actual.camera.x + x, -roomManager.actual.camera.y + y,w,h);
     }
     else
     {
         context.strokeStyle = 'rgba('+r+','+g+','+b+', 1)';
-        context.strokeRect(x,y,w,h);
+        context.strokeRect(-roomManager.actual.camera.x + x, -roomManager.actual.camera.y + y,w,h);
     }
 };
 

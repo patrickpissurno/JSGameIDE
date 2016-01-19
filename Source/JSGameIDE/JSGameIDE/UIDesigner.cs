@@ -393,16 +393,22 @@ namespace JSGameIDE
         private void CustomButton_LostFocus(object sender, EventArgs e)
         {
             CustomButton b = (CustomButton)sender;
-            b.FlatAppearance.BorderSize = 0;
-            b.Size = b.BackgroundImage.Size;
+            if (b.BackgroundImage != null)
+            {
+                b.FlatAppearance.BorderSize = 0;
+                b.Size = b.BackgroundImage.Size;
+            }
         }
 
         private void CustomButton_GotFocus(object sender, EventArgs e)
         {
             CustomButton b = (CustomButton)sender;
-            b.Size = new Size(b.BackgroundImage.Size.Width + 2, b.BackgroundImage.Size.Height + 2);
-            b.FlatAppearance.BorderSize = 1;
-            b.FlatAppearance.BorderColor = Color.Blue;
+            if (b.BackgroundImage != null)
+            {
+                b.Size = new Size(b.BackgroundImage.Size.Width + 2, b.BackgroundImage.Size.Height + 2);
+                b.FlatAppearance.BorderSize = 1;
+                b.FlatAppearance.BorderColor = Color.Blue;
+            }
         }
 
         private void CustomButton_MouseClick(object sender, MouseEventArgs e)
