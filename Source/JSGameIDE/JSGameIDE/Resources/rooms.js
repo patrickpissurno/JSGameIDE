@@ -104,8 +104,39 @@ var rM = function()
                     this.obj$objectId[i].keyReleased(event);
             };
         #END
+        #DEFINE UIUpdates
+            for(var i=0; i<this.UI$UIId.length; i++)
+            {
+                if(this.UI$UIId[i] != null)
+                    this.UI$UIId[i].update();
+            };
+        #END
+        #DEFINE UIDraws
+            for(var i=0; i<this.UI$UIId.length; i++)
+            {
+                if(this.UI$UIId[i] != null)
+                    this.UI$UIId[i].draw();
+            };
+        #END
+        #DEFINE UIKeyPresseds
+            for(var i=0; i<this.UI$UIId.length; i++)
+            {
+                if(this.UI$UIId[i] != null)
+                    this.UI$UIId[i].keyPressed(event);
+            };
+        #END
+        #DEFINE UIKeyReleaseds
+            for(var i=0; i<this.UI$UIId.length; i++)
+            {
+                if(this.UI$UIId[i] != null)
+                    this.UI$UIId[i].keyReleased(event);
+            };
+        #END
         #FOREACH Object
             this.obj$objectId = [];
+        #END
+        #FOREACH UI
+            this.UI$UIId = [];
         #END
         this._create_executed = false;
         this.prefab = Room$roomId;
@@ -131,6 +162,7 @@ var rM = function()
                 this._create_executed = true;
             };
             $roomUpdate
+            $UIUpdates
             $objectUpdates
             Physics.Update();
         };
@@ -142,10 +174,16 @@ var rM = function()
             $objectDraws
         }
         
+        this.drawUI = function()
+        {
+            $UIDraws
+        }
+        
         //Room Key Pressed Event
         this.keyPressed = function(event)
         {
             $roomKeyPressed
+            $UIKeyPresseds
             $objectKeyPresseds
         }
         
@@ -153,6 +191,7 @@ var rM = function()
         this.keyReleased = function(event)
         {
             $roomKeyReleased
+            $UIKeyReleaseds
             $objectKeyReleaseds
         }
     }

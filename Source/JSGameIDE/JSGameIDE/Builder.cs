@@ -287,8 +287,11 @@ namespace JSGameIDE
                         room.gravityY.ToString().Replace(',','.')
                     });
 
-                    string ObjectCreates, ObjectUpdates, ObjectDraws, ObjectKeyPresseds, ObjectKeyReleaseds;
+                    string ObjectCreates, ObjectUpdates, ObjectDraws, ObjectKeyPresseds, ObjectKeyReleaseds,
+                        UIUpdates, UIDraws, UIKeyPresseds, UIKeyReleaseds;
                     int _o, _o2;
+
+                    //Objects
 
                     _o = _i.IndexOf("#DEFINE ObjectCreates") + 21;
                     _o2 = _i.IndexOf("#END", _o) - _o;
@@ -315,6 +318,28 @@ namespace JSGameIDE
                     ObjectKeyReleaseds = _i.Substring(_o, _o2);
                     _i = _i.Replace(_i.Substring(_o - 26, _o2 + 26 + 4), "");
 
+                    //UIs
+
+                    _o = _i.IndexOf("#DEFINE UIUpdates") + 17;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    UIUpdates = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 21, _o2 + 21 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE UIDraws") + 15;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    UIDraws = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 19, _o2 + 19 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE UIKeyPresseds") + 21;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    UIKeyPresseds = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 25, _o2 + 25 + 4), "");
+
+                    _o = _i.IndexOf("#DEFINE UIKeyReleaseds") + 22;
+                    _o2 = _i.IndexOf("#END", _o) - _o;
+                    UIKeyReleaseds = _i.Substring(_o, _o2);
+                    _i = _i.Replace(_i.Substring(_o - 26, _o2 + 26 + 4), "");
+
                     _d = _d.TrimEnd() + Environment.NewLine;
 
                     int _fsi = _i.IndexOf("#FOREACH Room") + 13;
@@ -322,7 +347,8 @@ namespace JSGameIDE
 
                     _d = PreprocessorReplacer(_d, pTags.ToArray(), pValues.ToArray());
 
-                    string _oc="", _ou="", _od="", _okp="", _okr="", _oec = "";
+                    string _oc="", _ou="", _od="", _okp="", _okr="", _oec = "",
+                        _uu = "", _ud = "", _ukp = "", _ukr = "";
                     foreach (Object obj in Objects.objects)
                     {
                         if (obj != null)
@@ -330,7 +356,7 @@ namespace JSGameIDE
                             string[] _pTags = pTags.Concat(new string[] { "$objectId" }).ToArray();
                             string[] _pValues = pValues.Concat(new string[] { obj.id.ToString() }).ToArray();
                             int _ffi = _i.IndexOf("#FOREACH Object", _fsi) + 15;
-                            _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END") - _ffi),
+                            _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END", _ffi) - _ffi),
                                 _pTags, _pValues).TrimEnd() + Environment.NewLine;
 
                             _oc += PreprocessorReplacer(ObjectCreates, _pTags, _pValues).TrimEnd() + Environment.NewLine;
@@ -340,6 +366,26 @@ namespace JSGameIDE
                             _okr += PreprocessorReplacer(ObjectKeyReleaseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                         }
                     }
+
+                    int _ffi_ = -1;
+                    foreach(UI ui in UIs.uis)
+                    {
+                        if(ui != null)
+                        {
+                            string[] _pTags = pTags.Concat(new string[] { "$UIId" }).ToArray();
+                            string[] _pValues = pValues.Concat(new string[] { ui.id.ToString() }).ToArray();
+                            int _ffi = _i.IndexOf("#FOREACH UI", _fsi) + 11;
+                            _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END", _ffi) - _ffi),
+                                _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _ffi_ = _ffi;
+
+                            _ud += PreprocessorReplacer(UIDraws, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _uu += PreprocessorReplacer(UIUpdates, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _ukp += PreprocessorReplacer(UIKeyPresseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                            _ukr += PreprocessorReplacer(UIKeyReleaseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
+                        }
+                    }
+                    _fsi = _ffi_ != -1 ? _ffi_ : _fsi;
 
                     foreach (EditorObject obj in room.editorCreate)
                     {
@@ -360,7 +406,11 @@ namespace JSGameIDE
                             "$objectUpdates",
                             "$objectDraws",
                             "$objectKeyPresseds",
-                            "$objectKeyReleaseds"
+                            "$objectKeyReleaseds",
+                            "$UIUpdates",
+                            "$UIDraws",
+                            "$UIKeyPresseds",
+                            "$UIKeyReleaseds"
                         }).ToArray(),
                         pValues.Concat(new string[] {
                             ReplaceCode(room.onCreate),
@@ -373,7 +423,11 @@ namespace JSGameIDE
                             _ou,
                             _od,
                             _okp,
-                            _okr
+                            _okr,
+                            _uu,
+                            _ud,
+                            _ukp,
+                            _ukr
                         }).ToArray());
                 }
             }
@@ -495,8 +549,26 @@ namespace JSGameIDE
                         ReplaceCode(ui.onKeyReleased),
                         ReplaceCode(ui.onDestroy)
                     };
+                    //Define the UI components
+                    string componentInstantiate = "";
+                    foreach (UIComponent component in ui.components)
+                    {
+                        if (component != null && !string.IsNullOrWhiteSpace(component.data))
+                        {
+                            _d += PreprocessorReplacer(ReplaceCode(component.data).TrimEnd() + Environment.NewLine, pTags, pValues);
+                            string name = UI.GetComponentNameFromScript(component.data);
+                            if (!string.IsNullOrWhiteSpace(name))
+                                componentInstantiate += "new " + name + "()" + (component.id != ui.components.Length - 1 ? ", " : ""); 
+                        }
+                    }
+                    //Define the UI
                     int _fsi = _i.IndexOf("#FOREACH UI") + 15;
-                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, pTags, pValues);
+                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, 
+                        pTags.Concat(new string[] {
+                            "$UIInstantiate"
+                        }).ToArray(),pValues.Concat(new string[] {
+                            componentInstantiate
+                        }).ToArray());
                 }
             }
             return PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues).TrimEnd() + Environment.NewLine;

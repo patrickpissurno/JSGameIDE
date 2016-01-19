@@ -152,6 +152,24 @@ namespace JSGameIDE
                 form.AddViewNodeChild("UIs", this.node);
             }
         }
+
+        /// <summary>
+        /// Returns the UI Component name from a Script
+        /// </summary>
+        /// <param name="script">A string containing a javascript class</param>
+        /// <returns></returns>
+        public static string GetComponentNameFromScript(string script)
+        {
+            string[] lines = script.Split('\n');
+            foreach (string line in lines)
+            {
+                int f = line.IndexOf("= function(");
+                int v = line.IndexOf("var");
+                if (f != -1 && v != -1)
+                    return line.Substring(v + 4, f - (v + 4)).Trim();
+            }
+            return null;
+        }
     }
 
     public class UIComponent

@@ -216,7 +216,7 @@ namespace JSGameIDE
                 UIComponent u = _components[i];
                 CustomButton btn = new CustomButton();
                 btn.Size = new Size(80, 30);
-                string name = GetScriptName(u.data);
+                string name = UI.GetComponentNameFromScript(u.data);
                 btn.Text = name != null ? name : "Loading...";
                 btn.Parent = UIPanel;
                 btn.BackColor = Color.Transparent;
@@ -319,7 +319,7 @@ namespace JSGameIDE
         private void CustomButton_DoubleClick(object sender, EventArgs e)
         {
             CustomButton b = (CustomButton)sender;
-            b.Component.data = CodeEditor.Open("Code Editor: " + UIs.uis[form.id].name + " - " + GetScriptName(b.Component.data),
+            b.Component.data = CodeEditor.Open("Code Editor: " + UIs.uis[form.id].name + " - " + UI.GetComponentNameFromScript(b.Component.data),
                 IDEComponent.ComponentType.UIComponent, b.Component.data, new int[] { b.Component.id, form.id }, null);
         }
 
@@ -576,7 +576,7 @@ namespace JSGameIDE
             str += "var roomManager = {actual:{camera:{x:0, y:0}}}" + Environment.NewLine;
             str += script + Environment.NewLine;
             str += "window.onload = function() {" + Environment.NewLine + 
-                "var a = new " + GetScriptName(script) +"();" + Environment.NewLine + 
+                "var a = new " + UI.GetComponentNameFromScript(script) +"();" + Environment.NewLine + 
                 "if(a.draw!=null)" + Environment.NewLine + 
                 "a.draw(); " + Environment.NewLine + 
                 " window.location = canvas.toDataURL('image / png');" + Environment.NewLine + "}</script>";
@@ -593,23 +593,7 @@ namespace JSGameIDE
             //Clipboard.SetText(str);
         }
 
-        /// <summary>
-        /// Returns the Class name of a script
-        /// </summary>
-        /// <param name="script">A string containing a javascript class</param>
-        /// <returns></returns>
-        public string GetScriptName(string script)
-        {
-            string[] lines = script.Split('\n');
-            foreach(string line in lines)
-            {
-                int f = line.IndexOf("= function(");
-                int v = line.IndexOf("var");
-                if (f != -1 && v != -1)
-                    return line.Substring(v + 4, f - (v + 4)).Trim();
-            }
-            return null;
-        }
+        
 
         #region RenderScript Core
         public Image Base64ToImage(string base64String)

@@ -8,7 +8,7 @@
         this.width = $UIWidth;
         this.height = $UIHeight;
         this.align = $UIAlign;
-        this.components = [];
+        this.components = [$UIInstantiate];
         this._create_executed = false;
         this.prefab = UI$UIId;
         this.toDestroy = false;
