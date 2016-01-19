@@ -121,7 +121,7 @@
             
             for(var i=0; i<this.components.length; i++){
                 if(this.components[i] != null && this.components[i].keyPressed != null)
-                    this.components[i].keyPressed();
+                    this.components[i].keyPressed(event);
             }
         }
         
@@ -132,7 +132,7 @@
             
             for(var i=0; i<this.components.length; i++){
                 if(this.components[i] != null && this.components[i].keyReleased != null)
-                    this.components[i].keyReleased();
+                    this.components[i].keyReleased(event);
             }
         }
         
