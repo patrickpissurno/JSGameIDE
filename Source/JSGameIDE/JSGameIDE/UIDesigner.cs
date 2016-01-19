@@ -138,7 +138,8 @@ namespace JSGameIDE
                     if(queueCallback.Count > 0)
                     {
                         queueCallback[0](Crop(new Bitmap(Base64ToImage(browser.Address.Replace("data:image/png;base64,", "")))));
-                        queueCallback.RemoveAt(0);
+                        if(queueCallback.Count > 0)
+                            queueCallback.RemoveAt(0);
                         if (queueScript.Count > 0)
                         {
                             browser.LoadHtml(queueScript[0], FAKE_ADDR);

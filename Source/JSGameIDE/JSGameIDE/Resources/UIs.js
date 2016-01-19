@@ -39,6 +39,25 @@
                 this._create_executed = true;
             };
             
+            //Mouse
+            if((!mouse.pressed[0] && this.pressed[0])||
+               (!mouse.pressed[1] && this.pressed[1])||
+               (!mouse.pressed[2] && this.pressed[2]))
+            {
+                var event = {button : (this.pressed[0] && !mouse.pressed[0] ? 0 : this.pressed[1] && !mouse.pressed[1] ? 1 : 2)};
+                this.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
+                //$UIMouseReleased
+            };
+            
+            if(((mouse.pressed[0] && !this.pressed[0])||
+               (mouse.pressed[1] && !this.pressed[1])||
+               (mouse.pressed[2] && !this.pressed[2])) && roomManager.actual.camera.x + mouse.x > this.x  && roomManager.actual.camera.x + mouse.x < this.x + this.width && roomManager.actual.camera.y + mouse.y > this.y && roomManager.actual.camera.y + mouse.y < this.y + this.height)
+            {
+                var event = {button : (!this.pressed[0] && mouse.pressed[0] ? 0 : !this.pressed[1] && mouse.pressed[1] ? 1 : 2)};
+                this.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
+                //$UIMousePressed
+            };
+            
             if(this.toDestroy)
             {
                 this.destroy();
@@ -47,8 +66,40 @@
             $UIUpdate
             
             for(var i=0; i<this.components.length; i++){
-                if(this.components[i] != null && this.components[i].update != null)
-                    this.components[i].update();
+                if(this.components[i] != null)
+                {
+                    var comp = this.components[i];
+                    //Mouse Events for Components
+                    if(comp.pressed != null && comp.x != null && comp.y != null && comp.width != null && comp.height != null)
+                    {
+                        //Mouse Pressed
+                        if(mouse.x > this.x + comp.x && mouse.x < this.x + comp.x + comp.width &&
+                          mouse.y > this.y + comp.y && mouse.y < this.y + comp.y + comp.height)
+                        {
+                            if((mouse.pressed[0] && !comp.pressed[0])||(mouse.pressed[1] && !comp.pressed[1])||
+                               (mouse.pressed[2] && !comp.pressed[2]))
+                            {
+                                var event = {button : (!comp.pressed[0] && mouse.pressed[0] ? 0 : !comp.pressed[1] && mouse.pressed[1] ? 1 : 2)};
+                                comp.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
+                                if(comp.mousePressed != null)
+                                    comp.mousePressed(event);
+                            }
+                        }
+                        
+                        //Mouse Released
+                        if((!mouse.pressed[0] && comp.pressed[0])||
+                          (!mouse.pressed[1] && comp.pressed[1])||
+                          (!mouse.pressed[2] && comp.pressed[2]))
+                        {
+                            var event = {button : (comp.pressed[0] && !mouse.pressed[0] ? 0 : comp.pressed[1] && !mouse.pressed[1] ? 1 : 2)};
+                            comp.pressed = [mouse.pressed[0], mouse.pressed[1], mouse.pressed[2]];
+                            if(comp.mouseReleased != null)
+                                comp.mouseReleased(event);
+                        }
+                    }
+                    if(comp.update != null)
+                        comp.update();
+                }
             }
         };
         

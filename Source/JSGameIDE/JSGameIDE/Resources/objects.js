@@ -83,7 +83,8 @@
                 this.hspeed = this.body.m_linearVelocity.x;
                 this.vspeed = this.body.m_linearVelocity.y;
             }
-                
+            
+            //Mouse
             if((!mouse.pressed[0] && this.pressed[0])||
                (!mouse.pressed[1] && this.pressed[1])||
                (!mouse.pressed[2] && this.pressed[2]))
