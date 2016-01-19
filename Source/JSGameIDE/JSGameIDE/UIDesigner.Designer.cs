@@ -28,14 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIDesigner));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.UIPanel = new System.Windows.Forms.Panel();
+            this.customButtonContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.customButtonContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -78,6 +83,28 @@
             this.UIPanel.Size = new System.Drawing.Size(400, 200);
             this.UIPanel.TabIndex = 0;
             // 
+            // customButtonContextMenu
+            // 
+            this.customButtonContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editMenuItem,
+            this.deleteMenuItem});
+            this.customButtonContextMenu.Name = "customButtonContextMenu";
+            this.customButtonContextMenu.Size = new System.Drawing.Size(108, 48);
+            // 
+            // editMenuItem
+            // 
+            this.editMenuItem.Name = "editMenuItem";
+            this.editMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.editMenuItem.Text = "Edit";
+            this.editMenuItem.Click += new System.EventHandler(this.editMenuItem_Click);
+            // 
+            // deleteMenuItem
+            // 
+            this.deleteMenuItem.Name = "deleteMenuItem";
+            this.deleteMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.deleteMenuItem.Text = "Delete";
+            this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
+            // 
             // UIDesigner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,6 +121,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.customButtonContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -103,5 +131,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel UIPanel;
+        private System.Windows.Forms.ContextMenuStrip customButtonContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem editMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
     }
 }

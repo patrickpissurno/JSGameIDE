@@ -53,6 +53,8 @@ namespace JSGameIDE
         private List<UIComponent> _components = new List<UIComponent>();
         private List<CustomButton> cButtons = new List<CustomButton>();
 
+        public CustomButton contextMenuSelected = null;
+
         public UIComponent[] Components
         {
             get
@@ -62,6 +64,8 @@ namespace JSGameIDE
                 {
                     if(u != null)
                     {
+                        u.x = cButtons[u.id].Location.X;
+                        u.y = cButtons[u.id].Location.Y;
                         string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + u.id + ".js";
                         if (File.Exists(path))
                             u.data = File.ReadAllText(path);
@@ -228,6 +232,9 @@ namespace JSGameIDE
                 btn.MouseMove += CustomButton_MouseMove;
                 btn.MouseLeave += CustomButton_MouseLeave;
                 btn.DoubleClick += CustomButton_DoubleClick;
+                btn.GotFocus += CustomButton_GotFocus;
+                btn.LostFocus += CustomButton_LostFocus;
+                btn.MouseClick += CustomButton_MouseClick;
                 #endregion
                 cButtons.Add(btn);
                 UIPanel.Controls.Add(btn);
@@ -295,6 +302,9 @@ namespace JSGameIDE
                         b.MouseMove += CustomButton_MouseMove;
                         b.MouseLeave += CustomButton_MouseLeave;
                         b.DoubleClick += CustomButton_DoubleClick;
+                        b.GotFocus += CustomButton_GotFocus;
+                        b.LostFocus += CustomButton_LostFocus;
+                        b.MouseClick += CustomButton_MouseClick;
                         #endregion
                     };
                 }
@@ -328,16 +338,71 @@ namespace JSGameIDE
         private void CustomButton_MouseDown(object sender, MouseEventArgs e)
         {
             CustomButton b = (CustomButton)sender;
-            b.Moving = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                b.Moving = true;
+            }
         }
 
         private void CustomButton_MouseMove(object sender, MouseEventArgs e)
         {
             CustomButton b = (CustomButton)sender;
-            Point mp = b.Parent.PointToClient(Cursor.Position);
-            if (b.Moving)
-                b.Location = new Point(mp.X - b.Size.Width / 2, mp.Y - b.Size.Height / 2);
-            this.Refresh();
+            if (b.Focused)
+            {
+                Point mp = b.Parent.PointToClient(Cursor.Position);
+                if (b.Moving)
+                    b.Location = new Point(mp.X - b.Size.Width / 2, mp.Y - b.Size.Height / 2);
+                this.Refresh();
+            }
+        }
+
+        private void CustomButton_LostFocus(object sender, EventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            b.FlatAppearance.BorderSize = 0;
+            b.Size = b.BackgroundImage.Size;
+        }
+
+        private void CustomButton_GotFocus(object sender, EventArgs e)
+        {
+            CustomButton b = (CustomButton)sender;
+            b.Size = new Size(b.BackgroundImage.Size.Width + 2, b.BackgroundImage.Size.Height + 2);
+            b.FlatAppearance.BorderSize = 1;
+            b.FlatAppearance.BorderColor = Color.Blue;
+        }
+
+        private void CustomButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                CustomButton b = (CustomButton)sender;
+                b.Moving = false;
+                contextMenuSelected = b;
+                customButtonContextMenu.Show(Cursor.Position);
+            }
+        }
+
+        private void editMenuItem_Click(object sender, EventArgs e)
+        {
+            if (contextMenuSelected != null)
+                CustomButton_DoubleClick(contextMenuSelected, new EventArgs());
+        }
+
+        private void deleteMenuItem_Click(object sender, EventArgs e)
+        {
+            CustomButton b = contextMenuSelected;
+            if (b != null)
+            {
+                //Delete the Component
+                int id = cButtons.IndexOf(b);
+                if(id != -1)
+                {
+                    cButtons[id] = null;
+                    _components[id] = null;
+                    b.Parent.Controls.Remove(b);
+                    b.Dispose();
+                }
+            }
         }
         #endregion
 
@@ -619,8 +684,6 @@ namespace JSGameIDE
         {
             UICenter();
         }
-
-        
     }
 
     public class CustomButton : Button
