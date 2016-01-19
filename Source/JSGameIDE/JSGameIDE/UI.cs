@@ -111,8 +111,8 @@ namespace JSGameIDE
         public string name;
         public int x = 0;
         public int y = 0;
-        public int width = 0;
-        public int height = 0;
+        public int width = 500;
+        public int height = 300;
         public bool movable = false;
         public UIAlignment align = UIAlignment.TOP_LEFT;
 
@@ -168,6 +168,14 @@ namespace JSGameIDE
             this.y = y;
             this.id = id;
             this.data = data;
+        }
+
+        public UIComponent()
+        {
+            this.x = 0;
+            this.y = 0;
+            this.id = -1;
+            this.data = "";
         }
     }
 }

@@ -144,10 +144,9 @@ namespace JSGameIDE
         private void UIEditorButton_Click(object sender, EventArgs e)
         {
             //Opens the UI Editor with the current UI
-            using (var form = new UIDesigner())
+            using (var form = new UIDesigner(this.id))
             {
                 form.Text = "UI Designer: " + nameBox.Text;
-                //form.SetData(this.Components);
                 var result = form.ShowDialog();
                 if (result == DialogResult.OK)
                 {

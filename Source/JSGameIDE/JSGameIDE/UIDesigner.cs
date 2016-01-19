@@ -43,11 +43,15 @@ namespace JSGameIDE
 {
     public partial class UIDesigner : Form
     {
-        public int width = 500;
-        public int height = 400;
+        public int width;
+        public int height;
+        public int id;
         public UIDesigner form;
 
         public static List<ComponentTemplate> templates = null;
+
+        public List<UIComponent> Components = new List<UIComponent>();
+        public List<CustomButton> cButtons = new List<CustomButton>();
 
         #region RenderScript Core
         public ChromiumWebBrowser browser;
@@ -59,8 +63,12 @@ namespace JSGameIDE
         public List<Callback> queueCallback = new List<Callback>();
         #endregion
 
-        public UIDesigner()
+        public UIDesigner(int id)
         {
+            this.id = id;
+            this.width = UIs.uis[id].width;
+            this.height = UIs.uis[id].height;
+
             form = this;
             InitializeComponent();
             UIPanel.Size = new Size(width, height);
@@ -88,6 +96,8 @@ namespace JSGameIDE
                 }
             };
             #endregion
+
+            form.Activated += Form_Activated;
 
             //Load the templates
             if(templates == null)
@@ -174,6 +184,22 @@ namespace JSGameIDE
                                 {
                                     b.Parent = UIPanel;
                                     b.Location = UIPanel.PointToClient(bL);
+                                    cButtons.Add(b);
+                                    if (b.Component == null)
+                                    {
+                                        UIComponent comp = new UIComponent();
+                                        comp.x = b.Location.X;
+                                        comp.y = b.Location.Y;
+                                        comp.data = templates[int.Parse(b.Tag.ToString())].Data;
+                                        comp.id = Components.Count;
+                                        Components.Add(comp);
+                                        b.Component = comp;
+
+                                        using (StreamWriter w = new StreamWriter(GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + comp.id + ".js"))
+                                        {
+                                            w.Write(comp.data);
+                                        }
+                                    }
                                 }
                                 else
                                 {
@@ -201,10 +227,37 @@ namespace JSGameIDE
                         };
                         b.DoubleClick += (object _sender, EventArgs _e) =>
                         {
-                            MessageBox.Show(templates[int.Parse(b.Tag.ToString())].Data);
+                            b.Component.data = CodeEditor.Open("Code Editor: " + UIs.uis[form.id].name + " - " + GetScriptName(b.Component.data),
+                IDEComponent.ComponentType.UIComponent, b.Component.data, b.Component.id, null);
                         };
                     };
                 }
+            }
+        }
+
+        //Reload Stuff
+        private void Form_Activated(object sender, EventArgs e)
+        {
+            if (browser.IsBrowserInitialized)
+            {
+                browser.Stop();
+                queueCallback.Clear();
+                queueScript.Clear();
+                foreach (CustomButton b in cButtons)
+                {
+                    if (!IDEConfig.IsDefaultEditor)
+                    {
+                        string path = GameConfig.path + @"\Codes\UIs\ui" + form.id + @"\components\component" + b.Component.id + ".js";
+                        if (File.Exists(path))
+                            b.Component.data = File.ReadAllText(path);
+                    }
+                    RenderScript(b.Component.data, (Image i) =>
+                    {
+                        b.BackgroundImage = i;
+                        ReloadImages();
+                    });
+                }
+                ReloadImages();
             }
         }
 
@@ -212,7 +265,11 @@ namespace JSGameIDE
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() => { ReloadImages(); }));
+                try
+                {
+                    this.Invoke(new MethodInvoker(() => { ReloadImages(); }));
+                }
+                catch { }
             }
             else
             {
@@ -233,6 +290,17 @@ namespace JSGameIDE
                             else
                                 splitContainer1.SplitterDistance = 200;
                         }
+                        btn.Text = "";
+                    }
+                }
+                for (int i = 0; i < cButtons.Count; i++)
+                {
+                    CustomButton btn = cButtons[i];
+                    if (btn.BackgroundImage != null)
+                    {
+                        btn.FlatStyle = FlatStyle.Flat;
+                        btn.FlatAppearance.BorderSize = 0;
+                        btn.Size = btn.BackgroundImage.Size;
                         btn.Text = "";
                     }
                 }
@@ -446,6 +514,7 @@ namespace JSGameIDE
     public class CustomButton : Button
     {
         public bool Moving = false;
+        public UIComponent Component = null;
         public CustomButton()
         {
             SetStyle(ControlStyles.StandardClick | ControlStyles.StandardDoubleClick, true);

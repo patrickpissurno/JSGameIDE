@@ -141,10 +141,10 @@ namespace JSGameIDE
                         startInfo.Arguments = path;
                         break;
                     case "brackets":
-                        foreach (var process in System.Diagnostics.Process.GetProcessesByName("Brackets"))
-                            process.Kill();
+                        //foreach (var process in System.Diagnostics.Process.GetProcessesByName("Brackets"))
+                            //process.Kill();
                         startInfo.WorkingDirectory = Path.GetDirectoryName(path);
-                        startInfo.Arguments = Path.GetFileName(path);
+                        startInfo.Arguments = "\"" + Path.GetFileName(path) + "\"";
                         break;
                 }
                 System.Diagnostics.Process.Start(startInfo);
