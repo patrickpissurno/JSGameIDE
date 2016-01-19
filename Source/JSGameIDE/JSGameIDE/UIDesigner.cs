@@ -27,14 +27,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
@@ -60,7 +55,8 @@ namespace JSGameIDE
             get
             {
                 List<UIComponent> c = new List<UIComponent>();
-                foreach(UIComponent u in _components)
+                #region Remove Nulls
+                foreach (UIComponent u in _components)
                 {
                     if(u != null)
                     {
@@ -96,6 +92,7 @@ namespace JSGameIDE
                         w.Write(u.data);
                     }
                 }
+                #endregion
                 return c.ToArray();
             }
         }
@@ -112,15 +109,20 @@ namespace JSGameIDE
 
         public UIDesigner(int id, UIComponent[] comps)
         {
+            form = this;
+
             this.id = id;
             this.width = UIs.uis[id].width;
             this.height = UIs.uis[id].height;
-
             if(comps != null)
                 this._components = comps.ToList();
 
-            form = this;
             InitializeComponent();
+
+            //Add the form events
+            form.Activated += Form_Activated;
+            form.FormClosing += Form_FormClosing;
+
             UIPanel.Size = new Size(width, height);
 
             #region RenderScript Core
@@ -146,9 +148,6 @@ namespace JSGameIDE
                 }
             };
             #endregion
-
-            form.Activated += Form_Activated;
-            form.FormClosing += Form_FormClosing;
 
             #region Load the templates
 
@@ -210,6 +209,7 @@ namespace JSGameIDE
             UICenter();
             ResetFocus();
 
+            #region Load the Components
             //Load the Components
             for (int i = 0; i < _components.Count; i++)
             {
@@ -245,6 +245,9 @@ namespace JSGameIDE
                 });
             }
 
+            #endregion
+
+            #region Add the Templates' Events
             foreach (Control c in flowLayoutPanel1.Controls)
             {
                 if (typeof(Button) == c.GetType())
@@ -309,11 +312,7 @@ namespace JSGameIDE
                     };
                 }
             }
-        }
-
-        private void Form_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
+            #endregion
         }
 
         #region Custom Button Events
@@ -406,6 +405,22 @@ namespace JSGameIDE
         }
         #endregion
 
+        #region Form Events
+        private void flowLayoutPanel1_Resize(object sender, EventArgs e)
+        {
+            FlowCenter();
+        }
+
+        private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
+        {
+            UICenter();
+        }
+
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
         //Reload Stuff
         private void Form_Activated(object sender, EventArgs e)
         {
@@ -438,8 +453,11 @@ namespace JSGameIDE
             }
         }
 
+        #endregion
+
         public void ReloadImages()
         {
+            #region If not thread-safe
             if (this.InvokeRequired)
             {
                 try
@@ -448,42 +466,77 @@ namespace JSGameIDE
                 }
                 catch { }
             }
+            #endregion
             else
             {
+                #region Update the Templates
                 for (int i = 0; i < templates.Count; i++)
                 {
                     ComponentTemplate t = templates[i];
-                    Button btn = t.button;
-                    if (t.Image != null)
+                    if (t != null)
                     {
-                        btn.BackgroundImage = t.Image;
-                        btn.FlatStyle = FlatStyle.Flat;
-                        btn.FlatAppearance.BorderSize = 0;
-                        btn.Size = t.Image.Size;
-                        if (t.Image.Size.Width > splitContainer1.Panel1.Width)
+                        Button btn = t.button;
+                        if (btn != null)
                         {
-                            if (t.Image.Size.Width <= 200)
-                                splitContainer1.SplitterDistance = t.Image.Size.Width + 6;
-                            else
-                                splitContainer1.SplitterDistance = 200;
+                            if (t.Image != null)
+                            {
+                                btn.BackgroundImage = t.Image;
+                                btn.FlatStyle = FlatStyle.Flat;
+                                btn.FlatAppearance.BorderSize = 0;
+                                btn.Size = t.Image.Size;
+                                if (t.Image.Size.Width > splitContainer1.Panel1.Width)
+                                {
+                                    if (t.Image.Size.Width <= 200)
+                                        splitContainer1.SplitterDistance = t.Image.Size.Width + 6;
+                                    else
+                                        splitContainer1.SplitterDistance = 200;
+                                }
+                                btn.Text = "";
+                            }
                         }
-                        btn.Text = "";
                     }
                 }
+                #endregion
+                #region Update the Components
                 for (int i = 0; i < cButtons.Count; i++)
                 {
                     CustomButton btn = cButtons[i];
-                    if (btn.BackgroundImage != null)
+                    if (btn != null)
                     {
-                        btn.FlatStyle = FlatStyle.Flat;
-                        btn.FlatAppearance.BorderSize = 0;
-                        btn.Size = btn.BackgroundImage.Size;
-                        btn.Text = "";
+                        if (btn.BackgroundImage != null)
+                        {
+                            btn.FlatStyle = FlatStyle.Flat;
+                            btn.FlatAppearance.BorderSize = 0;
+                            btn.Size = btn.BackgroundImage.Size;
+                            btn.Text = "";
+                        }
                     }
                 }
+                #endregion
+
+                //Center Align
                 FlowCenter();
                 ResetFocus();
             }
+        }
+
+
+        #region Helper Methods
+        private void FlowCenter()
+        {
+            foreach (Control c in flowLayoutPanel1.Controls)
+            {
+                if (c != null)
+                {
+                    c.Anchor = AnchorStyles.None;
+                    c.Margin = new Padding(flowLayoutPanel1.Width / 2 - c.Width / 2 + (flowLayoutPanel1.VerticalScroll.Visible ? -7 : 0), c.Margin.Top, c.Margin.Right, c.Margin.Bottom);
+                }
+            }
+        }
+
+        private void UICenter()
+        {
+            UIPanel.Location = new Point(UIPanel.Parent.Size.Width / 2 - UIPanel.Size.Width / 2, UIPanel.Parent.Size.Height / 2 - UIPanel.Size.Height / 2);
         }
 
         public void ResetFocus()
@@ -495,8 +548,28 @@ namespace JSGameIDE
             p.Dispose();
         }
 
+        private CustomButton CloneButton(Button btn)
+        {
+            CustomButton b = new CustomButton();
+            b.Text = btn.Text;
+            b.Width = btn.Width;
+            b.Height = btn.Height;
+            b.Tag = btn.Tag;
+            b.BackgroundImage = btn.BackgroundImage;
+            b.FlatStyle = btn.FlatStyle;
+            b.FlatAppearance.BorderSize = btn.FlatAppearance.BorderSize;
+            return b;
+        }
+        #endregion
+
+        /// <summary>
+        /// Renders the script and returns as an Image
+        /// </summary>
+        /// <param name="script">The script to be rendered</param>
+        /// <param name="callback">A delegate void that will receive the image</param>
         public void RenderScript(string script, Callback callback)
         {
+            #region Build the Render HTML as a string
             Builder.PreprocessorDefine();
             string str = "<canvas id=gameCanvas width=800 height=800></canvas><script>var Box2D = null;" + Environment.NewLine;
             str += Builder.BuildHeader() + Environment.NewLine;
@@ -508,6 +581,8 @@ namespace JSGameIDE
                 "a.draw(); " + Environment.NewLine + 
                 " window.location = canvas.toDataURL('image / png');" + Environment.NewLine + "}</script>";
             str = str.Replace("addEventListener", "//");
+            #endregion
+
             if (queueCallback.Count == 0)
             {
                 browser.LoadHtml(str, FAKE_ADDR);
@@ -515,9 +590,14 @@ namespace JSGameIDE
             else
                 queueScript.Add(str);
             queueCallback.Add(callback);
-            Clipboard.SetText(str);
+            //Clipboard.SetText(str);
         }
 
+        /// <summary>
+        /// Returns the Class name of a script
+        /// </summary>
+        /// <param name="script">A string containing a javascript class</param>
+        /// <returns></returns>
         public string GetScriptName(string script)
         {
             string[] lines = script.Split('\n');
@@ -644,46 +724,6 @@ namespace JSGameIDE
             }
         }
         #endregion
-
-        private CustomButton CloneButton(Button btn)
-        {
-            CustomButton b = new CustomButton();
-            b.Text = btn.Text;
-            b.Width = btn.Width;
-            b.Height = btn.Height;
-            b.Tag = btn.Tag;
-            b.BackgroundImage = btn.BackgroundImage;
-            b.FlatStyle = btn.FlatStyle;
-            b.FlatAppearance.BorderSize = btn.FlatAppearance.BorderSize;
-            return b;
-        }
-
-        private void flowLayoutPanel1_Resize(object sender, EventArgs e)
-        {
-            FlowCenter();
-        }
-
-        private void FlowCenter()
-        {
-            foreach (Control c in flowLayoutPanel1.Controls)
-            {
-                if (c != null)
-                {
-                    c.Anchor = AnchorStyles.None;
-                    c.Margin = new Padding(flowLayoutPanel1.Width/2 - c.Width/2 + (flowLayoutPanel1.VerticalScroll.Visible ? -7 : 0), c.Margin.Top, c.Margin.Right, c.Margin.Bottom);
-                }
-            }
-        }
-
-        private void UICenter()
-        {
-            UIPanel.Location = new Point(UIPanel.Parent.Size.Width/2 - UIPanel.Size.Width/2, UIPanel.Parent.Size.Height / 2 - UIPanel.Size.Height/2);
-        }
-
-        private void splitContainer1_Panel2_Resize(object sender, EventArgs e)
-        {
-            UICenter();
-        }
     }
 
     public class CustomButton : Button
