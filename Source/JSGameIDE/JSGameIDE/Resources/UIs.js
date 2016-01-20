@@ -3,8 +3,8 @@
     var UI$UIId = function(args)
     {
         this.name = "UI$UIId";
-        this.x = 0;
-        this.y = 0;
+        this.x = $UIX;
+        this.y = $UIY;
         this.width = $UIWidth;
         this.height = $UIHeight;
         this.align = $UIAlign;

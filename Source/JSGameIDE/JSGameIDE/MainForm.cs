@@ -252,6 +252,10 @@ namespace JSGameIDE
                                 ui.components = form.Components;
                                 ui.movable = form.GetMovableBox();
                                 ui.align = form.Alignment;
+                                ui.x = form.x;
+                                ui.y = form.y;
+                                ui.width = form.width;
+                                ui.height = form.height;
                                 if (!IDEConfig.IsDefaultEditor)
                                     FileManager.ReloadCode();
                                 FileManager.UnsavedChanges = true;

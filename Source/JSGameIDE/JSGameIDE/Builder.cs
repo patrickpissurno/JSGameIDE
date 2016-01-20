@@ -533,7 +533,9 @@ namespace JSGameIDE
                         "$UIDraw",
                         "$UIKeyPressed",
                         "$UIKeyReleased",
-                        "$UIDestroy"
+                        "$UIDestroy",
+                        "$UIX",
+                        "$UIY"
                     };
                     string[] pValues = new string[]
                     {
@@ -547,7 +549,9 @@ namespace JSGameIDE
                         ReplaceCode(ui.onDraw),
                         ReplaceCode(ui.onKeyPressed),
                         ReplaceCode(ui.onKeyReleased),
-                        ReplaceCode(ui.onDestroy)
+                        ReplaceCode(ui.onDestroy),
+                        ui.x.ToString(),
+                        ui.y.ToString()
                     };
                     //Define the UI components
                     string componentInstantiate = "";

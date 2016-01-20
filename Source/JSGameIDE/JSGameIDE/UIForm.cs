@@ -48,14 +48,44 @@ namespace JSGameIDE
         public string onKeyReleased = "";
         public string onDestroy = "";
         public UIComponent[] Components = null;
+
+        #region Gets
+        public int width
+        {
+            get
+            {
+                return (int)widthBox.Value;
+            }
+        }
+        public int height
+        {
+            get
+            {
+                return (int)heightBox.Value;
+            }
+        }
+        public int x
+        {
+            get
+            {
+                return (int)xBox.Value;
+            }
+        }
+        public int y
+        {
+            get
+            {
+                return (int)yBox.Value;
+            }
+        }
         public UI.UIAlignment Alignment
         {
             get
             {
                 return (UI.UIAlignment)alignmentBox.SelectedIndex;
             }
-            set { }
         }
+        #endregion
 
         public UIForm()
         {
@@ -158,7 +188,12 @@ namespace JSGameIDE
 
         private void UIForm_Load(object sender, EventArgs e)
         {
-            alignmentBox.SelectedIndex = (int)UIs.uis[id].align;
+            UI ui = UIs.uis[id];
+            alignmentBox.SelectedIndex = (int)ui.align;
+            widthBox.Value = ui.width;
+            heightBox.Value = ui.height;
+            xBox.Value = ui.x;
+            yBox.Value = ui.y;
         }
 
         private void destroyButton_Click(object sender, EventArgs e)
