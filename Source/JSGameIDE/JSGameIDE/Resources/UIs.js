@@ -24,8 +24,11 @@
             var args = this.args;
             $UICreate
             for(var i=0; i<this.components.length; i++){
-                if(this.components[i] != null && this.components[i].create != null)
-                    this.components[i].create();
+                if(this.components[i] != null){
+                    this.components[i].parent = this;
+                    if(this.components[i].create != null)
+                        this.components[i].create();
+                }
             }
             this.args = null;
         };

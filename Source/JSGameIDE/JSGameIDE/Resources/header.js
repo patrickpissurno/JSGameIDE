@@ -127,6 +127,8 @@ var UI ={
     {
         if(scale == null)
 		  scale = 1;
+        x += (this.parent != null ? this.parent.x : 0);
+        y += (this.parent != null ? this.parent.y : 0);
         switch(screen_align)
         {
             //BOT
@@ -178,12 +180,16 @@ var UI ={
         }
     },
     DrawText : function (x, y, text, f, c, align){
+        x += (this.parent != null ? this.parent.x : 0);
+        y += (this.parent != null ? this.parent.y : 0);
         context.fillStyle = c;
         context.font = f;
         context.textAlign = align;
         context.fillText(text, x, y);
     },
     DrawRect : function(x, y, w, h, r, g, b, onlyStroke){
+        x += (this.parent != null ? this.parent.x : 0);
+        y += (this.parent != null ? this.parent.y : 0);
         if(!onlyStroke)
         {
             context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';
