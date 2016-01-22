@@ -29,8 +29,6 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -93,8 +91,8 @@ namespace JSGameIDE
             BuildForm buildForm = null;
             if (!silent)
             {
-                buildForm = new BuildForm();
-                buildForm.Show();
+                //buildForm = new BuildForm();
+                //buildForm.Show();
             }
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             try

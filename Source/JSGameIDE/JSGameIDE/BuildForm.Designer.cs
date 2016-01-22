@@ -54,6 +54,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Build in progress";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.BuildForm_Load);
             this.ResumeLayout(false);
 
         }

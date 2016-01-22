@@ -278,6 +278,7 @@ namespace JSGameIDE
             bool run;
             if (!quiet)
             {
+                SystemSounds.Exclamation.Play();
                 DialogResult _res = MessageBox.Show("Save changes to the project?", "JSGameIDE", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (_res == DialogResult.Yes)
                     Save(true);

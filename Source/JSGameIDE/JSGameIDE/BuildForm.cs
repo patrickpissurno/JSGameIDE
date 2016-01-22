@@ -26,38 +26,27 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace JSGameIDE
 {
     public partial class BuildForm : Form
     {
         public float step = 0;
+        private Thread uiUpdateThread;
 
         public BuildForm()
         {
             InitializeComponent();
-            this.Load += (o, e) =>
-            {
-                Thread t = new Thread(() =>
+            uiUpdateThread = new Thread(() => {
+                while (progressBar1.Value < 100)
                 {
-                    while (progressBar1.Value < 100)
-                    {
-                        ProgressUpdate();
-                        Thread.Sleep(100);
-                    }
-                });
-                t.IsBackground = true;
-                t.Start();
-            };
+                    ProgressUpdate();
+                    Thread.Sleep(100);
+                }
+            });
+            uiUpdateThread.IsBackground = true;
         }
 
         public static void ProgressStep(int total, BuildForm form)
@@ -83,15 +72,20 @@ namespace JSGameIDE
                 this.Invoke(new MethodInvoker(() => { ProgressUpdate(); }));
             else
             {
-                int val = (int)Math.Round(lerp(progressBar1.Value, step, .7f));
+                int val = (int)Math.Round(LinearLerp(progressBar1.Value, step, .7f));
                 progressBar1.Value = val;
                 Text = "Build in progress: " + val.ToString() + "%";
             }
         }
 
-        float lerp(float a, float b, float f)
+        float LinearLerp(float a, float b, float f)
         {
             return (a * (1.0f - f)) + (b * f);
+        }
+
+        private void BuildForm_Load(object sender, EventArgs e)
+        {
+            uiUpdateThread.Start();
         }
     }
 }

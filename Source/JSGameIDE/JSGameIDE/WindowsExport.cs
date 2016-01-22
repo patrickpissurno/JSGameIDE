@@ -25,12 +25,8 @@
     For further  details see: http://patrickpissurno.github.io/JSGameIDE/
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -66,14 +62,12 @@ namespace JSGameIDE
         }
         public static void Build()
         {
-            try
+            Find();
+            if (!string.IsNullOrWhiteSpace(Path) && File.Exists(Path))
             {
-                Find();
-                if (Path != null)
+                using (BuildForm buildForm = new BuildForm())
                 {
-                    BuildForm buildForm = new BuildForm();
-                    buildForm.Show();
-                    Thread t = new Thread(() =>
+                    Thread buildThread = new Thread(() =>
                     {
                         int steps = 10;
                         try
@@ -103,7 +97,6 @@ namespace JSGameIDE
                             }
                             catch { }
                             BuildForm.ProgressStep(steps, buildForm);
-
                             using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
                             {
                                 w.Write(temp);
@@ -143,16 +136,18 @@ namespace JSGameIDE
                                 buildForm.Close();
                                 buildForm.Dispose();
                             }));
-
-                            MessageBox.Show("Build success.");
+                            SystemSounds.Beep.Play();
+                            MessageBox.Show("Build success", "Windows Build", MessageBoxButtons.OK, MessageBoxIcon.None);
                         }
                     });
-                    t.Start();
+                    buildThread.Start();
+                    buildForm.ShowDialog();
                 }
             }
-            catch
+            else
             {
-                MessageBox.Show("Build failure. Please ensure the SDK is properly installed.");
+                SystemSounds.Asterisk.Play();
+                MessageBox.Show("Build failure. Please ensure that the SDK is properly installed.", "Windows Build", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
