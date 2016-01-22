@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -70,59 +71,81 @@ namespace JSGameIDE
                 Find();
                 if (Path != null)
                 {
-                    try
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.DoWork += (o, e) =>
                     {
-                        Directory.Delete(GameConfig.path + @"\Build\Win", true);
-                    }
-                    catch { }
-                    if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
-                    {
-                        string SDKPath = Application.StartupPath + @"\SDK";
-
-                        //Meta information
-                        string temp = File.ReadAllText(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs");
-                        temp = MetaInfoChanger(temp, "[assembly: AssemblyTitle(\"", "\")]", GameConfig.name);
-                        temp = MetaInfoChanger(temp, "[assembly: AssemblyDescription(\"", "\")]", GameConfig.name);
-                        temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
-                        temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
-                        temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
-
-                        //Copy the icon
+                        int steps = 10;
+                        BuildForm buildForm = new BuildForm();
+                        buildForm.Show();
                         try
                         {
-                            File.Copy(GameConfig.path + @"\Resources\icon.ico", SDKPath + @"\JSGameIDE-Player\icon.ico", true);
+                            Directory.Delete(GameConfig.path + @"\Build\Win", true);
                         }
                         catch { }
-
-                        using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
+                        BuildForm.ProgressStep(steps, buildForm);
+                        if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
                         {
-                            w.Write(temp);
-                        }
+                            BuildForm.ProgressStep(steps, buildForm);
+                            string SDKPath = Application.StartupPath + @"\SDK";
 
-                        System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
-                        info.FileName = Path;
-                        info.Arguments = @"/p:Platform=x86 JSGameIDE-Player.sln";
-                        info.WorkingDirectory = SDKPath;
-                        info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                        System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
-                        process.WaitForExit();
-                        DirectoryExtension.Copy(SDKPath + @"\JSGameIDE-Player\bin\x86\Debug", GameConfig.path + @"\Build\Win", true);
+                            //Meta information
+                            string temp = File.ReadAllText(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs");
+                            temp = MetaInfoChanger(temp, "[assembly: AssemblyTitle(\"", "\")]", GameConfig.name);
+                            temp = MetaInfoChanger(temp, "[assembly: AssemblyDescription(\"", "\")]", GameConfig.name);
+                            temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
+                            temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
+                            temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
+                            BuildForm.ProgressStep(steps, buildForm);
 
-                        //Cleans some trash
-                        File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe.config");
-                        File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.pdb");
-                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.Core.xml");
-                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.WinForms.xml");
-                        File.Delete(GameConfig.path + @"\Build\Win\CefSharp.xml");
-                        File.Delete(GameConfig.path + @"\Build\Win\devtools_resources.pak");
-                        try
-                        {
-                            File.Move(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe", GameConfig.path + @"\Build\Win\" + GameConfig.name.Replace(' ', '-') + ".exe");
+                            //Copy the icon
+                            try
+                            {
+                                File.Copy(GameConfig.path + @"\Resources\icon.ico", SDKPath + @"\JSGameIDE-Player\icon.ico", true);
+                            }
+                            catch { }
+                            BuildForm.ProgressStep(steps, buildForm);
+
+                            using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
+                            {
+                                w.Write(temp);
+                            }
+                            BuildForm.ProgressStep(steps, buildForm);
+
+                            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
+                            info.FileName = Path;
+                            info.Arguments = @"/p:Platform=x86 JSGameIDE-Player.sln";
+                            info.WorkingDirectory = SDKPath;
+                            info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                            System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
+                            process.WaitForExit();
+                            BuildForm.ProgressStep(steps, buildForm);
+                            DirectoryExtension.Copy(SDKPath + @"\JSGameIDE-Player\bin\x86\Debug", GameConfig.path + @"\Build\Win", true);
+                            BuildForm.ProgressStep(steps, buildForm);
+
+                            //Cleans some trash
+                            File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe.config");
+                            File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.pdb");
+                            File.Delete(GameConfig.path + @"\Build\Win\CefSharp.Core.xml");
+                            File.Delete(GameConfig.path + @"\Build\Win\CefSharp.WinForms.xml");
+                            File.Delete(GameConfig.path + @"\Build\Win\CefSharp.xml");
+                            File.Delete(GameConfig.path + @"\Build\Win\devtools_resources.pak");
+                            BuildForm.ProgressStep(steps, buildForm);
+                            try
+                            {
+                                File.Move(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe", GameConfig.path + @"\Build\Win\" + GameConfig.name.Replace(' ', '-') + ".exe");
+                            }
+                            catch { }
+                            BuildForm.ProgressStep(steps, buildForm);
+                            Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
+                            BuildForm.ProgressStep(steps, buildForm);
+
+                            buildForm.Close();
+                            buildForm.Dispose();
+
+                            MessageBox.Show("Build success.");
                         }
-                        catch { }
-                        Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
-                        MessageBox.Show("Build success.");
-                    }
+                    };
+                    worker.RunWorkerAsync();
                 }
             }
             catch

@@ -346,6 +346,16 @@
             0,
             65536});
             this.gravityYBox.Location = new System.Drawing.Point(66, 32);
+            this.gravityYBox.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.gravityYBox.Minimum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            -2147483648});
             this.gravityYBox.Name = "gravityYBox";
             this.gravityYBox.Size = new System.Drawing.Size(51, 20);
             this.gravityYBox.TabIndex = 38;
@@ -379,6 +389,16 @@
             0,
             65536});
             this.gravityXBox.Location = new System.Drawing.Point(9, 32);
+            this.gravityXBox.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.gravityXBox.Minimum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            -2147483648});
             this.gravityXBox.Name = "gravityXBox";
             this.gravityXBox.Size = new System.Drawing.Size(51, 20);
             this.gravityXBox.TabIndex = 36;

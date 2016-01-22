@@ -89,6 +89,13 @@ namespace JSGameIDE
         /// <returns>Returns true if successful. Otherwise returns false.</returns>
         public static bool Build(bool silent = false, string customPath = null)
         {
+            int steps = 14;
+            BuildForm buildForm = null;
+            if (!silent)
+            {
+                buildForm = new BuildForm();
+                buildForm.Show();
+            }
             string TargetPath = customPath != null ? customPath : GameConfig.path + @"\Build\HTML5";
             try
             {
@@ -105,40 +112,64 @@ namespace JSGameIDE
                 Directory.CreateDirectory(TargetPath + @"\IMG");
                 Directory.CreateDirectory(TargetPath + @"\SND");
                 data += BuildHTML();
+                BuildForm.ProgressStep(steps, buildForm);
                 using (StreamWriter outfile = new StreamWriter(TargetPath + @"\index.html"))
                 {
                     outfile.Write(data);
                 }
+                BuildForm.ProgressStep(steps, buildForm);
                 data = "";
                 data += BuildHeader() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildSprites(TargetPath) + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildSounds(TargetPath) + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildScripts() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildObjects() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildUIs() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildRooms() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildNativeFunctions() + Environment.NewLine + Environment.NewLine;
+                BuildForm.ProgressStep(steps, buildForm);
                 data += BuildFooter();
+                BuildForm.ProgressStep(steps, buildForm);
                 using (StreamWriter outfile = new StreamWriter(TargetPath + @"\game.js"))
                 {
                     outfile.Write(data);
                 }
+                BuildForm.ProgressStep(steps, buildForm);
                 try
                 {
                     File.Copy(GameConfig.path + @"\Resources\icon.ico", TargetPath + @"\favicon.ico", true);
                 }
                 catch { }
+                BuildForm.ProgressStep(steps, buildForm);
                 try
                 {
                     File.Copy(Application.StartupPath + @"\Resources\Box2d.min.js", TargetPath + @"\Box2d.min.js", true);
                 }
                 catch { }
+                BuildForm.ProgressStep(steps, buildForm);
+                if (buildForm != null)
+                {
+                    buildForm.Close();
+                    buildForm.Dispose();
+                }
                 if (!silent)
                     MessageBox.Show("Exported successfully!");
                 return true;
             }
             catch
             {
+                if (buildForm != null)
+                {
+                    buildForm.Close();
+                    buildForm.Dispose();
+                }
                 if(!silent)
                     MessageBox.Show("Exportation error.");
                 return false;
