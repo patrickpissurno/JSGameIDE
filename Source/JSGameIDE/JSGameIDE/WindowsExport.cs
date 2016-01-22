@@ -31,7 +31,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace JSGameIDE
@@ -71,12 +71,11 @@ namespace JSGameIDE
                 Find();
                 if (Path != null)
                 {
-                    BackgroundWorker worker = new BackgroundWorker();
-                    worker.DoWork += (o, e) =>
+                    BuildForm buildForm = new BuildForm();
+                    buildForm.Show();
+                    Thread t = new Thread(() =>
                     {
                         int steps = 10;
-                        BuildForm buildForm = new BuildForm();
-                        buildForm.Show();
                         try
                         {
                             Directory.Delete(GameConfig.path + @"\Build\Win", true);
@@ -139,13 +138,16 @@ namespace JSGameIDE
                             Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
                             BuildForm.ProgressStep(steps, buildForm);
 
-                            buildForm.Close();
-                            buildForm.Dispose();
+                            Thread.Sleep(200);
+                            buildForm.Invoke(new MethodInvoker(() => {
+                                buildForm.Close();
+                                buildForm.Dispose();
+                            }));
 
                             MessageBox.Show("Build success.");
                         }
-                    };
-                    worker.RunWorkerAsync();
+                    });
+                    t.Start();
                 }
             }
             catch

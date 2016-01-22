@@ -45,16 +45,19 @@ namespace JSGameIDE
         public BuildForm()
         {
             InitializeComponent();
-            Thread t = new Thread(() => {
-                while(step < 100)
+            this.Load += (o, e) =>
+            {
+                Thread t = new Thread(() =>
                 {
-                    Console.WriteLine(step.ToString());
-                    
-                    Thread.Sleep(150);
-                }
-            });
-            t.IsBackground = true;
-            t.Start();
+                    while (progressBar1.Value < 100)
+                    {
+                        ProgressUpdate();
+                        Thread.Sleep(100);
+                    }
+                });
+                t.IsBackground = true;
+                t.Start();
+            };
         }
 
         public static void ProgressStep(int total, BuildForm form)
@@ -80,8 +83,7 @@ namespace JSGameIDE
                 this.Invoke(new MethodInvoker(() => { ProgressUpdate(); }));
             else
             {
-                int val = (int)Math.Round(step);//(int)Math.Round(lerp(progressBar1.Value, step, .4f));
-                Console.WriteLine(val.ToString());
+                int val = (int)Math.Round(lerp(progressBar1.Value, step, .7f));
                 progressBar1.Value = val;
                 Text = "Build in progress: " + val.ToString() + "%";
             }
