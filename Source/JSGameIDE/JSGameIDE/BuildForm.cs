@@ -87,5 +87,16 @@ namespace JSGameIDE
         {
             uiUpdateThread.Start();
         }
+
+        public void SafeClose()
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(() => { this.SafeClose(); }));
+            else
+            {
+                this.Close();
+                this.Dispose();
+            }
+        }
     }
 }
