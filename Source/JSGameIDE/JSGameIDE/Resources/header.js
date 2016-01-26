@@ -123,73 +123,185 @@ var UI ={
         STRETCH_VERTICAL : 11,
         FILL : 12
     },
-    DrawSprite : function(x, y, sprite, screen_align, scale)
+    GetAlignedPosition : function(x, y, width, height, align, scale)
     {
         if(scale == null)
 		  scale = 1;
         x += (this.parent != null ? this.parent.x : 0);
         y += (this.parent != null ? this.parent.y : 0);
-        switch(screen_align)
+        switch(align)
         {
-            //BOT
             case UI.SCREEN_ALIGN.BOT_CENTER:
-                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width/2 - width/2 * UI.SCREEN_SCALE * scale + x,
+                    y : canvas.height - UI.SCREEN_SCALE * scale * height + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.BOT_LEFT:
-                context.drawImage(sprite, x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : x,
+                    y: canvas.height - UI.SCREEN_SCALE * scale * height + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.BOT_RIGHT:
-                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x,canvas.height - UI.SCREEN_SCALE * scale * sprite.height + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width - width * UI.SCREEN_SCALE * scale + x,
+                    y : canvas.height - UI.SCREEN_SCALE * scale * height + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
-            //TOP
             case UI.SCREEN_ALIGN.TOP_CENTER:
-                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width/2 - width/2 * UI.SCREEN_SCALE * scale + x,
+                    y : y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.TOP_LEFT:
-                context.drawImage(sprite, x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : x, 
+                    y : y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.TOP_RIGHT:
-                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x, y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width - width * UI.SCREEN_SCALE * scale + x,
+                    y : y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
-            //CENTER
             case UI.SCREEN_ALIGN.CENTER_CENTER:
-                context.drawImage(sprite,canvas.width/2 - sprite.width/2 * UI.SCREEN_SCALE * scale + x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width/2 - width/2 * UI.SCREEN_SCALE * scale + x,
+                    y : canvas.height/2 - UI.SCREEN_SCALE * scale * height/2 + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.CENTER_LEFT:
-                context.drawImage(sprite, x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : x,
+                    y : canvas.height/2 - UI.SCREEN_SCALE * scale * height/2 + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.CENTER_RIGHT:
-                context.drawImage(sprite,canvas.width - sprite.width * UI.SCREEN_SCALE * scale + x,canvas.height/2 - UI.SCREEN_SCALE * scale * sprite.height/2 + y, UI.SCREEN_SCALE * scale * sprite.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : canvas.width - width * UI.SCREEN_SCALE * scale + x,
+                    y : canvas.height/2 - UI.SCREEN_SCALE * scale * height/2 + y,
+                    width : UI.SCREEN_SCALE * scale * width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
-            //OTHER
             case UI.SCREEN_ALIGN.STRETCH_ALL:
-                context.drawImage(sprite,x,y, canvas.width, canvas.height);
+                return {
+                    x : x,
+                    y : y, 
+                    width : canvas.width,
+                    height : canvas.height
+                };
                 break;
             case UI.SCREEN_ALIGN.STRETCH_HORIZONTAL:
-                context.drawImage(sprite,x,y, canvas.width, sprite.height * UI.SCREEN_SCALE * scale);
+                return {
+                    x : x,
+                    y : y,
+                    width : canvas.width,
+                    height : height * UI.SCREEN_SCALE * scale
+                };
                 break;
             case UI.SCREEN_ALIGN.STRETCH_VERTICAL:
-                context.drawImage(sprite,x,y, sprite.width * UI.SCREEN_SCALE * scale, canvas.height);
+                return {
+                    x : x,
+                    y : y,
+                    width : width * UI.SCREEN_SCALE * scale,
+                    height : canvas.height
+                };
                 break;
             case UI.SCREEN_ALIGN.FILL:
                 if(canvas.width > canvas.height)
-                    context.drawImage(sprite,x,y, canvas.width, canvas.width * (sprite.height / sprite.width));
+                    return {
+                        x : x,
+                        y : y,
+                        width : canvas.width,
+                        height : canvas.width * (height / width)
+                    };
                 else
-                    context.drawImage(sprite,x,y, canvas.height * (sprite.width / sprite.height), canvas.height);
+                    return {
+                        x : x,
+                        y : y,
+                        width : canvas.height * (width / height),
+                        height : canvas.height
+                    };
                 break; 
         }
     },
-    DrawText : function (x, y, text, f, c, align){
-        x += (this.parent != null ? this.parent.x : 0);
-        y += (this.parent != null ? this.parent.y : 0);
+    DrawSprite : function(x, y, sprite, screen_align, scale)
+    {
+        if(scale == null)
+		  scale = 1;
+        if(screen_align == null)
+            screen_align = UI.SCREEN_ALIGN.TOP_LEFT;
+        var width = sprite.width;
+        var height = sprite.height;
+        if(this.parent == null)
+        {
+            var result = UI.GetAlignedPosition(x, y, sprite.width, sprite.height, screen_align, scale);
+            x = result.x;
+            y = result.y;
+            width = result.width;
+            height = result.height;
+        }
+        else
+        {
+            var result = UI.GetAlignedPosition(this.parent.x, this.parent.y, this.parent.width, this.parent.height, this.parent.align, 1);
+            x += result.x;
+            y += result.y;
+        }
+        context.drawImage(sprite, x, y, width, height);
+    },
+    DrawText : function (x, y, text, f, c, align, screen_align){
+        if(this.parent == null)
+        {
+            var result = UI.GetAlignedPosition(x, y, 0, 0, (screen_align == null ? UI.SCREEN_ALIGN.TOP_LEFT : screen_align), 1);
+            x = result.x;
+            y = result.y;
+        }
+        else
+        {
+            var result = UI.GetAlignedPosition(this.parent.x, this.parent.y, this.parent.width, this.parent.height, this.parent.align, 1);
+            x += result.x;
+            y += result.y;
+        }
         context.fillStyle = c;
         context.font = f;
         context.textAlign = align;
         context.fillText(text, x, y);
     },
-    DrawRect : function(x, y, w, h, r, g, b, onlyStroke){
-        x += (this.parent != null ? this.parent.x : 0);
-        y += (this.parent != null ? this.parent.y : 0);
+    DrawRect : function(x, y, w, h, r, g, b, onlyStroke, screen_align){
+        if(this.parent == null)
+        {
+            var result = UI.GetAlignedPosition(x, y, w, h, screen_align, 1);
+            x = result.x;
+            y = result.y;
+            w = result.width;
+            h = result.height;
+        }
+        else
+        {
+            var result = UI.GetAlignedPosition(this.parent.x, this.parent.y, this.parent.width, this.parent.height, this.parent.align, 1);
+            x += result.x;
+            y += result.y;
+        }
         if(!onlyStroke)
         {
             context.fillStyle = 'rgba('+r+','+g+','+b+', 1)';

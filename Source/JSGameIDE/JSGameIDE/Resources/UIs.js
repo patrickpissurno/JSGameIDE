@@ -68,6 +68,7 @@
             
             $UIUpdate
             
+            var alignedPos = UI.GetAlignedPosition(this.x, this.y, this.width, this.height, this.align, 1);
             for(var i=0; i<this.components.length; i++){
                 if(this.components[i] != null)
                 {
@@ -76,8 +77,8 @@
                     if(comp.pressed != null && comp.x != null && comp.y != null && comp.width != null && comp.height != null)
                     {
                         //Mouse Pressed
-                        if(mouse.x > this.x + comp.x && mouse.x < this.x + comp.x + comp.width &&
-                          mouse.y > this.y + comp.y && mouse.y < this.y + comp.y + comp.height)
+                        if(mouse.x > alignedPos.x + comp.x && mouse.x < alignedPos.x + comp.x + comp.width &&
+                          mouse.y > alignedPos.y + comp.y && mouse.y < alignedPos.y + comp.y + comp.height)
                         {
                             if((mouse.pressed[0] && !comp.pressed[0])||(mouse.pressed[1] && !comp.pressed[1])||
                                (mouse.pressed[2] && !comp.pressed[2]))

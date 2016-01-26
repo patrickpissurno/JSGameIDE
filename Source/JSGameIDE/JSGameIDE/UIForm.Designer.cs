@@ -36,7 +36,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.UIEditorButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.yBox = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.xBox = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.heightBox = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.widthBox = new System.Windows.Forms.NumericUpDown();
@@ -59,13 +65,10 @@
             this.keyreleasedButton = new System.Windows.Forms.Button();
             this.keyReleasedLabel = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.yBox = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.xBox = new System.Windows.Forms.NumericUpDown();
             this.tabPage2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xBox)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.heightBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.widthBox)).BeginInit();
@@ -79,9 +82,6 @@
             this.keypressedButton.SuspendLayout();
             this.keyreleasedButton.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.yBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xBox)).BeginInit();
             this.SuspendLayout();
             // 
             // saveButton
@@ -157,6 +157,71 @@
             this.tabPage2.Text = "General";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.yBox);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.xBox);
+            this.groupBox4.Location = new System.Drawing.Point(125, 131);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(189, 59);
+            this.groupBox4.TabIndex = 33;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Default Position";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(129, 17);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(14, 13);
+            this.label7.TabIndex = 32;
+            this.label7.Text = "Y";
+            // 
+            // yBox
+            // 
+            this.yBox.Location = new System.Drawing.Point(97, 32);
+            this.yBox.Maximum = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            0});
+            this.yBox.Minimum = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            -2147483648});
+            this.yBox.Name = "yBox";
+            this.yBox.Size = new System.Drawing.Size(80, 20);
+            this.yBox.TabIndex = 31;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(41, 17);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "X";
+            // 
+            // xBox
+            // 
+            this.xBox.Location = new System.Drawing.Point(11, 32);
+            this.xBox.Maximum = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            0});
+            this.xBox.Minimum = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            -2147483648});
+            this.xBox.Name = "xBox";
+            this.xBox.Size = new System.Drawing.Size(80, 20);
+            this.xBox.TabIndex = 0;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label6);
@@ -169,6 +234,15 @@
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Size";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(117, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(38, 13);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "Height";
             // 
             // heightBox
             // 
@@ -436,70 +510,6 @@
             this.tabControl1.Size = new System.Drawing.Size(377, 224);
             this.tabControl1.TabIndex = 32;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(117, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 32;
-            this.label6.Text = "Height";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.yBox);
-            this.groupBox4.Controls.Add(this.label8);
-            this.groupBox4.Controls.Add(this.xBox);
-            this.groupBox4.Location = new System.Drawing.Point(125, 131);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(189, 59);
-            this.groupBox4.TabIndex = 33;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Default Position";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(129, 17);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(14, 13);
-            this.label7.TabIndex = 32;
-            this.label7.Text = "Y";
-            // 
-            // yBox
-            // 
-            this.yBox.Location = new System.Drawing.Point(97, 32);
-            this.yBox.Maximum = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            this.yBox.Name = "yBox";
-            this.yBox.Size = new System.Drawing.Size(80, 20);
-            this.yBox.TabIndex = 31;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(41, 17);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
-            this.label8.TabIndex = 30;
-            this.label8.Text = "X";
-            // 
-            // xBox
-            // 
-            this.xBox.Location = new System.Drawing.Point(11, 32);
-            this.xBox.Maximum = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            this.xBox.Name = "xBox";
-            this.xBox.Size = new System.Drawing.Size(80, 20);
-            this.xBox.TabIndex = 0;
-            // 
             // UIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,6 +531,10 @@
             this.Text = "UI properties";
             this.Load += new System.EventHandler(this.UIForm_Load);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xBox)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.heightBox)).EndInit();
@@ -543,10 +557,6 @@
             this.keyreleasedButton.ResumeLayout(false);
             this.keyreleasedButton.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.yBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
