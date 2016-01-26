@@ -65,7 +65,7 @@ namespace JSGameIDE
             Find();
             if (!string.IsNullOrWhiteSpace(Path) && File.Exists(Path))
             {
-                using (BuildForm buildForm = new BuildForm())
+                using (LoadingForm buildForm = new LoadingForm("Build in progress: ", "%"))
                 {
                     Thread buildThread = new Thread(() =>
                     {
@@ -75,12 +75,12 @@ namespace JSGameIDE
                             Directory.Delete(GameConfig.path + @"\Build\Win", true);
                         }
                         catch { }
-                        BuildForm.ProgressStep(steps, buildForm);
+                        LoadingForm.ProgressStep(steps, buildForm);
                         if (Builder.Build(true, GameConfig.path + @"\Build\Win\Resources"))
                         {
                             try
                             {
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
                                 string SDKPath = Application.StartupPath + @"\SDK";
 
                                 //Meta information
@@ -90,7 +90,7 @@ namespace JSGameIDE
                                 temp = MetaInfoChanger(temp, "[assembly: AssemblyProduct(\"", "\")]", GameConfig.name);
                                 temp = MetaInfoChanger(temp, "[assembly: AssemblyCompany(\"", "\")]", GameConfig.author);
                                 temp = MetaInfoChanger(temp, "[assembly: AssemblyCopyright(\"", "\")]", GameConfig.copyright);
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
 
                                 //Copy the icon
                                 try
@@ -98,12 +98,12 @@ namespace JSGameIDE
                                     File.Copy(GameConfig.path + @"\Resources\icon.ico", SDKPath + @"\JSGameIDE-Player\icon.ico", true);
                                 }
                                 catch { }
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
                                 using (StreamWriter w = new StreamWriter(SDKPath + @"\JSGameIDE-Player\Properties\AssemblyInfo.cs"))
                                 {
                                     w.Write(temp);
                                 }
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
 
                                 System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
                                 info.FileName = Path;
@@ -112,9 +112,9 @@ namespace JSGameIDE
                                 info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                                 System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
                                 process.WaitForExit();
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
                                 DirectoryExtension.Copy(SDKPath + @"\JSGameIDE-Player\bin\x86\Debug", GameConfig.path + @"\Build\Win", true);
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
 
                                 //Cleans some trash
                                 File.Delete(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe.config");
@@ -123,15 +123,15 @@ namespace JSGameIDE
                                 File.Delete(GameConfig.path + @"\Build\Win\CefSharp.WinForms.xml");
                                 File.Delete(GameConfig.path + @"\Build\Win\CefSharp.xml");
                                 File.Delete(GameConfig.path + @"\Build\Win\devtools_resources.pak");
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
                                 try
                                 {
                                     File.Move(GameConfig.path + @"\Build\Win\JSGameIDE-Player.exe", GameConfig.path + @"\Build\Win\" + GameConfig.name.Replace(' ', '-') + ".exe");
                                 }
                                 catch { }
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
                                 Directory.Delete(SDKPath + @"\JSGameIDE-Player\bin\x86", true);
-                                BuildForm.ProgressStep(steps, buildForm);
+                                LoadingForm.ProgressStep(steps, buildForm);
 
                                 Thread.Sleep(200);
 

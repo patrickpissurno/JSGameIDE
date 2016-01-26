@@ -25,14 +25,15 @@
     For further  details see: http://patrickpissurno.github.io/JSGameIDE/
  */
 
+using CefSharp;
+using CefSharp.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
-using CefSharp;
-using CefSharp.WinForms;
 
 namespace JSGameIDE
 {
@@ -42,6 +43,8 @@ namespace JSGameIDE
         private int height;
         public int id;
         private UIDesigner form;
+        private int steps = 0;
+        private LoadingForm loadingForm;
 
         private static List<ComponentTemplate> templates = null;
 
@@ -102,7 +105,7 @@ namespace JSGameIDE
 
         public const string FAKE_ADDR = "http://rendering/";
 
-        public delegate void Callback(Image img);
+        public delegate void Callback(Image img, int count);
         public List<string> queueScript = new List<string>();
         public List<Callback> queueCallback = new List<Callback>();
         #endregion
@@ -115,13 +118,14 @@ namespace JSGameIDE
             this.width = UIs.uis[id].width;
             this.height = UIs.uis[id].height;
             if(comps != null)
-                this._components = comps.ToList();
+                _components = comps.ToList();
 
             InitializeComponent();
 
             //Add the form events
             form.Activated += Form_Activated;
             form.FormClosing += Form_FormClosing;
+            form.Load += UIDesigner_Load;
 
             UIPanel.Size = new Size(width, height);
 
@@ -137,7 +141,7 @@ namespace JSGameIDE
                 {
                     if(queueCallback.Count > 0)
                     {
-                        queueCallback[0](Crop(new Bitmap(Base64ToImage(browser.Address.Replace("data:image/png;base64,", "")))));
+                        queueCallback[0](Crop(new Bitmap(Base64ToImage(browser.Address.Replace("data:image/png;base64,", "")))), queueCallback.Count - 1 > 0 ? queueCallback.Count - 1 : 0);
                         if(queueCallback.Count > 0)
                             queueCallback.RemoveAt(0);
                         if (queueScript.Count > 0)
@@ -151,6 +155,7 @@ namespace JSGameIDE
             #endregion
 
             #region Load the templates
+            steps = 0;
 
             //Load the templates
             if(templates == null)
@@ -159,14 +164,22 @@ namespace JSGameIDE
                 if(Directory.Exists(Application.StartupPath + @"\Resources\Templates"))
                 {
                     string[] files = Directory.GetFiles(Application.StartupPath + @"\Resources\Templates", "*.js");
-                    foreach(string file in files)
+                    loadingForm = new LoadingForm("Load in progress: ", "%");
+                    foreach (string file in files)
                     {
+                        steps++;
                         ComponentTemplate cT = new ComponentTemplate();
                         cT.Name = Path.GetFileNameWithoutExtension(file);
                         cT.Path = file;
                         cT.Data = File.ReadAllText(file);
-                        RenderScript(cT.Data, (Image i) => {
+                        RenderScript(cT.Data, (Image i, int count) => {
                             cT.Image = i;
+                            LoadingForm.ProgressStep(form.steps, loadingForm);
+                            if (count == 0)
+                            {
+                                loadingForm.SafeClose();
+                                loadingForm = null;
+                            }
                             ReloadImages();
                         });
                         templates.Add(cT);
@@ -261,8 +274,15 @@ namespace JSGameIDE
                 #endregion
                 cButtons.Add(btn);
                 UIPanel.Controls.Add(btn);
-                RenderScript(u.data, (Image _i) => {
+                form.steps++;
+                RenderScript(u.data, (Image _i, int _count) => {
                     btn.BackgroundImage = _i;
+                    LoadingForm.ProgressStep(form.steps, loadingForm);
+                    if (_count == 0)
+                    {
+                        loadingForm.SafeClose();
+                        loadingForm = null;
+                    }
                     ReloadImages();
                 });
             }
@@ -448,6 +468,20 @@ namespace JSGameIDE
         #endregion
 
         #region Form Events
+        private void UIDesigner_Load(object sender, EventArgs e)
+        {
+            if (steps > 0)
+            {
+                loadingForm.Show();
+                loadingForm.Focus();
+            }
+            else
+            {
+                loadingForm.Dispose();
+                loadingForm = null;
+            }
+        }
+
         private void flowLayoutPanel1_Resize(object sender, EventArgs e)
         {
             FlowCenter();
@@ -466,11 +500,13 @@ namespace JSGameIDE
         //Reload Stuff
         private void Form_Activated(object sender, EventArgs e)
         {
-            if (browser.IsBrowserInitialized)
+            if (browser.IsBrowserInitialized && loadingForm == null)
             {
                 browser.Stop();
                 queueCallback.Clear();
                 queueScript.Clear();
+                loadingForm = new LoadingForm("Load in progress: ", "%");
+                steps = 0;
                 foreach (CustomButton b in cButtons)
                 {
                     if (!IDEConfig.IsDefaultEditor)
@@ -490,23 +526,39 @@ namespace JSGameIDE
                                     if (!string.IsNullOrWhiteSpace(x) && !string.IsNullOrWhiteSpace(y)
                                         && int.TryParse(x, out _x) && int.TryParse(y, out _y))
                                     {
-                                        b.Location = new Point(_x, _y);
+                                        form.Invoke(new MethodInvoker(() => { b.Location = new Point(_x, _y); }));
                                     }
                                 }
 
                                 b.Component.data = r;
 
-                                RenderScript(b.Component.data, (Image i) =>
+                                form.steps++;
+                                RenderScript(b.Component.data, (Image i, int count) =>
                                 {
                                     b.BackgroundImage = i;
+                                    LoadingForm.ProgressStep(form.steps, loadingForm);
+                                    if (count == 0)
+                                    {
+                                        loadingForm.SafeClose();
+                                        loadingForm = null;
+                                    }
                                     ReloadImages();
                                 });
                             }
                         }
                     }
                 }
-                ReloadImages();
+                if (steps > 0)
+                    loadingForm.Show();
+                else
+                {
+                    loadingForm.Dispose();
+                    loadingForm = null;
+                }
             }
+            else if (loadingForm != null)
+                loadingForm.Focus();
+            ReloadImages();
         }
 
         #endregion
@@ -632,7 +684,10 @@ namespace JSGameIDE
             str += "var roomManager = {actual:{camera:{x:0, y:0}}}" + Environment.NewLine;
             str += script + Environment.NewLine;
             str += "window.onload = function() {" + Environment.NewLine + 
-                "var a = new " + UI.GetComponentNameFromScript(script) +"();" + Environment.NewLine + 
+                "var a = new " + UI.GetComponentNameFromScript(script) +"();" + Environment.NewLine +
+                "if(a.create!=null)" + Environment.NewLine +
+                "a.create(); " + Environment.NewLine +
+                "context.clearRect(0,0,canvas.width,canvas.height); " + Environment.NewLine +
                 "if(a.draw!=null)" + Environment.NewLine + 
                 "a.draw(); " + Environment.NewLine + 
                 " window.location = canvas.toDataURL('image / png');" + Environment.NewLine + "}</script>";

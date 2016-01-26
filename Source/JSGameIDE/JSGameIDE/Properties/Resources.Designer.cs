@@ -95,7 +95,10 @@ namespace JSGameIDE.Properties {
         ///screen_clear()=context.clearRect(0,0,canvas.width,canvas.height)
         ///vk_mouseLeft=0
         ///vk_mouseMiddle=1
-        ///vk_mouseRight=2.
+        ///vk_mouseRight=2
+        ///UI.DrawText=UI.DrawText.bind(this)
+        ///UI.DrawRect=UI.DrawRect.bind(this)
+        ///UI.DrawSprite=UI.DrawSprite.bind(this).
         /// </summary>
         internal static string alias {
             get {
@@ -114,10 +117,27 @@ namespace JSGameIDE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var Button = new function()
+        ///   Looks up a localized string similar to var Button = function()
         ///{
+        ///    this.x = 0;
+        ///    this.y = 0;
+        ///    this.width = 80;
+        ///    this.height = 30;
+        ///    this.pressed = [false, false, false];
         ///    
-        ///}.
+        ///    this.text = &quot;Button&quot;;
+        ///	this.font = &quot;14px Arial&quot;;
+        ///	this.textHeight = 0;
+        ///    
+        ///    this.create = function()
+        ///    {
+        ///        //Measures the Text Height (for vertical center alignment)
+        ///        var backup = context.font;
+        ///		context.font = this.font;
+        ///		this.textHeight = measureTextHeight(0, 0, 50, 50, this.text);
+        ///		context.font = backup;
+        ///    }
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Button {
             get {
@@ -156,16 +176,47 @@ namespace JSGameIDE.Properties {
         ///    return (a * (1.0 - f)) + (b * f);
         ///}
         ///
-        /////Physics
-        ///var b2Vec = Box2D.Common.Math.b2Vec2;
-        ///var b2BodyDef = Box2D.Dynamics.b2BodyDef;
-        ///var b2Body = Box2D.Dynamics.b2Body;
-        ///var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
-        ///var b2Fixture  [rest of string was truncated]&quot;;.
+        ///if(Box2D != null){
+        ///    //Physics
+        ///    var b2Vec = Box2D.Common.Math.b2Vec2;
+        ///    var b2BodyDef = Box2D.Dynamics.b2BodyDef;
+        ///    var b2Body = Box2D.Dynamics.b2Body;
+        ///    var b2FixtureDef = Box2 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string header {
             get {
                 return ResourceManager.GetString("header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var Label = function()
+        ///{
+        ///    this.x = 0;
+        ///    this.y = 0;
+        ///    this.width = 50;
+        ///    this.height = 30;
+        ///	this.text = &quot;Label&quot;;
+        ///	this.font = &quot;26px Arial&quot;;
+        ///    
+        ///	this.create = function()
+        ///	{
+        ///		var backup = context.font;
+        ///		context.font = this.font;
+        ///		this.height = measureTextHeight(0, 0, 50, 50, this.text);
+        ///		context.font = backup;
+        ///	}
+        ///	
+        ///    this.draw = function()
+        ///    {
+        ///        UI.DrawText(this.x, this.y + this.height + 1, this.text, this.font,&quot;#000&quot;,&quot;left&quot;);
+        ///    }
+        ///    
+        ///}.
+        /// </summary>
+        internal static string Label {
+            get {
+                return ResourceManager.GetString("Label", resourceCulture);
             }
         }
         
@@ -343,21 +394,20 @@ namespace JSGameIDE.Properties {
         ///    var UI$UIId = function(args)
         ///    {
         ///        this.name = &quot;UI$UIId&quot;;
-        ///        this.x = 0;
-        ///        this.y = 0;
+        ///        this.x = $UIX;
+        ///        this.y = $UIY;
         ///        this.width = $UIWidth;
         ///        this.height = $UIHeight;
         ///        this.align = $UIAlign;
-        ///        this.components = [];
+        ///        this.pressed = [false, false, false];
+        ///        this.components = [$UIInstantiate];
         ///        this._create_executed = false;
         ///        this.prefab = UI$UIId;
         ///        this.toDestroy = false;
         ///        this.args = args;
         ///        
         ///        //Instantiate
-        ///        roomManager.actual[this.name].push(this);
-        ///        
-        ///        // [rest of string was truncated]&quot;;.
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UIs {
             get {

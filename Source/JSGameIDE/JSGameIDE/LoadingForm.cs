@@ -31,14 +31,18 @@ using System.Windows.Forms;
 
 namespace JSGameIDE
 {
-    public partial class BuildForm : Form
+    public partial class LoadingForm : Form
     {
         public float step = 0;
         private Thread uiUpdateThread;
+        private string text1 = "";
+        private string text2 = "";
 
-        public BuildForm()
+        public LoadingForm(string TextBefore, string TextAfter)
         {
             InitializeComponent();
+            this.text1 = TextBefore;
+            this.text2 = TextAfter;
             uiUpdateThread = new Thread(() => {
                 while (progressBar1.Value < 100)
                 {
@@ -49,7 +53,7 @@ namespace JSGameIDE
             uiUpdateThread.IsBackground = true;
         }
 
-        public static void ProgressStep(int total, BuildForm form)
+        public static void ProgressStep(int total, LoadingForm form)
         {
             if (form != null)
             {
@@ -74,7 +78,7 @@ namespace JSGameIDE
             {
                 int val = (int)Math.Round(LinearLerp(progressBar1.Value, step, .7f));
                 progressBar1.Value = val;
-                Text = "Build in progress: " + val.ToString() + "%";
+                Text = this.text1 + val.ToString() + this.text2;
             }
         }
 

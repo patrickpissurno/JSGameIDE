@@ -115,11 +115,11 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Builder.cs" />
-    <Compile Include="BuildForm.cs">
+    <Compile Include="LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BuildForm.Designer.cs">
-      <DependentUpon>BuildForm.cs</DependentUpon>
+    <Compile Include="LoadingForm.Designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CodeEditor.cs">
       <SubType>Form</SubType>
@@ -236,8 +236,8 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BuildForm.resx">
-      <DependentUpon>BuildForm.cs</DependentUpon>
+    <EmbeddedResource Include="LoadingForm.resx">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CodeEditor.resx">
       <DependentUpon>CodeEditor.cs</DependentUpon>
@@ -364,6 +364,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Templates\Label.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Templates\Button.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
