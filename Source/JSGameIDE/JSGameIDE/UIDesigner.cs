@@ -686,9 +686,10 @@ namespace JSGameIDE
             string str = "<canvas id=gameCanvas width=800 height=800></canvas><script>var Box2D = null;" + Environment.NewLine;
             str += Builder.BuildHeader() + Environment.NewLine;
             str += "var roomManager = {actual:{camera:{x:0, y:0}}}" + Environment.NewLine;
-            str += script + Environment.NewLine;
-            str += "window.onload = function() {" + Environment.NewLine + 
-                "var a = new " + UI.GetComponentNameFromScript(script) +"();" + Environment.NewLine +
+            str += Builder.ReplaceCode(script) + Environment.NewLine;
+            str += "window.onload = function() {" + Environment.NewLine +
+                "var a = new " + UI.GetComponentNameFromScript(script) + "();" + Environment.NewLine +
+                "a.parent = {x : 0, y : 0, width : 0, height : 0, align : UI.SCREEN_ALIGN.TOP_LEFT};" + Environment.NewLine +
                 "if(a.create!=null)" + Environment.NewLine +
                 "a.create(); " + Environment.NewLine +
                 "context.clearRect(0,0,canvas.width,canvas.height); " + Environment.NewLine +

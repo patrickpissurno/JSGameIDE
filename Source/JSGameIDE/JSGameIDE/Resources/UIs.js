@@ -14,6 +14,8 @@
         this.prefab = UI$UIId;
         this.toDestroy = false;
         this.args = args;
+        this.onDestroy = null;
+        this.result = null;
         
         //Instantiate
         roomManager.actual[this.name].push(this);
@@ -150,6 +152,9 @@
             else
             {
                 $UIDestroy
+                
+                if(this.onDestroy != null)
+                    this.onDestroy();
                 
                 for(var i=0; i<roomManager.actual['UI$UIId'].length; i++)
                 {

@@ -610,7 +610,7 @@ namespace JSGameIDE
         /// </summary>
         /// <param name="str">The string which will have the words replaced</param>
         /// <returns>Returns the fixed string</returns>
-        private static string ReplaceCode(string str)
+        public static string ReplaceCode(string str)
         {
             string input = File.ReadAllText(LibraryPath + @"\alias.ini");
             string[] datas = input.Split('\n');
