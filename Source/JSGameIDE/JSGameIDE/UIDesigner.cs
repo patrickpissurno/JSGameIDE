@@ -224,6 +224,11 @@ namespace JSGameIDE
             ResetFocus();
 
             #region Load the Components
+            if (_components.Count > 0 && loadingForm == null)
+            {
+                steps = 0;
+                loadingForm = new LoadingForm("Load in progress: ", "%");
+            }
             //Load the Components
             for (int i = 0; i < _components.Count; i++)
             {
