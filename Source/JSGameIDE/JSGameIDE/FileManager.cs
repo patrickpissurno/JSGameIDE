@@ -840,6 +840,8 @@ namespace JSGameIDE
         public static void Copy(string sourceDirName, string destDirName, bool copySubDirs)
         {
             // Get the subdirectories for the specified directory.
+            if (!Directory.Exists(sourceDirName))
+                Directory.CreateDirectory(sourceDirName);
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
             DirectoryInfo[] dirs = dir.GetDirectories();
 

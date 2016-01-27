@@ -9,10 +9,7 @@ var Label = function()
     
 	this.create = function()
 	{
-		var backup = context.font;
-		context.font = this.font;
-		this.height = measureTextHeight(0, 0, 50, 50, this.text);
-		context.font = backup;
+		this.height = measureTextHeight(this.font, this.text);
 	}
 	
     this.draw = function()

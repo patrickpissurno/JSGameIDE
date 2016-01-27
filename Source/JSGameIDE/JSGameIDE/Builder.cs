@@ -372,7 +372,6 @@ namespace JSGameIDE
                         }
                     }
 
-                    int _ffi_ = -1;
                     foreach(UI ui in UIs.uis)
                     {
                         if(ui != null)
@@ -382,15 +381,13 @@ namespace JSGameIDE
                             int _ffi = _i.IndexOf("#FOREACH UI", _fsi) + 11;
                             _d += PreprocessorReplacer(_i.Substring(_ffi, _i.IndexOf("#END", _ffi) - _ffi),
                                 _pTags, _pValues).TrimEnd() + Environment.NewLine;
-                            _ffi_ = _ffi;
-
                             _ud += PreprocessorReplacer(UIDraws, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                             _uu += PreprocessorReplacer(UIUpdates, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                             _ukp += PreprocessorReplacer(UIKeyPresseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                             _ukr += PreprocessorReplacer(UIKeyReleaseds, _pTags, _pValues).TrimEnd() + Environment.NewLine;
                         }
                     }
-                    _fsi = _ffi_ != -1 ? _ffi_ : _fsi;
+                    _fsi = _i.IndexOf("#FOREACH UI", _fsi) + 11;
 
                     foreach (EditorObject obj in room.editorCreate)
                     {
@@ -519,15 +516,17 @@ namespace JSGameIDE
         /// <returns>Returns them as a string.</returns>
         public static string BuildUIs()
         {
-            string _i = File.ReadAllText(LibraryPath + @"\UIs.js");
-            _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
-
-            string _d = _i.Substring(0, _i.IndexOf("#FOREACH UI"));
-            foreach (UI ui in UIs.uis)
+            if (UIs.amount > 0)
             {
-                if (ui != null)
+                string _i = File.ReadAllText(LibraryPath + @"\UIs.js");
+                _i = PreprocessorReplacer(_i, PreprocessorTags, PreprocessorValues);
+
+                string _d = _i.Substring(0, _i.IndexOf("#FOREACH UI"));
+                foreach (UI ui in UIs.uis)
                 {
-                    string[] pTags = new string[] {
+                    if (ui != null)
+                    {
+                        string[] pTags = new string[] {
                         "$UIId",
                         "$UIWidth",
                         "$UIHeight",
@@ -542,8 +541,8 @@ namespace JSGameIDE
                         "$UIX",
                         "$UIY"
                     };
-                    string[] pValues = new string[]
-                    {
+                        string[] pValues = new string[]
+                        {
                         ui.id.ToString(),
                         ui.width.ToString(),
                         ui.height.ToString(),
@@ -557,30 +556,36 @@ namespace JSGameIDE
                         ReplaceCode(ui.onDestroy),
                         ui.x.ToString(),
                         ui.y.ToString()
-                    };
-                    //Define the UI components
-                    string componentInstantiate = "";
-                    foreach (UIComponent component in ui.components)
-                    {
-                        if (component != null && !string.IsNullOrWhiteSpace(component.data))
+                        };
+                        //Define the UI components
+                        string componentInstantiate = "";
+                        if (ui.components != null)
                         {
-                            _d += PreprocessorReplacer(ReplaceCode(component.data).TrimEnd() + Environment.NewLine, pTags, pValues);
-                            string name = UI.GetComponentNameFromScript(component.data);
-                            if (!string.IsNullOrWhiteSpace(name))
-                                componentInstantiate += "new " + name + "()" + (component.id != ui.components.Length - 1 ? ", " : ""); 
+                            foreach (UIComponent component in ui.components)
+                            {
+                                if (component != null && !string.IsNullOrWhiteSpace(component.data))
+                                {
+                                    _d += PreprocessorReplacer(ReplaceCode(component.data).TrimEnd() + Environment.NewLine, pTags, pValues);
+                                    string name = UI.GetComponentNameFromScript(component.data);
+                                    if (!string.IsNullOrWhiteSpace(name))
+                                        componentInstantiate += "new " + name + "()" + (component.id != ui.components.Length - 1 ? ", " : "");
+                                }
+                            }
                         }
-                    }
-                    //Define the UI
-                    int _fsi = _i.IndexOf("#FOREACH UI") + 15;
-                    _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine, 
-                        pTags.Concat(new string[] {
+                        //Define the UI
+                        int _fsi = _i.IndexOf("#FOREACH UI") + 15;
+                        _d += PreprocessorReplacer(_i.Substring(_fsi, _i.IndexOf("#END") - _fsi).TrimEnd() + Environment.NewLine,
+                            pTags.Concat(new string[] {
                             "$UIInstantiate"
-                        }).ToArray(),pValues.Concat(new string[] {
+                            }).ToArray(), pValues.Concat(new string[] {
                             componentInstantiate
-                        }).ToArray());
+                            }).ToArray());
+                    }
                 }
+                return PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues).TrimEnd() + Environment.NewLine;
             }
-            return PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues).TrimEnd() + Environment.NewLine;
+            else
+                return "";
         }
 
         /// <summary>
@@ -638,6 +643,11 @@ namespace JSGameIDE
             {
                 if (obj != null)
                     str = str.Replace(obj.name, "obj" + obj.id);
+            }
+            foreach (UI ui in UIs.uis)
+            {
+                if (ui != null)
+                    str = str.Replace(ui.name, "UI" + ui.id);
             }
             foreach (Script s in Scripts.scripts)
             {

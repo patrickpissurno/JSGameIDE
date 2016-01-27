@@ -269,7 +269,7 @@ var UI ={
         }
         context.drawImage(sprite, x, y, width, height);
     },
-    DrawText : function (x, y, text, f, c, align, screen_align){
+    DrawText : function (x, y, text, f, c, align, screen_align, lineHeight){
         if(this.parent == null)
         {
             var result = UI.GetAlignedPosition(x, y, 0, 0, (screen_align == null ? UI.SCREEN_ALIGN.TOP_LEFT : screen_align), 1);
@@ -282,15 +282,19 @@ var UI ={
             x += result.x;
             y += result.y;
         }
+        if(lineHeight == null)
+            lineHeight = 15;
         context.fillStyle = c;
         context.font = f;
         context.textAlign = align;
-        context.fillText(text, x, y);
+        var lines = text.split("\n");
+        for(var i=0; i<lines.length; i++)
+            context.fillText(lines[i], x, y + i * lineHeight);
     },
     DrawRect : function(x, y, w, h, r, g, b, onlyStroke, screen_align){
         if(this.parent == null)
         {
-            var result = UI.GetAlignedPosition(x, y, w, h, screen_align, 1);
+            var result = UI.GetAlignedPosition(x, y, w, h, screen_align == null ? UI.SCREEN_ALIGN.TOP_LEFT : screen_align, 1);
             x = result.x;
             y = result.y;
             w = result.width;
@@ -408,48 +412,59 @@ function drawText(x,y,text,f,c,align)
     context.fillText(text, bX + x, bY + y);
 };
 
-function measureTextHeight(left, top, width, height, text) {
-        // Draw the text in the specified area
-        context.save();
-        context.clearRect(0,0,canvas.width,canvas.height);
-        context.fillText(text, 0, 35); // This seems like tall text...  Doesn't it?
-        context.restore();
+function objOff(obj)
+{
+    var currleft = currtop = 0;
+    if( obj.offsetParent )
+    { do { currleft += obj.offsetLeft; currtop += obj.offsetTop; }
+      while( obj = obj.offsetParent ); }
+    else { currleft += obj.offsetLeft; currtop += obj.offsetTop; }
+    return [currleft,currtop];
+}
 
-        // Get the pixel data from the canvas
-        var data = context.getImageData(left, top, width, height).data,
-            first = false, 
-            last = false,
-            r = height,
-            c = 0;
+function measureTextHeight(fontStyle, str) 
+{
+    fontStyle = fontStyle.split(" ");
+    var text = document.createElement("span");
+    text.style.fontFamily = fontStyle[1];
+    text.style.fontSize = fontStyle[0];
+    text.innerHTML = str; 
+    // if you will use some weird fonts, like handwriting or symbols, then you need to edit this test string for chars that will have most extreme accend/descend values
 
-        // Find the last line with a non-white pixel
-        while(!last && r) {
-            r--;
-            for(c = 0; c < width; c++) {
-                if(data[r * width * 4 + c * 4 + 3]) {
-                    last = r;
-                    break;
-                }
-            }
-        }
+    var block = document.createElement("div");
+    block.style.display = "inline-block";
+    block.style.width = "1px";
+    block.style.height = "0px";
 
-        // Find the first line with a non-white pixel
-        while(r) {
-            r--;
-            for(c = 0; c < width; c++) {
-                if(data[r * width * 4 + c * 4 + 3]) {
-                    first = r;
-                    break;
-                }
-            }
+    var div = document.createElement("div");
+    div.appendChild(text);
+    div.appendChild(block);
 
-            // If we've got it then return the height
-            if(first != r) return last - first;
-        }
+    // this test div must be visible otherwise offsetLeft/offsetTop will return 0
+    // but still let's try to avoid any potential glitches in various browsers
+    // by making it's height 0px, and overflow hidden
+    div.style.height = "0px";
+    div.style.overflow = "hidden";
 
-        // We screwed something up...  What do you expect from free code?
-        return 0;
-    }
+    // I tried without adding it to body - won't work. So we gotta do this one.
+    document.body.appendChild(div);
+
+    block.style.verticalAlign = "baseline";
+    var bp = objOff(block);
+    var tp = objOff(text);
+    var taccent = bp[1] - tp[1];
+    block.style.verticalAlign = "bottom";
+    bp = objOff(block);
+    tp = objOff(text);
+    var theight = bp[1] - tp[1];
+    var tdescent = theight - taccent;
+
+    // now take it off :-)
+    document.body.removeChild(div);
+
+    // return text accent, descent and total height
+    return theight;
+}
 
 //Draw Rect Function
 function drawRect(x,y,w,h,r,g,b,onlyStroke)

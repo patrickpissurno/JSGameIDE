@@ -13,17 +13,14 @@ var Button = function()
     this.create = function()
     {
         //Measures the Text Height (for vertical center alignment)
-        var backup = context.font;
-		context.font = this.font;
-		this.textHeight = measureTextHeight(0, 0, 50, 50, this.text);
-		context.font = backup;
+		this.textHeight = measureTextHeight(this.font, this.text);
     }
     
     this.draw = function()
     {
-        drawRect(this.x, this.y, this.width, this.height, 200, 200, 200, false);
-        drawRect(this.x, this.y, this.width, this.height, 30, 30, 30, true);
-        drawText(this.x + this.width/2, this.y + this.height/2 + this.textHeight/2, this.text, this.font, "#000", "center");
+        UI.DrawRect(this.x, this.y, this.width, this.height, 200, 200, 200, false);
+        UI.DrawRect(this.x, this.y, this.width, this.height, 30, 30, 30, true);
+        UI.DrawText(this.x + this.width/2, this.y + this.height/2 + this.textHeight/2, this.text, this.font, "#000","center");
     }
     
     this.mouseReleased = function(event)

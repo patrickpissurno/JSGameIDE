@@ -109,13 +109,13 @@ namespace JSGameIDE
         public List<Callback> queueCallback = new List<Callback>();
         #endregion
 
-        public UIDesigner(int id, UIComponent[] comps)
+        public UIDesigner(int id, int width, int height, UIComponent[] comps)
         {
             form = this;
 
             this.id = id;
-            this.width = UIs.uis[id].width;
-            this.height = UIs.uis[id].height;
+            this.width = width;
+            this.height = height;
             if(comps != null)
                 _components = comps.ToList();
 
@@ -243,13 +243,13 @@ namespace JSGameIDE
 
                 if (!string.IsNullOrWhiteSpace(u.data))
                 {
-                    string width = UI.GetVariableFromScript(u.data, "width");
-                    string height = UI.GetVariableFromScript(u.data, "height");
+                    string _width = UI.GetVariableFromScript(u.data, "width");
+                    string _height = UI.GetVariableFromScript(u.data, "height");
                     string x = UI.GetVariableFromScript(u.data, "x");
                     string y = UI.GetVariableFromScript(u.data, "y");
                     int w, h, _x, _y;
-                    if(!string.IsNullOrWhiteSpace(width) && !string.IsNullOrWhiteSpace(height) 
-                        && int.TryParse(width, out w) && int.TryParse(height, out h))
+                    if(!string.IsNullOrWhiteSpace(_width) && !string.IsNullOrWhiteSpace(_height) 
+                        && int.TryParse(_width, out w) && int.TryParse(_height, out h))
                     {
                         btn.Size = new Size(w, h);
                     }
@@ -474,15 +474,18 @@ namespace JSGameIDE
         #region Form Events
         private void UIDesigner_Load(object sender, EventArgs e)
         {
-            if (steps > 0)
+            if (loadingForm != null)
             {
-                loadingForm.Show();
-                loadingForm.Focus();
-            }
-            else
-            {
-                loadingForm.Dispose();
-                loadingForm = null;
+                if (steps > 0)
+                {
+                    loadingForm.Show();
+                    loadingForm.Focus();
+                }
+                else
+                {
+                    loadingForm.Dispose();
+                    loadingForm = null;
+                }
             }
         }
 

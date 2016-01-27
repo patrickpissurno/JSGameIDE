@@ -427,7 +427,7 @@ namespace JSGameIDE
             if (e.Button == MouseButtons.Right)
             {
                 componentsTree.SelectedNode = componentsTree.GetNodeAt(e.X, e.Y);
-                if (componentsTree.SelectedNode.Parent != null)
+                if (componentsTree.SelectedNode != null && componentsTree.SelectedNode.Parent != null)
                 {
                     childMenu.Show(componentsTree, e.Location);
                 }
