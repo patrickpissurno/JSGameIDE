@@ -539,7 +539,95 @@ function randomRange (min, max)
 
 function checkCollision(a,b) 
 {
-    return !(((a.y+a.height) < (b.y)) ||(a.y > (b.y+b.height)) ||((a.x+a.width) < b.x) ||(a.x > (b.x+b.width)));
+    //return !(((a.y+a.height) < (b.y)) ||(a.y > (b.y+b.height)) ||((a.x+a.width) < b.x) ||(a.x > (b.x+b.width)));
+    return doPolygonsIntersect(
+        [
+            getRC(a, -a.width/2, -a.height/2),
+            getRC(a, a.width/2, -a.height/2),
+            getRC(a, -a.width/2, a.height/2),
+            getRC(a, a.width/2, a.height/2)
+        ],
+        [
+            getRC(b, -b.width/2, -b.height/2),
+            getRC(b, b.width/2, -b.height/2),
+            getRC(b, -b.width/2, b.height/2),
+            getRC(b, b.width/2, b.height/2)
+        ]
+    );
+};
+
+function getRC(obj, cX, cY){
+    var angle = obj.angle * (Math.PI/180);
+    var x = obj.x + obj.width/2 + (cX  * Math.cos(angle)) - (cY * Math.sin(angle));
+    var y = obj.y + obj.height/2 + (cX  * Math.sin(angle)) + (cY * Math.cos(angle));
+    return {x : x, y : y};
+}
+
+
+function doPolygonsIntersect (a, b) {
+    var polygons = [a, b];
+    var minA, maxA, projected, i, i1, j, minB, maxB;
+
+    for (i = 0; i < polygons.length; i++) {
+
+        // for each polygon, look at each edge of the polygon, and determine if it separates
+        // the two shapes
+        var polygon = polygons[i];
+        for (i1 = 0; i1 < polygon.length; i1++) {
+
+            // grab 2 vertices to create an edge
+            var i2 = (i1 + 1) % polygon.length;
+            var p1 = polygon[i1];
+            var p2 = polygon[i2];
+
+            // find the line perpendicular to this edge
+            var normal = { x: p2.y - p1.y, y: p1.x - p2.x };
+
+            minA = maxA = undefined;
+            // for each vertex in the first shape, project it onto the line perpendicular to the edge
+            // and keep track of the min and max of these values
+            for (j = 0; j < a.length; j++) {
+                projected = normal.x * a[j].x + normal.y * a[j].y;
+                if (minA == undefined || projected < minA) {
+                    minA = projected;
+                }
+                if (maxA == undefined || projected > maxA) {
+                    maxA = projected;
+                }
+            }
+
+            // for each vertex in the second shape, project it onto the line perpendicular to the edge
+            // and keep track of the min and max of these values
+            minB = maxB = undefined;
+            for (j = 0; j < b.length; j++) {
+                projected = normal.x * b[j].x + normal.y * b[j].y;
+                if (minB == undefined || projected < minB) {
+                    minB = projected;
+                }
+                if (maxB == undefined || projected > maxB) {
+                    maxB = projected;
+                }
+            }
+
+            // if there is no overlap between the projects, the edge we are looking at separates the two
+            // polygons, and we know there is no overlap
+            if (maxA < minB || maxB < minA) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
+
+function checkCollisionInnerCircle(a,b) 
+{
+    var aR = (a.width > a.height ? a.height : a.width)/2;
+    var bR = (b.width > b.height ? b.height : b.width)/2;
+    var aX = a.x + a.width/2;
+    var aY = a.y + a.height/2;
+    var bX = b.x + b.width/2;
+    var bY = b.y + b.height/2;
+    return Math.pow(bX-aX, 2) + Math.pow(aY-bY, 2) <= Math.pow(aR+bR, 2);
 };
 
 var keyPressed = function(e)

@@ -38,6 +38,18 @@ check_collision_object = function(me, other, todo)
     };
 };
 
+//Check Collision
+check_collision_object_circle = function(me, other, todo)
+{
+    for(i = 0; i<roomManager.actual[other].length; i++)
+    {
+        if(checkCollisionInnerCircle(me, roomManager.actual[other][i]))
+        {
+            todo.bind(me)(roomManager.actual[other][i]);
+        };
+    };
+};
+
 //Draw Set Alpha
 draw_set_alpha = function(alpha)
 {
