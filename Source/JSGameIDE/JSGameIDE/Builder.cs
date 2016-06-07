@@ -156,7 +156,12 @@ namespace JSGameIDE
         /// <returns>Returns it as a string.</returns>
         public static string BuildHTML()
         {
-            string _d = File.ReadAllText(LibraryPath + @"\default.html");
+            string p = GameConfig.path + @"\Resources\default.html";
+            string _d;
+            if (File.Exists(p))
+                _d = File.ReadAllText(p);
+            else
+                _d = File.ReadAllText(LibraryPath + @"\default.html");
             _d = PreprocessorReplacer(_d, PreprocessorTags, PreprocessorValues);
             return _d;
         }
