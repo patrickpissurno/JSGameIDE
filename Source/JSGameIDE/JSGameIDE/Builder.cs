@@ -389,10 +389,13 @@ namespace JSGameIDE
                     }
                     _fsi = _i.IndexOf("#FOREACH UI", _fsi) + 11;
 
-                    foreach (EditorObject obj in room.editorCreate)
+                    if (room.editorCreate != null)
                     {
-                        if (obj != null)
-                            _oec += "instance_create(" + obj.x + "," + obj.y + "," + Objects.objects[obj.id].name + ");\n\t\t\t";
+                        foreach (EditorObject obj in room.editorCreate)
+                        {
+                            if (obj != null)
+                                _oec += "instance_create(" + obj.x + "," + obj.y + "," + Objects.objects[obj.id].name + ");\n\t\t\t";
+                        }
                     }
 
                     _fsi = _i.IndexOf("#END", _fsi) + 4;
